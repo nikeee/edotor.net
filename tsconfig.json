@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+
+    "module": "es2015",
+    "moduleResolution": "node",
+
+    "target": "es2015",
+
+    "jsx": "react",
+    "strict": true,
+
+    "removeComments": true,
+    "declaration": false,
+    "sourceMap": true
+  },
+  /*
+  "files": [
+    "src/index.tsx"
+  ],
+  */
+}
