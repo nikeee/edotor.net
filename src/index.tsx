@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import MonacoEditor from "react-monaco-editor";
 
 // TODO: Only import what is needed
 import "bootstrap";
@@ -9,6 +8,7 @@ import "bootstrap";
 // ttps://getbootstrap.com/docs/4.0/getting-started/webpack/
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
+
 import { SplitEditor } from "./components/SplitEditor";
 import { SiteLogo } from "./components/SiteLogo";
 import { Footer } from "./components/Footer";

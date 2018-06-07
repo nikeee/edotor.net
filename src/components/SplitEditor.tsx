@@ -1,5 +1,4 @@
 import * as React from "react";
-import MonacoEditor from "react-monaco-editor";
 import * as monacoGlobal from "monaco-editor";
 import SplitPane from "react-split-pane";
 

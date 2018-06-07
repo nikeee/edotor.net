@@ -2,14 +2,11 @@ import * as languageService from "dot-language-support";
 import {
 	MonacoToProtocolConverter,
 	ProtocolToMonacoConverter,
-	CompletionItem,
-	CompletionList,
 	MonacoCommands,
 	TextDocument,
 } from "monaco-languageclient";
 import * as monaco from "monaco-editor";
 import { tokenConfig } from "./xdot"
-import { SourceFile } from "dot-language-support";
 
 const LANGUAGE_ID = "dot";
 
