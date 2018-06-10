@@ -96,7 +96,7 @@ export const tokenConfig = {
 			[/[ \t\r\n]+/, 'white'],
 			[/\/\*/, 'comment', '@comment'],
 			[/\/\/.*$/, 'comment'],
-			[/#.$/, 'comment'],
+			[/#.*$/, 'comment'],
 		],
 	},
 };
