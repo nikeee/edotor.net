@@ -1,5 +1,5 @@
 # [edotor.net](https://edotor.net)
-> [![Build Status](https://travis-ci.com/nikeee/edotor.net.svg?branch=master)](https://travis-ci.com/nikeee/edotor.net) ![Dependency Status](https://david-dm.org/nikeee/edotor.net.svg)
+> [![Build Status](https://travis-ci.org/nikeee/edotor.net.svg?branch=master)](https://travis-ci.org/nikeee/edotor.net) ![Dependency Status](https://david-dm.org/nikeee/edotor.net.svg)
 
 This site uses:
 - [`dot-language-support`](https://github.com/nikeee/dot-language-support) for its language capabilities
