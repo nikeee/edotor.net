@@ -2,7 +2,7 @@
   "name": "edotor.net",
   "author": "Niklas Mollenhauer",
   "license": "MIT",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Online Graphviz fiddle with language support",
   "private": true,
   "scripts": {
