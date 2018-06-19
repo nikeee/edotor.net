@@ -5,7 +5,7 @@ export const tokenConfig = {
 	keywords: [
 		'strict', 'graph', 'digraph', 'node', 'edge', 'subgraph', 'rank', 'abstract',
 		'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw', 'c', '_',
-		'->', ':', '=', ',',
+		'->', '--', ':', '=', ',',
 	],
 
 	builtins: [
