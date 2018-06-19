@@ -24,6 +24,7 @@ export interface MonacoService {
 	referenceProvider?: monaco.languages.ReferenceProvider;
 	renameProvider?: monaco.languages.RenameProvider;
 	codeActionProvider?: monaco.languages.CodeActionProvider;
+	colorProvider?: monaco.languages.DocumentColorProvider;
 }
 
 export interface LanguageProcessor {
@@ -149,6 +150,32 @@ export function createService(): MonacoService {
 				return p2m.asCodeActions(commands);
 			}
 		},
+		colorProvider: {
+			provideDocumentColors(model) {
+				const data = processor.process(model);
+				const res = ls.getDocumentColors(data.document, data.sourceFile);
+
+				// TODO: Create PR for this kind
+				return res
+					? res.map(c => ({
+						range: p2m.asRange(c.range),
+						color: c.color,
+					}))
+					: [];
+			},
+			provideColorPresentations(model, colorInfo) {
+				const data = processor.process(model);
+
+				const color = colorInfo.color;
+				const range = m2p.asRange(colorInfo.range);
+				const res = ls.getColorRepresentations(data.document, data.sourceFile, color, range);
+
+				return res
+					? res.map(c => ({ label: c.label })) // TODO: Create PR for this kind
+					: [];
+				throw "Not implemented";
+			}
+		},
 		processor,
 	};
 }
@@ -173,6 +200,8 @@ export function registerService(context: typeof monaco, service: MonacoService):
 		langs.registerRenameProvider(id, service.renameProvider);
 	if (service.codeActionProvider)
 		langs.registerCodeActionProvider(id, service.codeActionProvider);
+	if (service.colorProvider)
+		langs.registerColorProvider(id, service.colorProvider);
 	if (service.monarchTokens)
 		context.languages.setMonarchTokensProvider(id, service.monarchTokens);
 }
