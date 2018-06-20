@@ -16,6 +16,7 @@ export const Footer = () => (
 				<a href="//github.com/nikeee/dot-language-support">dot-language-support</a>.{' '}
 			</span>
 			<span className="text-muted float-right">
+				<a href="//www.graphviz.org/documentation/">Graphviz Documentation</a>, {' '}
 				<a href="//github.com/nikeee/edotor.net">Issues</a> {DEV && <Version />}
 			</span>
 		</div>
