@@ -15,9 +15,10 @@ const p2m = new ProtocolToMonacoConverter();
 const ls = languageService.createService();
 
 export interface MonacoService {
-	language: monaco.languages.ILanguageExtensionPoint;
 	processor: LanguageProcessor;
+	language: monaco.languages.ILanguageExtensionPoint;
 	monarchTokens?: monaco.languages.IMonarchLanguage;
+	languageConfig?: monaco.languages.LanguageConfiguration;
 	completionItemProvider?: monaco.languages.CompletionItemProvider;
 	hoverProvider?: monaco.languages.HoverProvider;
 	definitionProvider?: monaco.languages.DefinitionProvider;
@@ -69,6 +70,23 @@ export function createService(): MonacoService {
 			mimetypes: ["text/vnd.graphviz"]
 		},
 		monarchTokens: tokenConfig as any as monaco.languages.IMonarchLanguage,
+		languageConfig: {
+			wordPattern: /(-?\d*\.\d*)|(\w+[0-9]*)/,
+			// Takem from: https://github.com/Microsoft/monaco-json/blob/master/src/jsonMode.ts#L42-L60
+			comments: {
+				lineComment: "//",
+				blockComment: ["/*", "*/"],
+			},
+			brackets: [
+				["{", "}"],
+				["[", "]"],
+			],
+			autoClosingPairs: [
+				{ open: "{", close: "}", notIn: ["string"] },
+				{ open: "[", close: "]", notIn: ["string"] },
+				{ open: "\"", close: "\"", notIn: ["string"] },
+			],
+		},
 		completionItemProvider: {
 			triggerCharacters: ["="],
 			provideCompletionItems(model: monaco.editor.ITextModel, position: monaco.Position) {
@@ -188,6 +206,7 @@ export function registerService(context: typeof monaco, service: MonacoService):
 	const id = service.language.id;
 
 	langs.register(service.language);
+
 	if (service.completionItemProvider)
 		langs.registerCompletionItemProvider(id, service.completionItemProvider);
 	if (service.hoverProvider)
@@ -203,7 +222,9 @@ export function registerService(context: typeof monaco, service: MonacoService):
 	if (service.colorProvider)
 		langs.registerColorProvider(id, service.colorProvider);
 	if (service.monarchTokens)
-		context.languages.setMonarchTokensProvider(id, service.monarchTokens);
+		langs.setMonarchTokensProvider(id, service.monarchTokens);
+	if (service.languageConfig)
+		langs.setLanguageConfiguration(id, service.languageConfig);
 }
 
 
