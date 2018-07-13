@@ -13,8 +13,8 @@
     "analyze": "webpack --mode production --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "dependencies": {
-    "bootstrap": "^4.1.1",
-    "dot-language-support": "^1.2.3",
+    "bootstrap": "^4.1.2",
+    "dot-language-support": "^1.2.4",
     "jquery": "^3.3.1",
     "monaco-editor": "^0.13.1",
     "monaco-languageclient": "^0.6.3",
@@ -22,7 +22,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-monaco-editor": "^0.17.2",
-    "react-split-pane": "^0.1.81",
+    "react-split-pane": "^0.1.82",
     "svg-pan-zoom": "^3.5.3",
     "viz.js": "^2.0.0"
   },
@@ -43,7 +43,7 @@
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.21.0",
     "typescript": "^2.9.2",
-    "webpack": "^4.15.1",
+    "webpack": "^4.16.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.0.8"
   }
