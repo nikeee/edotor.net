@@ -1,0 +1,35 @@
+/*
+	Huffman Tree DOT graph.
+	Phrase: 'EDOTOR IS AWESOME'
+	Generated on http://huffman.ooz.ie/
+*/
+
+digraph G {
+	edge [label=0];
+	graph [ranksep=0];
+	O [shape=record, label="{{O|3}|00}"];
+	SPACE [shape=record, label="{{SPACE|2}|010}"];
+	S [shape=record, label="{{S|2}|011}"];
+	I [shape=record, label="{{I|1}|1000}"];
+	M [shape=record, label="{{M|1}|1001}"];
+	A [shape=record, label="{{A|1}|1010}"];
+	D [shape=record, label="{{D|1}|1011}"];
+	AD [label=2];
+	IMAD [label=4];
+	W [shape=record, label="{{W|1}|1100}"];
+	R [shape=record, label="{{R|1}|11010}"];
+	T [shape=record, label="{{T|1}|11011}"];
+	RT [label=2];
+	E [shape=record, label="{{E|3}|111}"];
+	17 -> 7 -> O;
+	4 -> SPACE;
+	10 -> IMAD -> 2 -> I;
+	AD -> A;
+	6 -> 3 -> W;
+	RT -> R;
+	7 -> 4 -> S [label=1];
+	2 -> M [label=1];
+	IMAD -> AD -> D [label=1];
+	3 -> RT -> T [label=1];
+	17 -> 10 -> 6 -> E [label=1];
+}

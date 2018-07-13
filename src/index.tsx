@@ -16,7 +16,7 @@ import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
 import { SupportedEngine, SupportedFormat, exportAs } from "./rendering";
-import { samples } from "./dot-monaco/samples";
+import samples from "./samples";
 import { supportedEngines, supportedFormats, displayFormats } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";

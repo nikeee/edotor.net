@@ -1,0 +1,45 @@
+# Taken from:
+# https://hbfs.wordpress.com/2014/09/30/a-quick-primer-on-graphviz/
+
+# Try engine "neato"
+
+graph g {
+	ratio=fill
+	splines=spline
+	overlap=scale
+
+	node [
+			shape=circle,
+			fixedsize=true,
+			width=0.3,
+			color="black",
+			fillcolor="#eeeeee",
+			style="filled,solid",
+			fontsize=12
+		]
+
+	q0 [label="0", xlabel="000", pos="0,0"]
+	q1 [label="1", xlabel="001", pos="0,1"]
+	q2 [label="2", xlabel="010", pos="1,0"]
+	q3 [label="3", xlabel="011", pos="1,1"]
+
+	q4 [label="4", xlabel="100", pos="-0.5,-0.5"]
+	q5 [label="5", xlabel="101", pos="-0.5,0.5"]
+	q6 [label="6", xlabel="110", pos="0.5,-0.5"]
+	q7 [label="7", xlabel="111", pos="0.5,0.5"]
+
+	q0 -- q1
+	q0 -- q2
+	q1 -- q3
+	q2 -- q3
+
+	q4 -- q5
+	q4 -- q6
+	q5 -- q7
+	q6 -- q7
+
+	q0 -- q4
+	q1 -- q5
+	q2 -- q6
+	q3 -- q7
+}
