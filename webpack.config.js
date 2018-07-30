@@ -24,6 +24,7 @@ module.exports = (env, argv) => {
 
 		module: {
 			rules: [
+				{ test: /\.(gv|dot)$/, use: ["raw-loader"] },
 				{ test: /\.render\.js$/, use: ["file-loader"] },
 				{ test: /\.html$/, use: ["html-loader"] },
 				{ test: /\.tsx?$/, use: ["awesome-typescript-loader"] },

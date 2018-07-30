@@ -16,7 +16,7 @@ import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
 import { SupportedEngine, SupportedFormat, exportAs } from "./rendering";
-import { samples } from "./dot-monaco/samples";
+import { samples, tutorial } from "./samples";
 import { supportedEngines, supportedFormats, displayFormats } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
@@ -31,7 +31,7 @@ interface Props {
 	initialText?: string;
 }
 
-const defaultSource = "digraph {\n\ta -> b;\n\tb -> c;\n}\n";
+const defaultSource = tutorial;
 
 class App extends React.Component<Props, State> {
 

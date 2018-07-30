@@ -1,0 +1,15 @@
+graph { # Click on the lightbulb!
+
+    # Click on "a" to get some refactoring options
+    a -- b
+    a -- c;
+    a -- d;
+
+    b -- b [color=blue] # Hover over color names to get a color picker
+    b -- d [color="#ff0000"];
+
+    # Get completion when assigning a shape or color
+    b [shape=box, color=yellow];
+
+    a; # Click on ; get options for removing ;
+}
