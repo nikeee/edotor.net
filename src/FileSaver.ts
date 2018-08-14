@@ -10,7 +10,7 @@ export class FileSaver {
 			? data
 			: new Blob([data], { type: "octet/stream" });
 
-		const url = window.URL.createObjectURL(blob, { oneTimeOnly: true });
+		const url = (window.URL as any).createObjectURL(blob, { oneTimeOnly: true });
 		this._link.href = url;
 		this._link.download = fileName;
 		this._link.click();
