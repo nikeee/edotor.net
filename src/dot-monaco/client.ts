@@ -4,6 +4,7 @@ import {
 	ProtocolToMonacoConverter,
 	MonacoCommands,
 	TextDocument,
+	MonacoServices,
 } from "monaco-languageclient";
 import * as monaco from "monaco-editor";
 import { tokenConfig } from "./xdot"
@@ -229,6 +230,7 @@ export function registerService(context: typeof monaco, service: MonacoService):
 
 
 export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
+	MonacoServices.install(editor);
 	const cmds = new MonacoCommands(editor as any);
 
 	for (const command of ls.getAvailableCommands()) {

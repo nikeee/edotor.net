@@ -19,7 +19,10 @@ module.exports = (env, argv) => {
 			: undefined,
 
 		resolve: {
-			extensions: [".ts", ".tsx", ".js", ".json"]
+			extensions: [".ts", ".tsx", ".js", ".json"],
+			alias: {
+				"vscode": require.resolve("monaco-languageclient/lib/vscode-compatibility")
+			},
 		},
 
 		module: {
