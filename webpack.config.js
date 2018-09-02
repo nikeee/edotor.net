@@ -27,8 +27,7 @@ module.exports = (env, argv) => {
 				{ test: /\.(gv|dot)$/, use: ["raw-loader"] },
 				{ test: /\.render\.js$/, use: ["file-loader"] },
 				{ test: /\.html$/, use: ["html-loader"] },
-				{ test: /\.tsx?$/, use: ["awesome-typescript-loader"] },
-				// { test: /\.tsx?$/, use: ["ts-loader"] },
+				{ test: /\.tsx?$/, use: ["ts-loader"] },
 				{ test: /\.css$/, use: ["style-loader", "css-loader"] },
 				{ enforce: "pre", test: /\.js$/, loader: "source-map-loader", exclude: [/node_modules/] },
 			]
