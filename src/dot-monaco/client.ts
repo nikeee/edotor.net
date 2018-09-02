@@ -48,7 +48,7 @@ const processor: LanguageProcessor = {
 	},
 	validate(doc: ParsedDocument) {
 		const diagnostics = ls.validateDocument(doc.document, doc.sourceFile);
-		return diagnostics.map(d => p2m.asMarker(d));
+		return p2m.asDiagnostics(diagnostics);
 	},
 	processAndValidate(model) {
 		const doc = this.process(model);
@@ -136,7 +136,10 @@ export function createService(): MonacoService {
 					m2p.asPosition(position.lineNumber, position.column),
 					newName,
 				)
-				return p2m.asWorkspaceEdit(workspaceEdit)!; // Assert non-null/undefined because monaco is not null-aware
+
+				// Assert non-null/undefined because monaco is not null-aware
+				// Assert types because monaco-languageclient has different types than monaco-editor
+				return p2m.asWorkspaceEdit(workspaceEdit)! as monaco.languages.WorkspaceEdit;
 			}
 		},
 		codeActionProvider: {
@@ -165,7 +168,8 @@ export function createService(): MonacoService {
 								// const executions = commands.map(cmd => ls.executeCommand(data.document, data.sourceFile, cmd));
 								return actions;
 				*/
-				return p2m.asCodeActions(commands);
+				// Assert types because monaco-languageclient has different types than monaco-editor
+				return p2m.asCodeActions(commands) as monaco.languages.CodeAction[];
 			}
 		},
 		colorProvider: {
