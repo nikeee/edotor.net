@@ -4,6 +4,7 @@ import {
 	ProtocolToMonacoConverter,
 	MonacoCommands,
 	TextDocument,
+	MonacoServices,
 } from "monaco-languageclient";
 import * as monaco from "monaco-editor";
 import { tokenConfig } from "./xdot"
@@ -156,17 +157,17 @@ export function createService(): MonacoService {
 				if (!commands)
 					return [];
 				/*
-								const actions: monaco.languages.CodeAction[] = [];
-								for (const cmd of commands) {
-									if (cmd) {
-										const execution = ls.executeCommand(data.document, data.sourceFile, cmd);
-										if (execution) {
-											actions.push(cA);
-										}
-									}
-								}
-								// const executions = commands.map(cmd => ls.executeCommand(data.document, data.sourceFile, cmd));
-								return actions;
+				const actions: monaco.languages.CodeAction[] = [];
+				for (const cmd of commands) {
+					if (cmd) {
+						const execution = ls.executeCommand(data.document, data.sourceFile, cmd);
+						if (execution) {
+							actions.push(cA);
+						}
+					}
+				}
+				// const executions = commands.map(cmd => ls.executeCommand(data.document, data.sourceFile, cmd));
+				return actions;
 				*/
 				// Assert types because monaco-languageclient has different types than monaco-editor
 				return p2m.asCodeActions(commands) as monaco.languages.CodeAction[];
@@ -193,7 +194,7 @@ export function createService(): MonacoService {
 				const res = ls.getColorRepresentations(data.document, data.sourceFile, color, range);
 
 				return res
-					? res.map(c => ({ label: c.label })) // TODO: Create PR for this kind
+					? p2m.asColorPresentations(res) // res.map(c => ({ label: c.label })) // TODO: Create PR for this kind
 					: [];
 				throw "Not implemented";
 			}
@@ -229,11 +230,14 @@ export function registerService(context: typeof monaco, service: MonacoService):
 		langs.setMonarchTokensProvider(id, service.monarchTokens);
 	if (service.languageConfig)
 		langs.setLanguageConfiguration(id, service.languageConfig);
+
+		DEV && console.log("Lang registered");
 }
 
 
 export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 	const cmds = new MonacoCommands(editor as any);
+	// MonacoServices.install(editor as any);
 
 	for (const command of ls.getAvailableCommands()) {
 		cmds.registerCommand(command, (...args: any[]) => {
