@@ -10,11 +10,15 @@ export class FileSaver {
 			? data
 			: new Blob([data], { type: "octet/stream" });
 
-		const url = window.URL.createObjectURL(blob, { oneTimeOnly: true });
-		this._link.href = url;
-		this._link.download = fileName;
-		this._link.click();
-		window.URL.revokeObjectURL(url);
+		const url = window.URL.createObjectURL(blob);
+		try {
+			this._link.href = url;
+			this._link.download = fileName;
+			this._link.click();
+		} finally {
+			if (url)
+				window.URL.revokeObjectURL(url);
+		}
 	}
 
 	public saveImage(image: HTMLImageElement, fileName: string) {
