@@ -8,6 +8,11 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const targetDir = "dist";
 
 module.exports = (env, argv) => {
+	env = env || process.env;
+
+	const isProduction = argv.mode === "production";
+	const isDevelopment = !isProduction;
+
 	const config = {
 		entry: "./src/index.tsx",
 
@@ -17,7 +22,7 @@ module.exports = (env, argv) => {
 			path: path.join(__dirname, targetDir),
 		},
 
-		devtool: argv.mode === "development"
+		devtool: isDevelopment
 			? "source-map"
 			: undefined,
 
@@ -41,8 +46,15 @@ module.exports = (env, argv) => {
 
 		plugins: [
 			new HtmlWebPackPlugin({
-				template: "./src/index.html",
-				filename: "./index.html"
+				template: "./src/index.ejs",
+				filename: "./index.html",
+				env: {
+					includeMatomo: isProduction && !!env["MATOMO_URL"] && !!env["MATOMO_ENABLED"],
+					matomoUrl: env["MATOMO_URL"] ? env["MATOMO_URL"].trim() : undefined,
+				},
+				minify: {
+					collapseWhitespace: isProduction,
+				}
 			}),
 			new MonacoWebpackPlugin({
 				languages: [],
@@ -54,7 +66,7 @@ module.exports = (env, argv) => {
 			new CleanWebpackPlugin(targetDir),
 			new webpack.DefinePlugin({
 				VERSION: JSON.stringify(require("./package.json").version),
-				DEV: argv.mode === "development",
+				DEV: JSON.stringify(isDevelopment),
 			}),
 			new webpack.ProvidePlugin({
 				$: 'jquery',

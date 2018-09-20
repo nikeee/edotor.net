@@ -20,6 +20,10 @@
 
 <link rel="stylesheet" type="text/css" href="spinner.css">
 
+<% if (htmlWebpackPlugin.options.env.includeMatomo) { %>
+	<!-- Matomo -->
+<% } %>
+
 <div id="root"></div>
 <noscript>
 	Thanks for visiting edotor! Because we offer a rich editor with code completion, this site needs JavaScript to be enabled.
