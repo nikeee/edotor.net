@@ -49,8 +49,9 @@ module.exports = (env, argv) => {
 				template: "./src/index.ejs",
 				filename: "./index.html",
 				env: {
-					includeMatomo: isProduction && !!env["MATOMO_URL"] && !!env["MATOMO_ENABLED"],
-					matomoUrl: env["MATOMO_URL"] ? env["MATOMO_URL"].trim() : undefined,
+					includeMatomo: isProduction && !!env["MATOMO_API_BASE"] && !!env["MATOMO_ENABLED"],
+					// Has to end with a trailing forward slash!
+					matomoApiBase: env["MATOMO_API_BASE"] ? env["MATOMO_API_BASE"].trim() : undefined,
 				},
 				minify: {
 					collapseWhitespace: isProduction,
