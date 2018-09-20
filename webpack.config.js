@@ -3,6 +3,9 @@ const webpack = require("webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+
+const targetDir = "dist";
 
 module.exports = (env, argv) => {
 	const config = {
@@ -11,7 +14,7 @@ module.exports = (env, argv) => {
 		output: {
 			filename: "[name].bundle.js",
 			chunkFilename: "[name].chunk.js",
-			path: path.join(__dirname, "dist"),
+			path: path.join(__dirname, targetDir),
 		},
 
 		devtool: argv.mode === "development"
@@ -48,6 +51,7 @@ module.exports = (env, argv) => {
 				{ from: "assets" },
 				{ from: "CNAME" },
 			]),
+			new CleanWebpackPlugin(targetDir),
 			new webpack.DefinePlugin({
 				VERSION: JSON.stringify(require("./package.json").version),
 				DEV: argv.mode === "development",
