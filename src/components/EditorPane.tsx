@@ -45,7 +45,30 @@ export class EditorPane extends React.Component<Props, any> {
 	private editorDidMount(editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal): void {
 		this.editor = editor;
 		ls.registerCommands(editor);
+
+		// the first render() is called before the language is registered
+		// We need to refresh the model with the identical value, but a different language
+		this.refreshModel(editor, monaco);
+
 		editor.focus();
+	}
+
+	private refreshModel(editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal) {
+		const oldModel = editor.getModel();
+		try {
+			console.assert(!!oldModel);
+
+			const newModel = monaco.editor.createModel(
+				oldModel.getValue(),
+				"dot",
+				monaco.Uri.parse("inmemory://tmp.dot"),
+			);
+
+			editor.setModel(newModel);
+		} finally {
+			if (oldModel)
+				oldModel.dispose();
+		}
 	}
 
 	private onChange(value: string, event: monacoGlobal.editor.IModelContentChangedEvent): void {
