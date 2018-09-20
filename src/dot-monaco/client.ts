@@ -194,9 +194,8 @@ export function createService(): MonacoService {
 				const res = ls.getColorRepresentations(data.document, data.sourceFile, color, range);
 
 				return res
-					? p2m.asColorPresentations(res) // res.map(c => ({ label: c.label })) // TODO: Create PR for this kind
+					? p2m.asColorPresentations(res)
 					: [];
-				throw "Not implemented";
 			}
 		},
 		processor,
@@ -230,8 +229,6 @@ export function registerService(context: typeof monaco, service: MonacoService):
 		langs.setMonarchTokensProvider(id, service.monarchTokens);
 	if (service.languageConfig)
 		langs.setLanguageConfiguration(id, service.languageConfig);
-
-		DEV && console.log("Lang registered");
 }
 
 

@@ -26,17 +26,6 @@ export class EditorPane extends React.Component<Props, any> {
 	}
 
 	private editorWillMount(monaco: typeof monacoGlobal): void {
-		if (DEV) {
-			console.log("editorWillMount");
-			/*
-			monaco.languages.onLanguage("dot", () => {
-				console.log("Registering service...");
-				const service = ls.createService();
-				ls.registerService(monaco, service);
-			});
-			*/
-		}
-
 		const service = ls.createService();
 		ls.registerService(monaco, service);
 		this.processor = service.processor;
@@ -99,7 +88,7 @@ export class EditorPane extends React.Component<Props, any> {
 	}
 
 	public render() {
-		const defaultValue = this.props.defaultValue ? this.props.defaultValue : "";
+		const defaultValue = this.props.defaultValue || "";
 		return (
 			<MonacoEditor
 				ref="editor"
