@@ -29,7 +29,7 @@ export const copyToClipboard = (text: string): void => {
  * Returns the full address of the page. Without the hash.
  */
 export const getFullUrl = (): string => {
-	const fullUrl = document.location.href;
+	const fullUrl = !!document.location ? document.location.href : "";
 	const hashIndex = fullUrl.indexOf("#");
 	return hashIndex < 0
 		? fullUrl
