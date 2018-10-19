@@ -89,7 +89,7 @@ export function createService(): MonacoService {
 			],
 		},
 		completionItemProvider: {
-			triggerCharacters: ["="],
+			triggerCharacters: ["=", ",", "["],
 			provideCompletionItems(model: monaco.editor.ITextModel, position: monaco.Position) {
 				const data = processor.process(model);
 
