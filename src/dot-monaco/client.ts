@@ -239,6 +239,9 @@ export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 	for (const command of ls.getAvailableCommands()) {
 		cmds.registerCommand(command, (...args: any[]) => {
 			const m = editor.getModel();
+			if (m === null)
+				return;
+
 			const data = processor.process(m);
 			const doc = data.document;
 			const edits = ls.executeCommand(doc, data.sourceFile, { command, arguments: args });

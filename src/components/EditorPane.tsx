@@ -45,10 +45,10 @@ export class EditorPane extends React.Component<Props, any> {
 	private refreshModel(editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal) {
 		const oldModel = editor.getModel();
 		try {
-			console.assert(!!oldModel);
+			DEV && console.assert(!!oldModel);
 
 			const newModel = monaco.editor.createModel(
-				oldModel.getValue(),
+				!!oldModel ? oldModel.getValue() : "",
 				"dot",
 				monaco.Uri.parse("inmemory://tmp.dot"),
 			);
