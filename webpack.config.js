@@ -64,7 +64,7 @@ module.exports = (env, argv) => {
 				{ from: "assets" },
 				{ from: "CNAME" },
 			]),
-			new CleanWebpackPlugin(targetDir),
+			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin({
 				VERSION: JSON.stringify(require("./package.json").version),
 				DEV: JSON.stringify(isDevelopment),
