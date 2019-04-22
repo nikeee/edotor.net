@@ -40,7 +40,7 @@ module.exports = (env, argv) => {
 				{ test: /\.render\.js$/, use: ["file-loader"] },
 				{ test: /\.html$/, use: ["html-loader"] },
 				{ test: /\.tsx?$/, use: ["ts-loader"] },
-				{ test: /\.css$/, use: ["style-loader", "css-loader"] },
+				{ test: /\.s?css$/, use: ["style-loader", "css-loader", "sass-loader"] },
 				{ enforce: "pre", test: /\.js$/, loader: "source-map-loader", exclude: [/node_modules/] },
 			]
 		},

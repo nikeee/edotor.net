@@ -4,10 +4,7 @@ import * as ReactDOM from "react-dom";
 // TODO: Only import what is needed
 import "bootstrap";
 
-// TODO: Optimize CSS
-// ttps://getbootstrap.com/docs/4.0/getting-started/webpack/
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import "./index.scss";
 
 import { SplitEditor } from "./components/SplitEditor";
 import { SiteLogo } from "./components/SiteLogo";
