@@ -71,9 +71,9 @@ module.exports = (env, argv) => {
 				DEV: JSON.stringify(isDevelopment),
 			}),
 			new webpack.ProvidePlugin({
-				$: "jquery/dist/jquery.slim.js",
-				jQuery: "jquery/dist/jquery.slim.js",
-				"window.jQuery": "jquery/dist/jquery.slim.js",
+				$: "jquery",
+				jQuery: "jquery",
+				"window.jQuery": "jquery",
 				Popper: ["popper.js", "default"],
 			}),
 		],
