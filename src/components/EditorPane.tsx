@@ -25,13 +25,13 @@ export class EditorPane extends React.Component<Props, any> {
 		}
 	}
 
-	private editorWillMount(monaco: typeof monacoGlobal): void {
+	private editorWillMount = (monaco: typeof monacoGlobal): void => {
 		const service = ls.createService();
 		ls.registerService(monaco, service);
 		this.processor = service.processor;
 	}
 
-	private editorDidMount(editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal): void {
+	private editorDidMount = (editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal): void => {
 		this.editor = editor;
 		ls.registerCommands(editor);
 
@@ -60,7 +60,7 @@ export class EditorPane extends React.Component<Props, any> {
 		}
 	}
 
-	private onChange(value: string, event: monacoGlobal.editor.IModelContentChangedEvent): void {
+	private onChange = (value: string, event: monacoGlobal.editor.IModelContentChangedEvent): void => {
 		const p = this.processor;
 		const e = this.editor;
 		if (!p || !e) return;
@@ -107,9 +107,9 @@ export class EditorPane extends React.Component<Props, any> {
 					glyphMargin: true,
 					lightbulb: { enabled: true },
 				}}
-				onChange={this.onChange.bind(this)}
-				editorDidMount={this.editorDidMount.bind(this)}
-				editorWillMount={this.editorWillMount.bind(this)}
+				onChange={this.onChange}
+				editorDidMount={this.editorDidMount}
+				editorWillMount={this.editorWillMount}
 			/>
 		);
 	}

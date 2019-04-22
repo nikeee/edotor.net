@@ -46,13 +46,13 @@ class App extends React.Component<Props, State> {
 		this.editorRef = React.createRef();
 	}
 
-	private onChangeEngine(engine: SupportedEngine): void {
+	private onChangeEngine = (engine: SupportedEngine): void => {
 		this.setState({
 			engine,
 		});
 	}
 
-	private loadSample(sampleName: keyof typeof samples): void {
+	private loadSample = (sampleName: keyof typeof samples): void => {
 		if (!sampleName)
 			return;
 
@@ -63,18 +63,18 @@ class App extends React.Component<Props, State> {
 		}
 	}
 
-	private exportAs(format: "SVG" | "PNG"): void {
+	private exportAs = (format: "SVG" | "PNG"): void => {
 		const dotSrc = this.currentSource;
 		if (format && dotSrc) {
 			exportAs(dotSrc, format.toLowerCase() as SupportedFormat, this.state, this.saver);
 		}
 	}
 
-	private sourceChanged(source: string): void {
+	private sourceChanged = (source: string): void => {
 		this.currentSource = source;
 	}
 
-	private share(): boolean {
+	private share = (): boolean => {
 		const sourceToShare = this.currentSource;
 		if (!sourceToShare)
 			return false;
@@ -101,21 +101,21 @@ class App extends React.Component<Props, State> {
 					<div className="collapse navbar-collapse" id="navbar-collapse">
 						<ul className="navbar-nav mr-auto">
 							<ItemMenu
-								onClickItem={this.loadSample.bind(this)}
+								onClickItem={this.loadSample}
 								items={Object.keys(samples)}
 								id="loadSampleMenu"
 								label="Load Sample"
 							/>
 
 							<ItemMenu
-								onClickItem={this.exportAs.bind(this)}
+								onClickItem={this.exportAs}
 								items={supportedFormats.map(i => displayFormats[i])}
 								id="downloadMenu"
 								label="Download"
 							/>
 
 							<ItemSelection
-								onChangeItem={this.onChangeEngine.bind(this)}
+								onChangeItem={this.onChangeEngine}
 								defaultItem={defaultEngine}
 								possibleItems={supportedEngines}
 								label="Engine:"
@@ -127,7 +127,7 @@ class App extends React.Component<Props, State> {
 
 					<div className="btn-group btn-group-sm">
 						<TooltipButton
-							onClick={this.share.bind(this)}
+							onClick={this.share}
 							title="Link copied to clipboard!"
 							className="btn-secondary"
 						>
@@ -141,7 +141,7 @@ class App extends React.Component<Props, State> {
 					initialSource={initialSource}
 					format="svg"
 					engine={s.engine}
-					onSourceChange={this.sourceChanged.bind(this)}
+					onSourceChange={this.sourceChanged}
 				/>
 
 				<Footer />

@@ -17,7 +17,7 @@ export class TooltipButton extends React.Component<Props, object> {
 		this.buttonRef = React.createRef<HTMLButtonElement>();
 	}
 
-	private handleClick() {
+	private handleClick = () => {
 		const handler = this.props.onClick;
 		if (handler) {
 			const showTooltip = handler();
@@ -70,7 +70,7 @@ export class TooltipButton extends React.Component<Props, object> {
 				type="button"
 				data-toggle="tooltip"
 				title={p.title}
-				onClick={this.handleClick.bind(this)}
+				onClick={this.handleClick}
 			>
 				{p.children}
 			</button>

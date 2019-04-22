@@ -55,7 +55,7 @@ export class SplitEditor extends React.Component<Props, State> {
 		}
 	}
 
-	private dotSourceChanged(dotSrc: string) {
+	dotSourceChanged = (dotSrc: string): void => {
 		const p = this.props;
 		if (p.onSourceChange)
 			p.onSourceChange(dotSrc);
@@ -63,7 +63,7 @@ export class SplitEditor extends React.Component<Props, State> {
 		this.setState(createSourceState(dotSrc));
 	}
 
-	private dotSourceErrored(errors: ErrorList): void {
+	dotSourceErrored = (errors: ErrorList): void => {
 		this.setState(prevState => {
 			const lastKnownGoodSrc = prevState.dotSrc || prevState.lastKnownGoodSrc;
 			return createErroredState(errors, lastKnownGoodSrc);
@@ -96,8 +96,8 @@ export class SplitEditor extends React.Component<Props, State> {
 				<EditorPane
 					ref={this.editorPaneRef}
 					defaultValue={s.dotSrc}
-					onChangeValue={this.dotSourceChanged.bind(this)}
-					onValueError={this.dotSourceErrored.bind(this)}
+					onChangeValue={this.dotSourceChanged}
+					onValueError={this.dotSourceErrored}
 				/>
 
 				<GraphPane className={"graph-container " + graphPaneClass}
