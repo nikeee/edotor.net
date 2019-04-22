@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-// TODO: Only import what is needed
-import "bootstrap";
+import "./bootstrap.ts";
 
 import "./index.scss";
 
