@@ -29,7 +29,8 @@ module.exports = (env, argv) => {
 		resolve: {
 			extensions: [".ts", ".tsx", ".js", ".json"],
 			alias: {
-				"vscode": require.resolve("monaco-languageclient/lib/vscode-compatibility")
+				"vscode": require.resolve("monaco-languageclient/lib/vscode-compatibility"),
+				"jquery": "jquery/dist/jquery.slim.js",
 			}
 		},
 
@@ -70,10 +71,10 @@ module.exports = (env, argv) => {
 				DEV: JSON.stringify(isDevelopment),
 			}),
 			new webpack.ProvidePlugin({
-				$: 'jquery',
-				jQuery: 'jquery',
-				'window.jQuery': 'jquery',
-				Popper: ['popper.js', 'default']
+				$: "jquery/dist/jquery.slim.js",
+				jQuery: "jquery/dist/jquery.slim.js",
+				"window.jQuery": "jquery/dist/jquery.slim.js",
+				Popper: ["popper.js", "default"],
 			}),
 		],
 
