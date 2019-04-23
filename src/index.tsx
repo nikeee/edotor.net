@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { render } from "react-dom";
 
 import "./bootstrap.ts";
 
@@ -17,6 +17,7 @@ import { supportedEngines, supportedFormats, displayFormats } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
+import { getLastSource } from "./config";
 
 const defaultEngine = supportedEngines[1];
 
@@ -149,12 +150,12 @@ class App extends React.Component<Props, State> {
 	}
 }
 
-const urlSource = getSourceFromUrl();
+const urlSource = getSourceFromUrl() || getLastSource();
 
-const rootComponent = <App initialText={urlSource} />;
-const rootElement = document.getElementById("root");
-
-ReactDOM.render(rootComponent, rootElement);
+render(
+	<App initialText={urlSource} />,
+	document.getElementById("root"),
+);
 
 const spinner = document.getElementsByClassName("spinner")[0];
 if (spinner && spinner.parentNode) {

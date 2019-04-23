@@ -2,7 +2,7 @@ export const assertNever = (e: never): never => {
 	throw new Error("This should never happen.");
 }
 
-export const removeChildren = (container: HTMLElement): void => {
+export function removeChildren(container: HTMLElement): void {
 	while (container.firstChild) {
 		container.removeChild(container.firstChild);
 	}

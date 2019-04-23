@@ -2,6 +2,7 @@ import * as React from "react";
 import MonacoEditor from "react-monaco-editor";
 import * as monacoGlobal from "monaco-editor";
 import * as ls from "../dot-monaco";
+import { saveLastSource } from "../config";
 
 type Props = {
 	defaultValue?: string;
@@ -9,13 +10,16 @@ type Props = {
 	onValueError(err: monacoGlobal.editor.IMarkerData[]): void;
 };
 
+const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
+
 export class EditorPane extends React.Component<Props, any> {
 	private processor: ls.LanguageProcessor | undefined;
 	private editor: monacoGlobal.editor.IStandaloneCodeEditor | undefined;
+	private autoSaveTimeout: NodeJS.Timeout | undefined = undefined;
 
 	constructor(props: Props) {
 		super(props);
-		this.state = {}
+		this.state = {};
 	}
 
 	public loadValue(value: string) {
@@ -85,6 +89,11 @@ export class EditorPane extends React.Component<Props, any> {
 				props.onChangeValue(value);
 			}
 		}
+
+		if (typeof this.autoSaveTimeout !== "undefined") {
+			clearTimeout(this.autoSaveTimeout);
+		}
+		this.autoSaveTimeout = setTimeout(() => saveLastSource(value), SOURCE_SAVE_TIMEOUT);
 	}
 
 	public render() {
