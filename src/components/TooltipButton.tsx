@@ -9,13 +9,9 @@ interface Props {
 }
 
 export class TooltipButton extends React.Component<Props, object> {
-	private buttonRef: React.RefObject<HTMLButtonElement>;
-	private timeout: ReturnType<typeof setTimeout> | undefined;
+	private buttonRef: React.RefObject<HTMLButtonElement>= React.createRef<HTMLButtonElement>();
 
-	constructor(props: Props) {
-		super(props);
-		this.buttonRef = React.createRef<HTMLButtonElement>();
-	}
+	private timeout: ReturnType<typeof setTimeout> | undefined;
 
 	private handleClick = () => {
 		const handler = this.props.onClick;

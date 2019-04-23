@@ -33,18 +33,12 @@ const defaultSource = tutorial;
 class App extends React.Component<Props, State> {
 
 	private currentSource: string | undefined = undefined;
-	private saver: FileSaver;
-	private editorRef: React.RefObject<SplitEditor>;
+	private saver: FileSaver = new FileSaver();
+	private editorRef: React.RefObject<SplitEditor>  = React.createRef();
 
-	constructor(props: Props) {
-		super(props);
-
-		this.state = {
-			engine: defaultEngine,
-		};
-		this.saver = new FileSaver();
-		this.editorRef = React.createRef();
-	}
+	state: State = {
+		engine: defaultEngine,
+	};
 
 	private onChangeEngine = (engine: SupportedEngine): void => {
 		this.setState({

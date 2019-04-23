@@ -15,12 +15,9 @@ const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 export class EditorPane extends React.Component<Props, any> {
 	private processor: ls.LanguageProcessor | undefined;
 	private editor: monacoGlobal.editor.IStandaloneCodeEditor | undefined;
-	private autoSaveTimeout: NodeJS.Timeout | undefined = undefined;
+	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
-	constructor(props: Props) {
-		super(props);
-		this.state = {};
-	}
+	state: any = {};
 
 	public loadValue(value: string) {
 		const e = this.editor;

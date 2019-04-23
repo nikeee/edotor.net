@@ -36,14 +36,10 @@ export interface Props {
 }
 
 export class Graph extends React.Component<Props, State> {
-	private containerRef: React.RefObject<HTMLDivElement>;
+	private containerRef: React.RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>();
 	private panZoomContainer: SvgPanZoom.Instance | undefined;
 
-	constructor(props: Props) {
-		super(props);
-		this.state = createEmptyState();
-		this.containerRef = React.createRef<HTMLDivElement>();
-	}
+	state: State = createEmptyState();
 
 	private async updateGraph(): Promise<void> {
 		const { dotSrc, format, engine } = this.props;
