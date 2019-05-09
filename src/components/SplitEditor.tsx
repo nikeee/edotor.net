@@ -31,7 +31,7 @@ interface ErroredState {
 const createSourceState = (dotSrc: string): SourceState => ({ dotSrc, errors: undefined, lastKnownGoodSrc: undefined });
 const createErroredState = (errors: ErrorList, lastKnownGoodSrc?: string): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
-export class SplitEditor extends React.Component<Props, State> {
+export default class SplitEditor extends React.Component<Props, State> {
 
 	private editorPaneRef: React.RefObject<EditorPane> = React.createRef();
 

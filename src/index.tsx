@@ -5,7 +5,7 @@ import "./bootstrap.ts";
 
 import "./index.scss";
 
-import { SplitEditor } from "./components/SplitEditor";
+import { BarLoader } from "react-spinners";
 import { SiteLogo } from "./components/SiteLogo";
 import { Footer } from "./components/Footer";
 import { ItemSelection } from "./components/ItemSelection";
@@ -19,6 +19,8 @@ import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
 import { getLastSource } from "./config";
 
+const LazySplitEditor = React.lazy(() => import("./components/SplitEditor"));
+
 const defaultEngine = supportedEngines[1];
 
 interface State {
@@ -29,12 +31,13 @@ interface Props {
 }
 
 const defaultSource = tutorial;
+const loadingStyle = { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" } as const;
 
 class App extends React.Component<Props, State> {
 
 	private currentSource: string | undefined = undefined;
 	private saver: FileSaver = new FileSaver();
-	private editorRef: React.RefObject<SplitEditor>  = React.createRef();
+	private editorRef: React.RefObject<import("./components/SplitEditor").default> = React.createRef();
 
 	state: State = {
 		engine: defaultEngine,
@@ -129,15 +132,17 @@ class App extends React.Component<Props, State> {
 						</TooltipButton>
 					</div>
 				</nav>
-
-				<SplitEditor
-					ref={this.editorRef}
-					initialSource={initialSource}
-					format="svg"
-					engine={s.engine}
-					onSourceChange={this.sourceChanged}
-				/>
-
+				<React.Suspense fallback={<div style={loadingStyle}>
+					<BarLoader />
+				</div>}>
+					<LazySplitEditor
+						ref={this.editorRef}
+						initialSource={initialSource}
+						format="svg"
+						engine={s.engine}
+						onSourceChange={this.sourceChanged}
+					/>
+				</React.Suspense>
 				<Footer />
 			</div>
 		);

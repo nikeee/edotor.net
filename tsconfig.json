@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "dist",
 
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
 
     "target": "es2015",

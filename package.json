@@ -21,6 +21,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-monaco-editor": "^0.20.0",
+    "react-spinners": "^0.5.4",
     "react-split-pane": "^0.1.87",
     "svg-pan-zoom": "^3.6.0",
     "viz.js": "^2.1.2"
