@@ -5,3 +5,7 @@ declare module "*.gv" {
 	const content: string;
 	export default content;
 }
+declare module "react-spinners/BarLoader" {
+	import { BarLoader } from "react-spinners";
+	export default BarLoader;
+}

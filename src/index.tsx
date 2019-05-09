@@ -5,13 +5,14 @@ import "./bootstrap.ts";
 
 import "./index.scss";
 
-import { BarLoader } from "react-spinners";
+import BarLoader from "react-spinners/BarLoader";
+
 import { SiteLogo } from "./components/SiteLogo";
 import { Footer } from "./components/Footer";
 import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
-import { SupportedEngine, SupportedFormat, exportAs, saveSource } from "./rendering";
+import { SupportedEngine, exportAs, saveSource } from "./rendering";
 import { samples, tutorial } from "./samples";
 import { supportedEngines, displayFormats, ExportableFormat, sourceFormatExtension } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
