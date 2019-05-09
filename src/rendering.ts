@@ -2,6 +2,7 @@ import Viz from "viz.js";
 import workerURL from "viz.js/full.render.js";
 import { assertNever } from "./utils";
 import { FileSaver } from "./FileSaver";
+import { sourceFormatExtension } from "./viz";
 
 const createViz = () => new Viz({ workerURL });
 
@@ -57,7 +58,7 @@ export async function exportAs(dotSrc: string, format: SupportedFormat, options:
 }
 
 export function saveSource(dotSrc: string, saver: FileSaver, fileName: string = "graph") {
-	saver.save(dotSrc, fileName + ".dot");
+	saver.save(dotSrc, fileName + "." + sourceFormatExtension);
 }
 
 const isSVGElement = (r: Rendering): r is SVGSVGElement => r instanceof SVGSVGElement;
