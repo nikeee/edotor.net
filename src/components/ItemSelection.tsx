@@ -16,13 +16,13 @@ interface State {
 	currentSelection: TItem | undefined;
 }
 
-export class ItemSelection extends React.Component<Props, State> {
+export class ItemSelection extends React.PureComponent<Props, State> {
 
-	constructor(props: Props) {
-		super(props);
+	constructor(p: Props) {
+		super(p);
 
 		this.state = {
-			currentSelection: props.defaultItem,
+			currentSelection: p.defaultItem,
 		};
 	}
 
@@ -34,7 +34,7 @@ export class ItemSelection extends React.Component<Props, State> {
 					this.props.onChangeItem(newItem);
 				}
 				return {
-					currentSelection: newItem
+					currentSelection: newItem,
 				};
 			}
 			return prevState;
@@ -62,8 +62,8 @@ export class ItemSelection extends React.Component<Props, State> {
 	private getShowSelectionLabel() {
 		const p = this.props;
 		const s = this.state;
-		if (DEV)
-			console.assert(!!p.label);
+
+		DEV && console.assert(!!p.label);
 
 		const text = s.currentSelection ? s.currentSelection : "";
 
@@ -74,11 +74,7 @@ export class ItemSelection extends React.Component<Props, State> {
 		);
 	}
 
-	public render() {
-		const s = this.state;
-		const p = this.props;
-
-
+	render() {
 		return (
 			<li className="nav-item dropdown">
 				{this.getShowSelectionLabel()}
