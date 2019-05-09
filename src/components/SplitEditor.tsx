@@ -33,14 +33,13 @@ const createErroredState = (errors: ErrorList, lastKnownGoodSrc?: string): Error
 
 export class SplitEditor extends React.Component<Props, State> {
 
-	private editorPaneRef: React.RefObject<EditorPane>;
+	private editorPaneRef: React.RefObject<EditorPane> = React.createRef();
 
 	constructor(props: Props) {
 		super(props);
 		const p = this.props;
 
 		this.state = createSourceState(p.initialSource);
-		this.editorPaneRef = React.createRef<EditorPane>();
 		if (p.onSourceChange)
 			p.onSourceChange(this.state.dotSrc);
 	}
@@ -72,9 +71,10 @@ export class SplitEditor extends React.Component<Props, State> {
 
 	private getDotSrcToRender() {
 		const s = this.state;
-		if (s.dotSrc)
-			return s.dotSrc;
-		return s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "";
+
+		return !!s.dotSrc
+			? s.dotSrc
+			: (s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "");
 	}
 
 	public render() {

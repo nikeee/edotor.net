@@ -9,7 +9,7 @@ interface Props {
 }
 
 export class TooltipButton extends React.Component<Props, object> {
-	private buttonRef: React.RefObject<HTMLButtonElement>= React.createRef<HTMLButtonElement>();
+	private buttonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
 	private timeout: ReturnType<typeof setTimeout> | undefined;
 
