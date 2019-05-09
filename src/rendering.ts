@@ -56,4 +56,8 @@ export async function exportAs(dotSrc: string, format: SupportedFormat, options:
 	saver.saveImage(element, totalFileName);
 }
 
+export function saveSource(dotSrc: string, saver: FileSaver, fileName: string = "graph") {
+	saver.save(dotSrc, fileName + ".dot");
+}
+
 const isSVGElement = (r: Rendering): r is SVGSVGElement => r instanceof SVGSVGElement;

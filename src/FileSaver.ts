@@ -5,6 +5,7 @@ export class FileSaver {
 		document.body.appendChild(this._link);
 		this._link.style.display = "none";
 	}
+
 	public save(data: any, fileName: string) {
 		const blob = data instanceof Blob
 			? data

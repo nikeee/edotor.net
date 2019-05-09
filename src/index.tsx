@@ -11,9 +11,9 @@ import { Footer } from "./components/Footer";
 import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
-import { SupportedEngine, SupportedFormat, exportAs } from "./rendering";
+import { SupportedEngine, SupportedFormat, exportAs, saveSource } from "./rendering";
 import { samples, tutorial } from "./samples";
-import { supportedEngines, supportedFormats, displayFormats } from "./viz";
+import { supportedEngines, displayFormats, ExportableFormat, sourceFormatExtension } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
@@ -49,21 +49,24 @@ class App extends React.Component<Props, State> {
 		});
 	}
 
-	private loadSample = (sampleName: keyof typeof samples): void => {
-		if (!sampleName)
+	private loadSample = (sampleDotSrc: string): void => {
+		if (!sampleDotSrc)
 			return;
 
-		const sampleDotSrc = samples[sampleName];
 		const editor = this.editorRef.current;
 		if (sampleDotSrc && editor) {
 			editor.loadDotSource(sampleDotSrc);
 		}
 	}
 
-	private exportAs = (format: "SVG" | "PNG"): void => {
+	private exportAs = (format: ExportableFormat): void => {
 		const dotSrc = this.currentSource;
-		if (format && dotSrc) {
-			exportAs(dotSrc, format.toLowerCase() as SupportedFormat, this.state, this.saver);
+		if (dotSrc) {
+			if (format === sourceFormatExtension) {
+				saveSource(dotSrc, this.saver)
+			} else {
+				exportAs(dotSrc, format, this.state, this.saver);
+			}
 		}
 	}
 
@@ -99,13 +102,13 @@ class App extends React.Component<Props, State> {
 						<ul className="navbar-nav mr-auto">
 							<ItemMenu
 								onClickItem={this.loadSample}
-								items={Object.keys(samples)}
+								items={samples}
 								label="Load Sample"
 							/>
 
 							<ItemMenu
 								onClickItem={this.exportAs}
-								items={supportedFormats.map(i => displayFormats[i])}
+								items={displayFormats}
 								label="Download"
 							/>
 

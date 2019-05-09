@@ -1,21 +1,25 @@
 import * as React from "react";
 
-type TItem = string;
+export interface ItemMenuItem<T> {
+	value: T;
+	display: string;
+}
 
-interface Props {
-	items: TItem[];
-	onClickItem(item: TItem): void;
+interface Props<T> {
+	items: readonly ItemMenuItem<T>[];
+	onClickItem(item: ItemMenuItem<T>["value"]): void;
 	label: string;
 }
-export const ItemMenu = (props: Props) => {
+export function ItemMenu<TItem>(props: Props<TItem>) {
 
-	const options = props.items.map(e => (
+	const options = props.items.map(item => (
 		<button
+			type="button"
 			className="dropdown-item"
-			key={e}
-			onClick={() => props.onClickItem(e)}
+			key={item.display}
+			onClick={() => props.onClickItem(item.value)}
 		>
-			{e}
+			{item.display}
 		</button>
 	));
 

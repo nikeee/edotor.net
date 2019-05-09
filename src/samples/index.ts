@@ -7,18 +7,19 @@ import HammingDistance from "./hamming-distance.gv";
 import AttributeDemo from "./attribute-distance.gv";
 import Contact from "./contact.gv";
 import Empty from "./empty-graph.gv";
+import { ItemMenuItem } from "../components/ItemMenu";
 
-export const samples = {
-	"State Machine": StatemMachine,
-	"Clustering": Clustering0,
-	"Clustering 2": Clustering1,
-	"Huffman Tree": HuffmanTree,
-	"Hamming Distance": HammingDistance,
-	"Attribute Demo": AttributeDemo,
-	"Contact": Contact,
-	"Tutorial": Tutorial,
-	"Empty Graph": Empty,
-};
+export const samples: readonly ItemMenuItem<string>[] = [
+	{ display: "State Machine", value: StatemMachine },
+	{ display: "Clustering", value: Clustering0 },
+	{ display: "Clustering 2", value: Clustering1 },
+	{ display: "Huffman Tree", value: HuffmanTree },
+	{ display: "Hamming Distance", value: HammingDistance },
+	{ display: "Attribute Demo", value: AttributeDemo },
+	{ display: "Contact", value: Contact },
+	{ display: "Tutorial", value: Tutorial },
+	{ display: "Empty Graph", value: Empty },
+];
 
 export {
 	Tutorial as tutorial,
