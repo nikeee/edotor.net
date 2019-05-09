@@ -3,7 +3,6 @@ import * as React from "react";
 type TItem = string;
 
 interface Props {
-	id: string;
 	defaultItem: TItem | undefined;
 	possibleItems: TItem[];
 	onChangeItem(item: TItem): void;

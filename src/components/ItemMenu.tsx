@@ -3,7 +3,6 @@ import * as React from "react";
 type TItem = string;
 
 interface Props {
-	id: string;
 	items: TItem[];
 	onClickItem(item: TItem): void;
 	label: string;
@@ -25,7 +24,7 @@ export const ItemMenu = (props: Props) => {
 			<a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				{props.label}
 			</a>
-			<div className="dropdown-menu" id={props.id}>
+			<div className="dropdown-menu">
 				{options}
 			</div>
 		</li>

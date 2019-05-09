@@ -100,14 +100,12 @@ class App extends React.Component<Props, State> {
 							<ItemMenu
 								onClickItem={this.loadSample}
 								items={Object.keys(samples)}
-								id="loadSampleMenu"
 								label="Load Sample"
 							/>
 
 							<ItemMenu
 								onClickItem={this.exportAs}
 								items={supportedFormats.map(i => displayFormats[i])}
-								id="downloadMenu"
 								label="Download"
 							/>
 
@@ -117,7 +115,6 @@ class App extends React.Component<Props, State> {
 								possibleItems={supportedEngines}
 								label="Engine:"
 								selectionClassName="engine"
-								id="engineSelect"
 							/>
 						</ul>
 					</div>
