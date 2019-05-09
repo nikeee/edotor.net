@@ -129,9 +129,11 @@ class App extends React.Component<Props, State> {
 						</TooltipButton>
 					</div>
 				</nav>
-				<React.Suspense fallback={<div style={loadingStyle}>
-					<BarLoader />
-				</div>}>
+				<React.Suspense fallback={
+					<div style={loadingStyle}>
+						<BarLoader />
+					</div>
+				}>
 					<LazySplitEditor
 						ref={this.editorRef}
 						initialSource={initialSource}
@@ -152,8 +154,3 @@ render(
 	<App initialText={urlSource} />,
 	document.getElementById("root"),
 );
-
-const spinner = document.getElementsByClassName("spinner")[0];
-if (spinner && spinner.parentNode) {
-	spinner.parentNode.removeChild(spinner);
-}
