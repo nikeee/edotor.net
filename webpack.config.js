@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const targetDir = "dist";
 
