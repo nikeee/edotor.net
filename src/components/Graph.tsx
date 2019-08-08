@@ -26,7 +26,18 @@ const createElementState = (element: Rendering): RenderingState => ({ element, e
 const createErrorState = (error: string): ErrorState => ({ element: undefined, error });
 
 const isEmptyState = (s: State): s is EmptyState => s.element === undefined && s.error === undefined;
-const isRenderingState = (s: State): s is RenderingState => s.element !== undefined && s.error === undefined;
+
+function isRenderingState(s: State): s is RenderingState {
+	if (s.error !== undefined)
+		return false;
+	const e = s.element;
+	if (e === undefined)
+		return false;
+	// Dirty hack to catch erroneous XML/SVGs by Viz.js (Chrome and Firefox output behave differently)
+	return !e.innerHTML.includes("<parsererror") // Chrome
+		&& !e.innerHTML.includes("<sourcetext"); // Firefox
+}
+
 const isErrorState = (s: State): s is ErrorState => s.element === undefined && s.error !== undefined;
 
 export interface Props {
