@@ -94,7 +94,7 @@ export function createService(): MonacoService {
 				const data = processor.process(model);
 
 				const completions = ls.getCompletions(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
-				return p2m.asCompletionResult(completions);
+				return p2m.asCompletionResult(completions, undefined);
 			},
 			// resolveCompletionItem(item: CompletionItem) {}
 		},
