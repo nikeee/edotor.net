@@ -4,7 +4,6 @@ import {
 	ProtocolToMonacoConverter,
 	MonacoCommands,
 	TextDocument,
-	MonacoServices,
 } from "monaco-languageclient";
 import * as monaco from "monaco-editor";
 import { tokenConfig } from "./xdot"
@@ -103,7 +102,7 @@ export function createService(): MonacoService {
 				const data = processor.process(model);
 
 				const hover = ls.hover(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
-				return p2m.asHover(hover)!; // Assert non-null/undefined because monaco is not null-aware
+				return p2m.asHover(hover);
 			}
 		},
 		definitionProvider: {
@@ -111,7 +110,7 @@ export function createService(): MonacoService {
 				const data = processor.process(model);
 
 				const definition = ls.findDefinition(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
-				return p2m.asDefinitionResult(definition)!; // Assert non-null/undefined because monaco is not null-aware
+				return p2m.asDefinitionResult(definition);
 			}
 		},
 		referenceProvider: {
@@ -138,9 +137,7 @@ export function createService(): MonacoService {
 					newName,
 				)
 
-				// Assert non-null/undefined because monaco is not null-aware
-				// Assert types because monaco-languageclient has different types than monaco-editor
-				return p2m.asWorkspaceEdit(workspaceEdit)! as monaco.languages.WorkspaceEdit;
+				return p2m.asWorkspaceEdit(workspaceEdit);
 			}
 		},
 		codeActionProvider: {
@@ -154,23 +151,10 @@ export function createService(): MonacoService {
 					m2p.asCodeActionContext(context),
 				);
 
-				if (!commands)
-					return [];
-				/*
-				const actions: monaco.languages.CodeAction[] = [];
-				for (const cmd of commands) {
-					if (cmd) {
-						const execution = ls.executeCommand(data.document, data.sourceFile, cmd);
-						if (execution) {
-							actions.push(cA);
-						}
-					}
-				}
-				// const executions = commands.map(cmd => ls.executeCommand(data.document, data.sourceFile, cmd));
-				return actions;
-				*/
-				// Assert types because monaco-languageclient has different types than monaco-editor
-				return p2m.asCodeActions(commands) as monaco.languages.CodeAction[];
+				return {
+					actions: commands ? p2m.asCodeActions(commands) : [],
+					dispose() { },
+				};
 			}
 		},
 		colorProvider: {
