@@ -18,19 +18,19 @@
     "monaco-editor": "^0.17.1",
     "monaco-languageclient": "^0.10.0",
     "popper.js": "^1.15.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-monaco-editor": "^0.30.1",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
+    "react-monaco-editor": "^0.31.0",
     "react-spinners": "^0.6.1",
     "react-split-pane": "^0.1.87",
-    "svg-pan-zoom": "^3.6.0",
+    "svg-pan-zoom": "^3.6.1",
     "viz.js": "^2.1.2"
   },
   "devDependencies": {
     "@types/inline-style-prefixer": "^5.0.0",
     "@types/jquery": "^3.3.31",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
+    "@types/react": "^16.9.3",
+    "@types/react-dom": "^16.9.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
@@ -43,10 +43,10 @@
     "sass-loader": "^8.0.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.0.0",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.6.2",
-    "webpack": "^4.39.3",
-    "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.7"
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.6.3",
+    "webpack": "^4.41.0",
+    "webpack-bundle-analyzer": "^3.5.2",
+    "webpack-cli": "^3.3.9"
   }
 }
