@@ -18,7 +18,7 @@ import { supportedEngines, displayFormats, ExportableFormat, sourceFormatExtensi
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
-import { getLastSource } from "./config";
+import { mergeStates, getLastState, saveLastEngine } from "./config";
 
 const LazySplitEditor = React.lazy(() => import("./components/SplitEditor"));
 
@@ -29,6 +29,7 @@ interface State {
 }
 interface Props {
 	initialText?: string;
+	initialEngine?: SupportedEngine;
 }
 
 const defaultSource = tutorial;
@@ -40,14 +41,19 @@ class App extends React.Component<Props, State> {
 	private saver: FileSaver = new FileSaver();
 	private editorRef: React.RefObject<import("./components/SplitEditor").default> = React.createRef();
 
-	state: State = {
-		engine: defaultEngine,
-	};
+	state: State;
+
+	constructor(p: Props) {
+		super(p);
+		this.state = {
+			engine: p.initialEngine ?? defaultEngine,
+		};
+	}
 
 	private onChangeEngine = (engine: SupportedEngine): void => {
 		this.setState({
 			engine,
-		});
+		}, () => saveLastEngine(this.state.engine));
 	}
 
 	private loadSample = (sampleDotSrc: string): void => {
@@ -80,7 +86,11 @@ class App extends React.Component<Props, State> {
 		if (!sourceToShare)
 			return false;
 
-		const link = getShareUrl(sourceToShare);
+		const link = getShareUrl({
+			source: sourceToShare,
+			engine: this.state.engine,
+		});
+
 		copyToClipboard(link);
 		return true;
 	}
@@ -115,7 +125,7 @@ class App extends React.Component<Props, State> {
 
 							<ItemSelection
 								onChangeItem={this.onChangeEngine}
-								defaultItem={defaultEngine}
+								defaultItem={s.engine}
 								possibleItems={supportedEngines}
 								label="Engine:"
 								selectionClassName="engine"
@@ -152,9 +162,9 @@ class App extends React.Component<Props, State> {
 	}
 }
 
-const urlSource = getSourceFromUrl() || getLastSource();
+const initialState = mergeStates(getSourceFromUrl(), getLastState());
 
 render(
-	<App initialText={urlSource} />,
+	<App initialText={initialState.source} initialEngine={initialState.engine} />,
 	document.getElementById("root"),
 );

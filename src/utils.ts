@@ -1,4 +1,7 @@
-export const assertNever = (e: never): never => {
+import { isSupportedEngine } from "./viz";
+import { SupportedEngine } from "./rendering";
+
+export const assertNever = (_: never): never => {
 	throw new Error("This should never happen.");
 }
 
@@ -40,20 +43,38 @@ export const getFullUrl = (): string => {
  * Creates a link to the source by encoding it in the window.location.hash.
  * @param sourceToShare The source to encode.
  */
-export const getShareUrl = (sourceToShare: string): string => {
-	return getFullUrl() + "#" + encodeURIComponent(sourceToShare);
+export const getShareUrl = (data: ShareData): string => {
+	return getFullUrl() + "?engine=" + encodeURIComponent(data.engine) + "#" + encodeURIComponent(data.source);
 }
 
 /**
  * Gets the source that is provided via window.location.hash, if any
  */
-export const getSourceFromUrl = (): string | undefined => {
-	const hash = window.location.hash;
+export const getSourceFromUrl = (): Partial<ShareData> => {
+
+	const res: Partial<ShareData> = {
+		source: undefined,
+		engine: undefined,
+	};
+
+	const l = window.location;
+	if (l.search) {
+		const params = new URLSearchParams(l.search);
+		const engineToUse = params.get("engine");
+		res.engine = isSupportedEngine(engineToUse) ? engineToUse : undefined;
+	}
+
+	const hash = l.hash;
 	if (!hash || hash === "#")
-		return undefined;
+		return res;
 
 	const source = hash.substring(1);
-	return !!source
-		? decodeURIComponent(source)
-		: undefined;
+	res.source = source ? decodeURIComponent(source) : undefined;
+
+	return res;
 };
+
+export interface ShareData {
+	source: string;
+	engine: SupportedEngine;
+}
