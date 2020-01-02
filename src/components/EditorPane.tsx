@@ -109,7 +109,6 @@ export class EditorPane extends React.Component<Props, any> {
 					minimap: { enabled: false },
 					automaticLayout: true,
 					folding: true,
-					theme: "vs",
 					glyphMargin: true,
 					lightbulb: { enabled: true },
 				}}
