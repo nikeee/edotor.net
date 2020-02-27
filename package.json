@@ -2,7 +2,7 @@
   "name": "edotor.net",
   "author": "Niklas Mollenhauer",
   "license": "MIT",
-  "version": "1.5.10",
+  "version": "1.5.12",
   "description": "Online Graphviz fiddle with language support",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-monaco-editor": "^0.32.1",
-    "react-spinners": "^0.7.2",
+    "react-spinners": "^0.7.0",
     "react-split-pane": "^0.1.89",
     "svg-pan-zoom": "^3.6.1",
     "viz.js": "^2.1.2"
