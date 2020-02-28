@@ -1,8 +1,5 @@
 @import "custom.scss";
 
-:root {
-	--footer-height: 40px;
-}
 #spinner {
 	color: red;
 }
@@ -16,7 +13,7 @@
 
 .external-link::after {
 	content: "";
-	background: none url("/arrow-up-right.svg") no-repeat;
+	background: url("/arrow-up-right.svg") no-repeat;
 	width: 16px;
 	height: 16px;
 	position: relative;
@@ -25,27 +22,6 @@
 	background-position-y: 3px;
 	opacity: 0.5;
 }
-
-/*
-	Sticky footer
-	See: https://getbootstrap.com/docs/4.1/examples/sticky-footer/
-*/
-html {
-	position: relative;
-	min-height: 100%;
-}
-body {
-	margin-bottom: var(--footer-height); /* Margin bottom by footer height */
-}
-.footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: var(--footer-height);
-	line-height: var(--footer-height);
-	background-color: #f5f5f5;
-}
-
 .Resizer {
 	background: #000;
 	opacity: .2;
@@ -87,8 +63,8 @@ body {
 }
 
 /*
-Custom addition: Set Height of SplitPane to fix scrolling when Header + Footer are present
+Custom addition: Set Height of SplitPane to fix scrolling when Header is present
 */
 .SplitPane {
-	height: calc(100% - 56px - var(--footer-height)) !important;
+	height: calc(100% - 56px) !important;
 }

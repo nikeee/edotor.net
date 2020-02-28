@@ -8,7 +8,6 @@ import "./index.scss";
 import BarLoader from "react-spinners/BarLoader";
 
 import { SiteLogo } from "./components/SiteLogo";
-import { Footer } from "./components/Footer";
 import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
@@ -180,7 +179,6 @@ class App extends React.Component<Props, State> {
 						onSourceChange={this.sourceChanged}
 					/>
 				</React.Suspense>
-				<Footer />
 			</div>
 		);
 	}
