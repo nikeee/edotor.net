@@ -19,6 +19,7 @@ import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
 import { mergeStates, getLastState, saveLastEngine } from "./config";
+import { Version } from "./components/Version";
 
 const LazySplitEditor = React.lazy(() => import("./components/SplitEditor"));
 
@@ -131,6 +132,29 @@ class App extends React.Component<Props, State> {
 								selectionClassName="engine"
 							/>
 						</ul>
+					</div>
+
+					<div className="nav-item navbar-nav">
+						<a
+							className="nav-link external-link"
+							target="_blank"
+							rel="noopener noreferrer"
+							href="//www.graphviz.org/documentation/"
+						>
+							Graphviz Documentation
+						</a>
+					</div>
+
+					<div className="nav-item navbar-nav">
+						<a
+							className="nav-link external-link"
+							target="_blank"
+							rel="noopener noreferrer"
+							href="//github.com/nikeee/edotor.net"
+						>
+							Issues
+						</a>
+						{DEV && <Version />}
 					</div>
 
 					<div className="btn-group btn-group-sm">

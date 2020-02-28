@@ -14,6 +14,18 @@
 	color: gray;
 }
 
+.external-link::after {
+	content: "";
+	background: none url("/arrow-up-right.svg") no-repeat;
+	width: 16px;
+	height: 16px;
+	position: relative;
+	display: inline-block;
+	background-size: 16px;
+	background-position-y: 3px;
+	opacity: 0.5;
+}
+
 /*
 	Sticky footer
 	See: https://getbootstrap.com/docs/4.1/examples/sticky-footer/
