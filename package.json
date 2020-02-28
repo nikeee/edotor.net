@@ -20,7 +20,7 @@
     "popper.js": "^1.16.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-monaco-editor": "^0.32.1",
+    "react-monaco-editor": "^0.34.0",
     "react-spinners": "^0.8.0",
     "react-split-pane": "^0.1.89",
     "svg-pan-zoom": "^3.6.1",
