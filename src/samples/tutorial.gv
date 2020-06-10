@@ -1,15 +1,18 @@
-graph { # Click on the lightbulb!
+# Place the cursor inside "graph" to get some refactoring options
 
-    # Click on "a" to get some refactoring options
+graph {
+
+    # To refactor nodes, place the cursor left to a node name
     a -- b
     a -- c;
     a -- d;
 
-    b -- b [color=blue] # Hover over color names to get a color picker
+    # Hover over color names to get a color picker
+    b -- b [color=blue]
     b -- d [color="#ff0000"];
 
     # Get completion when assigning a shape or color
     b [shape=box, color=yellow];
 
-    a; # Click on ; get options for removing ;
+    a; # You can remove optional ; by placing the cursor left to a semicolon
 }
