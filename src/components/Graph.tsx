@@ -128,7 +128,8 @@ const createZoomWrapper = (child: Rendering): SvgPanZoom.Instance => {
 		controlIconsEnabled: false,
 		fit: true,
 		center: true,
-		minZoom: 0.1,
+		minZoom: 0.001,
+		maxZoom: 200,
 		zoomScaleSensitivity: 0.5,
 	});
 };
