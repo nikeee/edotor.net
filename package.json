@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.6.0",
-    "dot-language-support": "^1.5.1",
+    "dot-language-support": "^1.5.2",
     "jquery": "^3.6.0",
     "monaco-editor": "~0.18.1",
     "monaco-languageclient": "~0.10.2",
