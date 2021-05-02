@@ -1,0 +1,35 @@
+name: Node.js CD
+
+on:
+  push:
+    branches:
+    - "!*"
+    tags:
+    - "v*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+
+    - uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - run: npm ci
+    - run: npm run build:prod
+
+    - uses: helaili/jekyll-action@2.1.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
