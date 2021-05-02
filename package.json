@@ -16,7 +16,7 @@
     "dot-language-support": "^1.5.1",
     "jquery": "^3.6.0",
     "monaco-editor": "~0.18.1",
-    "monaco-languageclient": "^0.10.2",
+    "monaco-languageclient": "~0.10.2",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
