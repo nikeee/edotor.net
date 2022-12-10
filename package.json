@@ -6,9 +6,9 @@
   "description": "Online Graphviz fiddle with language support",
   "private": true,
   "scripts": {
-    "build:prod": "webpack -p",
-    "build:dev": "webpack --mode development",
-    "watch": "webpack --watch --mode development",
+    "build:prod": "NODE_OPTIONS=--openssl-legacy-provider webpack -p",
+    "build:dev": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode development",
+    "watch": "NODE_OPTIONS=--openssl-legacy-provider webpack --watch --mode development",
     "analyze": "webpack --mode production --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "dependencies": {
