@@ -5,8 +5,6 @@ const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const targetDir = "dist";
-
 module.exports = (env, argv) => {
 	env = env || process.env;
 
@@ -17,9 +15,10 @@ module.exports = (env, argv) => {
 		entry: "./src/index.tsx",
 
 		output: {
+			hashFunction: "sha256",
 			filename: "[name].bundle.js",
 			chunkFilename: "[name].chunk.js",
-			path: path.join(__dirname, targetDir),
+			path: path.join(__dirname, "dist"),
 		},
 
 		devtool: isDevelopment
