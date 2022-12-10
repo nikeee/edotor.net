@@ -19,15 +19,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16.x
+        cache: npm
 
-    - uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
-    - run: npm ci
+    - run: npm ci --legacy-peer-deps
     - run: npm run build:prod
 
     - uses: helaili/jekyll-action@2.1.0
