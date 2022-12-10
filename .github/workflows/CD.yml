@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +23,26 @@ jobs:
     - run: npm ci --legacy-peer-deps
     - run: npm run build:prod
 
-    - uses: helaili/jekyll-action@2.1.0
+    - uses: actions/upload-pages-artifact@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+
+    permissions:
+      pages: write
+      id-token: write
+
+    needs: build
+    if: ${{ github.ref == 'refs/heads/master' }}
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
