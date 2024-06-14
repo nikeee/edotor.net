@@ -1,0 +1,78 @@
+
+
+```dot
+digraph G {
+    // Definimos las propiedades generales del grafo
+    graph [splines=ortho, rankdir=LR];
+    node [shape=box, style=filled, color=lightgrey, fontname="Helvetica"];
+    edge [fontname="Helvetica"];
+
+    // Cluster 1: Contexto
+    subgraph cluster_0 {
+        label = "Contexto";
+        style=filled;
+        color=lightblue;
+
+        EdadMedia [label="Edad Media"];
+        Sociedad [label="Sociedad"];
+        Cultura [label="Cultura"];
+        Religión [label="Religión"];
+
+        EdadMedia -> Sociedad [label="influencia en"];
+        EdadMedia -> Cultura [label="impacto en"];
+        EdadMedia -> Religión [label="dominada por"];
+    }
+
+    // Cluster 2: Géneros literarios
+    subgraph cluster_1 {
+        label = "Géneros Literarios";
+        style=filled;
+        color=lightgreen;
+
+        LiteraturaMedieval [label="Literatura Medieval"];
+        Poesía [label="Poesía"];
+        Narrativa [label="Narrativa"];
+        Teatro [label="Teatro"];
+
+        LiteraturaMedieval -> Poesía [label="incluye"];
+        LiteraturaMedieval -> Narrativa [label="comprende"];
+        LiteraturaMedieval -> Teatro [label="contiene"];
+    }
+
+    // Conexiones entre clusters
+    EdadMedia -> LiteraturaMedieval [label="produce"];
+    Sociedad -> LiteraturaMedieval [label="reflejada en"];
+    Cultura -> LiteraturaMedieval [label="influencia en"];
+    Religión -> LiteraturaMedieval [label="inspirada por"];
+
+    // Detalles de los géneros
+    Poesía -> "Mester de Juglaría" [label="ejemplo de"];
+    Poesía -> "Mester de Clerecía" [label="ejemplo de"];
+    Narrativa -> "Cuentos" [label="incluye"];
+    Narrativa -> "Novelas de Caballería" [label="incluye"];
+    Teatro -> "Obras Religiosas" [label="caracterizado por"];
+    Teatro -> "Comedias" [label="contiene"];
+
+    // Relación con figuras literarias
+    subgraph cluster_2 {
+        label = "Figuras Literarias";
+        style=filled;
+        color=lightcoral;
+
+        "Autores" [label="Autores"];
+        "Obras" [label="Obras"];
+        
+        "Autores" -> "Dante Alighieri" [label="ejemplo de"];
+        "Autores" -> "Geoffrey Chaucer" [label="ejemplo de"];
+        "Autores" -> "Anónimo" [label="ejemplo de"];
+        
+        "Obras" -> "La Divina Comedia" [label="creada por"];
+        "Obras" -> "Los Cuentos de Canterbury" [label="escrita por"];
+        "Obras" -> "El Cantar de mio Cid" [label="ejemplo de"];
+    }
+
+    // Conexiones adicionales
+    LiteraturaMedieval -> "Autores" [label="escrita por"];
+    LiteraturaMedieval -> "Obras" [label="compuesta de"];
+}
+```
