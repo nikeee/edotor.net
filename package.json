@@ -12,7 +12,7 @@
     "analyze": "webpack --mode production --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "dependencies": {
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "dot-language-support": "^1.5.2",
     "jquery": "^3.6.0",
     "monaco-editor": "~0.18.1",
