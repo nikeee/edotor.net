@@ -1,7 +1,7 @@
 import { Component } from "react";
-import * as monaco from 'monaco-editor';
-import { loader, default as MonacoEditor } from '@monaco-editor/react';
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+import * as monaco from "monaco-editor";
+import { loader, default as MonacoEditor } from "@monaco-editor/react";
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 
 import * as ls from "../dot-monaco/index.js";
 import { saveLastSource } from "../config.js";
@@ -15,7 +15,6 @@ self.MonacoEnvironment = {
 };
 loader.config({ monaco });
 
-
 type Props = {
 	defaultValue?: string;
 	onChangeValue(value: string): void;
@@ -27,7 +26,8 @@ const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 export class EditorPane extends Component<Props, any> {
 	private processor: ls.LanguageProcessor | undefined;
 	private editor: monaco.editor.IStandaloneCodeEditor | undefined;
-	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
+	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined =
+		undefined;
 
 	state: any = {};
 
@@ -42,9 +42,12 @@ export class EditorPane extends Component<Props, any> {
 		const service = ls.createService();
 		ls.registerService(monaco, service);
 		this.processor = service.processor;
-	}
+	};
 
-	private editorDidMount = (editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco): void => {
+	private editorDidMount = (
+		editor: monaco.editor.IStandaloneCodeEditor,
+		monaco: Monaco,
+	): void => {
 		this.editor = editor;
 		ls.registerCommands(editor);
 
@@ -53,9 +56,12 @@ export class EditorPane extends Component<Props, any> {
 		this.refreshModel(editor, monaco);
 
 		editor.focus();
-	}
+	};
 
-	private refreshModel(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {
+	private refreshModel(
+		editor: monaco.editor.IStandaloneCodeEditor,
+		monaco: Monaco,
+	) {
 		const oldModel = editor.getModel();
 		try {
 			import.meta.env.DEV && console.assert(!!oldModel);
@@ -68,12 +74,14 @@ export class EditorPane extends Component<Props, any> {
 
 			editor.setModel(newModel);
 		} finally {
-			if (oldModel)
-				oldModel.dispose();
+			if (oldModel) oldModel.dispose();
 		}
 	}
 
-	private onChange = (value: string | undefined, event: monaco.editor.IModelContentChangedEvent): void => {
+	private onChange = (
+		value: string | undefined,
+		event: monaco.editor.IModelContentChangedEvent,
+	): void => {
 		const p = this.processor;
 		const e = this.editor;
 		if (!p || !e) return;
@@ -86,7 +94,11 @@ export class EditorPane extends Component<Props, any> {
 			markers = undefined;
 		}
 
-		monaco.editor.setModelMarkers(model as monaco.editor.ITextModel, "dot", markers || []);
+		monaco.editor.setModelMarkers(
+			model as monaco.editor.ITextModel,
+			"dot",
+			markers || [],
+		);
 
 		const props = this.props;
 		if (markers && markers.length > 0) {
@@ -102,8 +114,11 @@ export class EditorPane extends Component<Props, any> {
 		if (typeof this.autoSaveTimeout !== "undefined") {
 			clearTimeout(this.autoSaveTimeout);
 		}
-		this.autoSaveTimeout = setTimeout(() => saveLastSource(value), SOURCE_SAVE_TIMEOUT);
-	}
+		this.autoSaveTimeout = setTimeout(
+			() => saveLastSource(value),
+			SOURCE_SAVE_TIMEOUT,
+		);
+	};
 
 	public render() {
 		const defaultValue = this.props.defaultValue || "";
@@ -130,4 +145,3 @@ export class EditorPane extends Component<Props, any> {
 		);
 	}
 }
-

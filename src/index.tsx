@@ -13,16 +13,21 @@ import { ItemMenu } from "./components/ItemMenu";
 
 import { type SupportedEngine, exportAs, saveSource } from "./rendering";
 import { samples, tutorial } from "./samples";
-import { supportedEngines, displayFormats, type ExportableFormat, sourceFormatExtension } from "./viz";
+import {
+	supportedEngines,
+	displayFormats,
+	type ExportableFormat,
+	sourceFormatExtension,
+} from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
 import { mergeStates, getLastState, saveLastEngine } from "./config";
 import Version from "./components/Version";
 
-import $ from 'jquery'
+import $ from "jquery";
 
-window.jQuery = window.$ = $
+window.jQuery = window.$ = $;
 
 const LazySplitEditor = lazy(() => import("./components/SplitEditor"));
 
@@ -37,13 +42,18 @@ interface Props {
 }
 
 const defaultSource = tutorial;
-const loadingStyle = { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" } as const;
+const loadingStyle = {
+	position: "fixed",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+} as const;
 
 class App extends Component<Props, State> {
-
 	private currentSource: string | undefined = undefined;
 	private saver: FileSaver = new FileSaver();
-	private editorRef: RefObject<import("./components/SplitEditor").default> = createRef();
+	private editorRef: RefObject<import("./components/SplitEditor").default> =
+		createRef();
 
 	state: State;
 
@@ -55,40 +65,41 @@ class App extends Component<Props, State> {
 	}
 
 	private onChangeEngine = (engine: SupportedEngine): void => {
-		this.setState({
-			engine,
-		}, () => saveLastEngine(this.state.engine));
-	}
+		this.setState(
+			{
+				engine,
+			},
+			() => saveLastEngine(this.state.engine),
+		);
+	};
 
 	private loadSample = (sampleDotSrc: string): void => {
-		if (!sampleDotSrc)
-			return;
+		if (!sampleDotSrc) return;
 
 		const editor = this.editorRef.current;
 		if (sampleDotSrc && editor) {
 			editor.loadDotSource(sampleDotSrc);
 		}
-	}
+	};
 
 	private exportAs = (format: ExportableFormat): void => {
 		const dotSrc = this.currentSource;
 		if (dotSrc) {
 			if (format === sourceFormatExtension) {
-				saveSource(dotSrc, this.saver)
+				saveSource(dotSrc, this.saver);
 			} else {
 				exportAs(dotSrc, format, this.state, this.saver);
 			}
 		}
-	}
+	};
 
 	private sourceChanged = (source: string): void => {
 		this.currentSource = source;
-	}
+	};
 
 	private share = (): boolean => {
 		const sourceToShare = this.currentSource;
-		if (!sourceToShare)
-			return false;
+		if (!sourceToShare) return false;
 
 		const link = getShareUrl({
 			source: sourceToShare,
@@ -97,7 +108,7 @@ class App extends Component<Props, State> {
 
 		copyToClipboard(link);
 		return true;
-	}
+	};
 
 	public render() {
 		const s = this.state;
@@ -107,9 +118,16 @@ class App extends Component<Props, State> {
 		return (
 			<div className="main-container">
 				<nav className="navbar navbar-expand-md navbar-dark bg-dark mb-0">
-					<a className="navbar-brand" href="//edotor.net"><SiteLogo /></a>
+					<a className="navbar-brand" href="//edotor.net">
+						<SiteLogo />
+					</a>
 
-					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse">
+					<button
+						className="navbar-toggler"
+						type="button"
+						data-toggle="collapse"
+						data-target="#navbar-collapse"
+					>
 						<span className="navbar-toggler-icon" />
 					</button>
 
@@ -170,11 +188,13 @@ class App extends Component<Props, State> {
 						</TooltipButton>
 					</div>
 				</nav>
-				<Suspense fallback={
-					<div style={loadingStyle}>
-						<BarLoader />
-					</div>
-				}>
+				<Suspense
+					fallback={
+						<div style={loadingStyle}>
+							<BarLoader />
+						</div>
+					}
+				>
 					<LazySplitEditor
 						ref={this.editorRef}
 						initialSource={initialSource}
@@ -192,4 +212,6 @@ const initialState = mergeStates(getSourceFromUrl(), getLastState());
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 const root = createRoot(document.getElementById("root")!);
-root.render(<App initialText={initialState.source} initialEngine={initialState.engine} />);
+root.render(
+	<App initialText={initialState.source} initialEngine={initialState.engine} />,
+);

@@ -22,6 +22,4 @@ export const samples: readonly ItemMenuItem<string>[] = [
 	{ display: "Empty Graph", value: Empty },
 ];
 
-export {
-	Tutorial as tutorial,
-};
+export { Tutorial as tutorial };

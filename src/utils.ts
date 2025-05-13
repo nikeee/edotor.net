@@ -3,7 +3,7 @@ import type { SupportedEngine } from "./rendering";
 
 export const assertNever = (_: never): never => {
 	throw new Error("This should never happen.");
-}
+};
 
 export function removeChildren(container: HTMLElement): void {
 	while (container.firstChild) {
@@ -26,7 +26,7 @@ export const copyToClipboard = (text: string): void => {
 	} finally {
 		document.body.removeChild(ta);
 	}
-}
+};
 
 /**
  * Returns the full address of the page. Without the hash.
@@ -34,9 +34,7 @@ export const copyToClipboard = (text: string): void => {
 export const getFullUrl = (): string => {
 	const fullUrl = !!document.location ? document.location.href : "";
 	const hashIndex = fullUrl.indexOf("#");
-	return hashIndex < 0
-		? fullUrl
-		: fullUrl.substring(0, hashIndex);
+	return hashIndex < 0 ? fullUrl : fullUrl.substring(0, hashIndex);
 };
 
 /**
@@ -44,14 +42,19 @@ export const getFullUrl = (): string => {
  * @param sourceToShare The source to encode.
  */
 export const getShareUrl = (data: ShareData): string => {
-	return getFullUrl() + "?engine=" + encodeURIComponent(data.engine) + "#" + encodeURIComponent(data.source);
-}
+	return (
+		getFullUrl() +
+		"?engine=" +
+		encodeURIComponent(data.engine) +
+		"#" +
+		encodeURIComponent(data.source)
+	);
+};
 
 /**
  * Gets the source that is provided via window.location.hash, if any
  */
 export const getSourceFromUrl = (): Partial<ShareData> => {
-
 	const res: Partial<ShareData> = {
 		source: undefined,
 		engine: undefined,
@@ -65,8 +68,7 @@ export const getSourceFromUrl = (): Partial<ShareData> => {
 	}
 
 	const hash = l.hash;
-	if (!hash || hash === "#")
-		return res;
+	if (!hash || hash === "#") return res;
 
 	const source = hash.substring(1);
 	res.source = source ? decodeURIComponent(source) : undefined;

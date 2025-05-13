@@ -7,9 +7,8 @@ export class FileSaver {
 	}
 
 	public save(data: any, fileName: string) {
-		const blob = data instanceof Blob
-			? data
-			: new Blob([data], { type: "octet/stream" });
+		const blob =
+			data instanceof Blob ? data : new Blob([data], { type: "octet/stream" });
 
 		const url = window.URL.createObjectURL(blob);
 		try {
@@ -17,8 +16,7 @@ export class FileSaver {
 			this._link.download = fileName;
 			this._link.click();
 		} finally {
-			if (url)
-				window.URL.revokeObjectURL(url);
+			if (url) window.URL.revokeObjectURL(url);
 		}
 	}
 

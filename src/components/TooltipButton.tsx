@@ -27,7 +27,7 @@ export class TooltipButton extends Component<Props, object> {
 				}
 			}
 		}
-	}
+	};
 
 	private removeTimeout() {
 		const timeout = this.timeout;

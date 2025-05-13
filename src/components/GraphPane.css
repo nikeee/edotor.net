@@ -3,5 +3,9 @@
 	height: 100%;
 	transition: opacity 0.2s;
 }
-.graph-container.errored { opacity: 0.5; }
-.graph-container.successful { opacity: 1.0; }
+.graph-container.errored {
+	opacity: 0.5;
+}
+.graph-container.successful {
+	opacity: 1.0;
+}

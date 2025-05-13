@@ -4,8 +4,8 @@ import {
 	ProtocolToMonacoConverter,
 	TextDocument,
 } from "monaco-languageclient";
-import tokenConfig from "./xdot"
-import * as monaco from 'monaco-editor';
+import tokenConfig from "./xdot";
+import * as monaco from "monaco-editor";
 
 type Monaco = typeof monaco;
 
@@ -32,11 +32,18 @@ export interface MonacoService {
 export interface LanguageProcessor {
 	process(model: monaco.editor.IReadOnlyModel): ParsedDocument;
 	validate(document: ParsedDocument): monaco.editor.IMarkerData[];
-	processAndValidate(model: monaco.editor.IReadOnlyModel): monaco.editor.IMarkerData[];
+	processAndValidate(
+		model: monaco.editor.IReadOnlyModel,
+	): monaco.editor.IMarkerData[];
 }
 
 function createDocument(model: monaco.editor.IReadOnlyModel) {
-	return TextDocument.create(model.uri.toString(), model.id, model.getVersionId(), model.getValue());
+	return TextDocument.create(
+		model.uri.toString(),
+		model.id,
+		model.getVersionId(),
+		model.getValue(),
+	);
 }
 
 const processor: LanguageProcessor = {
@@ -68,7 +75,7 @@ export function createService(): MonacoService {
 			id: LANGUAGE_ID,
 			extensions: [".dot", ".gv"],
 			aliases: ["DOT", "dot", "Graphviz"],
-			mimetypes: ["text/vnd.graphviz"]
+			mimetypes: ["text/vnd.graphviz"],
 		},
 		monarchTokens: tokenConfig as unknown as monaco.languages.IMonarchLanguage,
 		languageConfig: {
@@ -85,21 +92,30 @@ export function createService(): MonacoService {
 			autoClosingPairs: [
 				{ open: "{", close: "}", notIn: ["string"] },
 				{ open: "[", close: "]", notIn: ["string"] },
-				{ open: "\"", close: "\"", notIn: ["string"] },
+				{ open: '"', close: '"', notIn: ["string"] },
 			],
 		},
 		completionItemProvider: {
 			triggerCharacters: ["=", ",", "["],
-			provideCompletionItems(model: monaco.editor.ITextModel, position: monaco.Position) {
+			provideCompletionItems(
+				model: monaco.editor.ITextModel,
+				position: monaco.Position,
+			) {
 				const data = processor.process(model);
 
-				const completions = ls.getCompletions(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
+				const completions = ls.getCompletions(
+					data.document,
+					data.sourceFile,
+					m2p.asPosition(position.lineNumber, position.column),
+				);
 
 				// p2m.asCompletionResult has a bug
 				const defaultMonacoRange = monaco.Range.fromPositions(position);
 				return {
 					incomplete: false,
-					suggestions: completions.map(item => p2m.asCompletionItem(item, defaultMonacoRange, undefined))
+					suggestions: completions.map(item =>
+						p2m.asCompletionItem(item, defaultMonacoRange, undefined),
+					),
 				};
 			},
 		},
@@ -107,17 +123,25 @@ export function createService(): MonacoService {
 			provideHover(model, position) {
 				const data = processor.process(model);
 
-				const hover = ls.hover(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
+				const hover = ls.hover(
+					data.document,
+					data.sourceFile,
+					m2p.asPosition(position.lineNumber, position.column),
+				);
 				return p2m.asHover(hover);
-			}
+			},
 		},
 		definitionProvider: {
 			provideDefinition(model, position) {
 				const data = processor.process(model);
 
-				const definition = ls.findDefinition(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
+				const definition = ls.findDefinition(
+					data.document,
+					data.sourceFile,
+					m2p.asPosition(position.lineNumber, position.column),
+				);
 				return p2m.asDefinitionResult(definition);
-			}
+			},
 		},
 		referenceProvider: {
 			provideReferences(model, position, context) {
@@ -130,7 +154,7 @@ export function createService(): MonacoService {
 					context,
 				);
 				return p2m.asReferences(refs);
-			}
+			},
 		},
 		renameProvider: {
 			provideRenameEdits(model, position, newName) {
@@ -141,10 +165,10 @@ export function createService(): MonacoService {
 					data.sourceFile,
 					m2p.asPosition(position.lineNumber, position.column),
 					newName,
-				)
+				);
 
 				return p2m.asWorkspaceEdit(workspaceEdit);
-			}
+			},
 		},
 		codeActionProvider: {
 			provideCodeActions(model, range, context) {
@@ -158,7 +182,7 @@ export function createService(): MonacoService {
 				);
 
 				return commands ? p2m.asCodeActionList(commands) : null;
-			}
+			},
 		},
 		colorProvider: {
 			provideDocumentColors(model) {
@@ -168,9 +192,9 @@ export function createService(): MonacoService {
 				// TODO: Create PR for this kind
 				return res
 					? res.map(c => ({
-						range: p2m.asRange(c.range),
-						color: c.color,
-					}))
+							range: p2m.asRange(c.range),
+							color: c.color,
+						}))
 					: [];
 			},
 			provideColorPresentations(model, colorInfo) {
@@ -178,20 +202,22 @@ export function createService(): MonacoService {
 
 				const color = colorInfo.color;
 				const range = m2p.asRange(colorInfo.range);
-				const res = ls.getColorRepresentations(data.document, data.sourceFile, color, range);
+				const res = ls.getColorRepresentations(
+					data.document,
+					data.sourceFile,
+					color,
+					range,
+				);
 
-				return res
-					? p2m.asColorPresentations(res)
-					: [];
-			}
+				return res ? p2m.asColorPresentations(res) : [];
+			},
 		},
 		processor,
 	};
 }
 
 export function registerService(context: Monaco, service: MonacoService): void {
-	if (!service.language)
-		return;
+	if (!service.language) return;
 
 	const langs = context.languages;
 	const id = service.language.id;
@@ -222,12 +248,14 @@ export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 	for (const command of ls.getAvailableCommands()) {
 		monaco.editor.registerCommand(command, (_accessor, ...args: unknown[]) => {
 			const m = editor.getModel();
-			if (m === null)
-				return;
+			if (m === null) return;
 
 			const data = processor.process(m);
 			const doc = data.document;
-			const edits = ls.executeCommand(doc, data.sourceFile, { command, arguments: args });
+			const edits = ls.executeCommand(doc, data.sourceFile, {
+				command,
+				arguments: args,
+			});
 			if (edits) {
 				const changes = edits.edit.changes;
 				if (changes) {
@@ -235,7 +263,7 @@ export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 					if (modelChanges) {
 						const editOps = modelChanges.map(e => ({
 							range: p2m.asRange(e.range),
-							text: e.newText
+							text: e.newText,
 						}));
 						m.pushEditOperations([], editOps, () => []);
 					}

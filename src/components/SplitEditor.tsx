@@ -1,6 +1,6 @@
 import { Component, createRef, type RefObject } from "react";
 import SplitPane from "react-split-pane";
-import type * as monaco from 'monaco-editor';
+import type * as monaco from "monaco-editor";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { EditorPane } from "./EditorPane";
@@ -29,11 +29,17 @@ interface ErroredState {
 	lastKnownGoodSrc?: string;
 }
 
-const createSourceState = (dotSrc: string): SourceState => ({ dotSrc, errors: undefined, lastKnownGoodSrc: undefined });
-const createErroredState = (errors: ErrorList, lastKnownGoodSrc?: string): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
+const createSourceState = (dotSrc: string): SourceState => ({
+	dotSrc,
+	errors: undefined,
+	lastKnownGoodSrc: undefined,
+});
+const createErroredState = (
+	errors: ErrorList,
+	lastKnownGoodSrc?: string,
+): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
 export default class SplitEditor extends Component<Props, State> {
-
 	private editorPaneRef: RefObject<EditorPane> = createRef();
 
 	constructor(props: Props) {
@@ -41,8 +47,7 @@ export default class SplitEditor extends Component<Props, State> {
 		const p = this.props;
 
 		this.state = createSourceState(p.initialSource);
-		if (p.onSourceChange)
-			p.onSourceChange(this.state.dotSrc);
+		if (p.onSourceChange) p.onSourceChange(this.state.dotSrc);
 	}
 
 	public loadDotSource(dotSrc: string) {
@@ -57,25 +62,22 @@ export default class SplitEditor extends Component<Props, State> {
 
 	dotSourceChanged = (dotSrc: string): void => {
 		const p = this.props;
-		if (p.onSourceChange)
-			p.onSourceChange(dotSrc);
+		if (p.onSourceChange) p.onSourceChange(dotSrc);
 
 		this.setState(createSourceState(dotSrc));
-	}
+	};
 
 	dotSourceErrored = (errors: ErrorList): void => {
 		this.setState(prevState => {
 			const lastKnownGoodSrc = prevState.dotSrc || prevState.lastKnownGoodSrc;
 			return createErroredState(errors, lastKnownGoodSrc);
 		});
-	}
+	};
 
 	private getDotSrcToRender() {
 		const s = this.state;
 
-		return s.dotSrc
-			? s.dotSrc
-			: (s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "");
+		return s.dotSrc ? s.dotSrc : s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "";
 	}
 
 	public render() {
@@ -94,7 +96,7 @@ export default class SplitEditor extends Component<Props, State> {
 				defaultSize={getSplitConfig() || "50%"}
 				onChange={size => saveSplitConfig(size)}
 				// biome-ignore lint/suspicious/noExplicitAny: hack for: https://github.com/tomkp/react-split-pane/issues/830#issuecomment-2788356773
-				{...{} as any}
+				{...({} as any)}
 			>
 				<ErrorBoundary fallback="Could not load editor">
 					<EditorPane
@@ -105,7 +107,8 @@ export default class SplitEditor extends Component<Props, State> {
 					/>
 				</ErrorBoundary>
 				<ErrorBoundary fallback="Could not load graph preview">
-					<GraphPane className={`graph-container ${graphPaneClass}`}
+					<GraphPane
+						className={`graph-container ${graphPaneClass}`}
 						dotSrc={dotSrc}
 						engine={p.engine}
 						format={p.format}

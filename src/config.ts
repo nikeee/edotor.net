@@ -7,11 +7,9 @@ const LAST_SOURCE = "lastSource";
 const LAST_ENGINE = "lastEngine";
 
 export function saveSplitConfig(size?: string | number): void {
-	if (size)
-		localStorage.setItem(SPLIT_POS_NAME, size.toString());
-	else
-		localStorage.removeItem(SPLIT_POS_NAME);
-};
+	if (size) localStorage.setItem(SPLIT_POS_NAME, size.toString());
+	else localStorage.removeItem(SPLIT_POS_NAME);
+}
 
 export function getSplitConfig(): number | undefined {
 	const splitPos = localStorage.getItem(SPLIT_POS_NAME);
@@ -20,7 +18,7 @@ export function getSplitConfig(): number | undefined {
 
 export function saveLastSource(lastSource: string | undefined): void {
 	if (lastSource) {
-		localStorage.setItem(LAST_SOURCE, lastSource)
+		localStorage.setItem(LAST_SOURCE, lastSource);
 	} else {
 		localStorage.removeItem(LAST_SOURCE);
 	}

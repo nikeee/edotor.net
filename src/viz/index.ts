@@ -4,10 +4,16 @@ import type { ItemMenuItem } from "../components/ItemMenu";
 export const sourceFormatName = "Source";
 export const sourceFormatExtension = "gv";
 
-
 // Defined in https://github.com/mdaines/viz.js/wiki/API#render-options
 // TODO: See: https://github.com/mdaines/viz.js/issues/142
-export const supportedEngines: SupportedEngine[] = ["circo", "dot", "fdp", "neato", "osage", "twopi"];
+export const supportedEngines: SupportedEngine[] = [
+	"circo",
+	"dot",
+	"fdp",
+	"neato",
+	"osage",
+	"twopi",
+];
 
 export function isSupportedEngine(v: string | null): v is SupportedEngine {
 	return !!v && supportedEngines.indexOf(v as SupportedEngine) >= 0;

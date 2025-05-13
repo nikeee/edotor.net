@@ -9,7 +9,11 @@ interface Props extends GraphProps {
 export const GraphPane = (props: Props) => {
 	return (
 		<div className={props.className}>
-			<Graph dotSrc={props.dotSrc} format={props.format} engine={props.engine} />
+			<Graph
+				dotSrc={props.dotSrc}
+				format={props.format}
+				engine={props.engine}
+			/>
 		</div>
 	);
 };

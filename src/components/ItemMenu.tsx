@@ -9,7 +9,6 @@ interface Props<T> {
 	label: string;
 }
 export function ItemMenu<TItem>(props: Props<TItem>) {
-
 	const options = props.items.map(item => (
 		<button
 			type="button"
@@ -23,12 +22,16 @@ export function ItemMenu<TItem>(props: Props<TItem>) {
 
 	return (
 		<li className="nav-item dropdown">
-			<a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<a
+				className="nav-link dropdown-toggle"
+				href="#"
+				data-toggle="dropdown"
+				aria-haspopup="true"
+				aria-expanded="false"
+			>
 				{props.label}
 			</a>
-			<div className="dropdown-menu">
-				{options}
-			</div>
+			<div className="dropdown-menu">{options}</div>
 		</li>
 	);
-};
+}

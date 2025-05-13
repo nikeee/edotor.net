@@ -1,6 +1,11 @@
 import { Component, createRef, type RefObject } from "react";
 import svgPanZoom from "svg-pan-zoom";
-import { type Rendering, type SupportedFormat, type SupportedEngine, renderElement } from "../rendering";
+import {
+	type Rendering,
+	type SupportedFormat,
+	type SupportedEngine,
+	renderElement,
+} from "../rendering";
 import { removeChildren } from "../utils";
 
 import "./Graph.css";
@@ -21,24 +26,35 @@ interface EmptyState {
 	error: undefined;
 }
 
-const createEmptyState = (): EmptyState => ({ element: undefined, error: undefined });
-const createElementState = (element: Rendering): RenderingState => ({ element, error: undefined });
-const createErrorState = (error: string): ErrorState => ({ element: undefined, error });
+const createEmptyState = (): EmptyState => ({
+	element: undefined,
+	error: undefined,
+});
+const createElementState = (element: Rendering): RenderingState => ({
+	element,
+	error: undefined,
+});
+const createErrorState = (error: string): ErrorState => ({
+	element: undefined,
+	error,
+});
 
-const isEmptyState = (s: State): s is EmptyState => s.element === undefined && s.error === undefined;
+const isEmptyState = (s: State): s is EmptyState =>
+	s.element === undefined && s.error === undefined;
 
 function isRenderingState(s: State): s is RenderingState {
-	if (s.error !== undefined)
-		return false;
+	if (s.error !== undefined) return false;
 	const e = s.element;
-	if (e === undefined)
-		return false;
+	if (e === undefined) return false;
 	// Dirty hack to catch erroneous XML/SVGs by Viz.js (Chrome and Firefox output behave differently)
-	return !e.innerHTML.includes("<parsererror") // Chrome
-		&& !e.innerHTML.includes("<sourcetext"); // Firefox
+	return (
+		!e.innerHTML.includes("<parsererror") && // Chrome
+		!e.innerHTML.includes("<sourcetext")
+	); // Firefox
 }
 
-const isErrorState = (s: State): s is ErrorState => s.element === undefined && s.error !== undefined;
+const isErrorState = (s: State): s is ErrorState =>
+	s.element === undefined && s.error !== undefined;
 
 export interface Props {
 	dotSrc: string;
@@ -64,7 +80,7 @@ export class Graph extends Component<Props, State> {
 		let element: Rendering;
 		try {
 			element = await renderElement(dotSrc, format, engine);
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		} catch (e: any) {
 			this.setState(createErrorState(e.message));
 			return;
@@ -84,16 +100,16 @@ export class Graph extends Component<Props, State> {
 	}
 	private destroyCurrentZoomContainer() {
 		const container = this.panZoomContainer;
-		if (container)
-			container.destroy();
+		if (container) container.destroy();
 	}
 
 	public componentDidUpdate(prevProps: Props, prevState: State) {
 		const { dotSrc, format, engine } = this.props;
 
-		if (dotSrc !== prevProps.dotSrc
-			|| format !== prevProps.format
-			|| engine !== prevProps.engine
+		if (
+			dotSrc !== prevProps.dotSrc ||
+			format !== prevProps.format ||
+			engine !== prevProps.engine
 		) {
 			this.updateGraph();
 		}
@@ -117,9 +133,7 @@ export class Graph extends Component<Props, State> {
 	}
 
 	public render() {
-		return (
-			<div className={"graph"} ref={this.containerRef} />
-		);
+		return <div className={"graph"} ref={this.containerRef} />;
 	}
 }
 
