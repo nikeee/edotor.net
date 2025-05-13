@@ -153,7 +153,7 @@ class App extends React.Component<Props, State> {
 						>
 							Issues
 						</a>
-						{DEV && <Version />}
+						{import.meta.env.DEV && <Version />}
 					</div>
 
 					<div className="btn-group btn-group-sm">

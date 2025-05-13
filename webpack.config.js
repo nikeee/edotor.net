@@ -66,7 +66,6 @@ module.exports = (env, argv) => {
 			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin({
 				VERSION: JSON.stringify(require("./package.json").version),
-				DEV: JSON.stringify(isDevelopment),
 			}),
 			new webpack.ProvidePlugin({
 				$: "jquery",
