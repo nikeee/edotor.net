@@ -36,7 +36,6 @@ module.exports = (env, argv) => {
 			rules: [
 				{ test: /\.render\.js$/, use: ["file-loader"] },
 				{ test: /\.tsx?$/, use: ["ts-loader"] },
-				{ test: /\.s?css$/, use: ["style-loader", "css-loader", "sass-loader"] },
 				{ enforce: "pre", test: /\.js$/, loader: "source-map-loader", exclude: [/node_modules/] },
 			]
 		},
