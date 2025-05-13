@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Component } from "react";
 import * as monaco from 'monaco-editor';
 import { loader, default as MonacoEditor } from '@monaco-editor/react';
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
@@ -9,9 +9,9 @@ import { saveLastSource } from "../config.js";
 type Monaco = typeof monaco;
 
 self.MonacoEnvironment = {
-  getWorker(_, _label) {
-    return new editorWorker();
-  },
+	getWorker(_, _label) {
+		return new editorWorker();
+	},
 };
 loader.config({ monaco });
 
@@ -24,7 +24,7 @@ type Props = {
 
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 
-export class EditorPane extends React.Component<Props, any> {
+export class EditorPane extends Component<Props, any> {
 	private processor: ls.LanguageProcessor | undefined;
 	private editor: monaco.editor.IStandaloneCodeEditor | undefined;
 	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;

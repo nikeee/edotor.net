@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export interface ItemMenuItem<T> {
 	value: T;
 	display: string;

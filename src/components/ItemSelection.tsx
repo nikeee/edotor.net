@@ -1,4 +1,4 @@
-import * as React from "react";
+import { PureComponent } from "react";
 
 type TItem = string;
 
@@ -15,7 +15,7 @@ interface State {
 	currentSelection: TItem | undefined;
 }
 
-export class ItemSelection extends React.PureComponent<Props, State> {
+export class ItemSelection extends PureComponent<Props, State> {
 
 	constructor(p: Props) {
 		super(p);
@@ -46,6 +46,7 @@ export class ItemSelection extends React.PureComponent<Props, State> {
 				className="dropdown-item"
 				key={e}
 				onClick={() => this.handleChange(e)}
+				type="button"
 			>
 				{e}
 			</button>

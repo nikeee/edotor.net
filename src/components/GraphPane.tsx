@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Graph, type Props as GraphProps } from "./Graph";
 
 import "./GraphPane.css";

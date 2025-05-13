@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Component, createRef, type RefObject } from "react";
 import svgPanZoom from "svg-pan-zoom";
 import { type Rendering, type SupportedFormat, type SupportedEngine, renderElement } from "../rendering";
 import { removeChildren } from "../utils";
@@ -46,8 +46,8 @@ export interface Props {
 	engine: SupportedEngine;
 }
 
-export class Graph extends React.Component<Props, State> {
-	private containerRef: React.RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>();
+export class Graph extends Component<Props, State> {
+	private containerRef: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
 	private panZoomContainer: SvgPanZoom.Instance | undefined;
 
 	state: State = createEmptyState();

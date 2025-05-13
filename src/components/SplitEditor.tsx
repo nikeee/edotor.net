@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Component, createRef, type RefObject } from "react";
 import SplitPane from "react-split-pane";
 import type * as monaco from 'monaco-editor';
 import { ErrorBoundary } from "react-error-boundary";
@@ -32,9 +32,9 @@ interface ErroredState {
 const createSourceState = (dotSrc: string): SourceState => ({ dotSrc, errors: undefined, lastKnownGoodSrc: undefined });
 const createErroredState = (errors: ErrorList, lastKnownGoodSrc?: string): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
-export default class SplitEditor extends React.Component<Props, State> {
+export default class SplitEditor extends Component<Props, State> {
 
-	private editorPaneRef: React.RefObject<EditorPane> = React.createRef();
+	private editorPaneRef: RefObject<EditorPane> = createRef();
 
 	constructor(props: Props) {
 		super(props);

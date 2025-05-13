@@ -1,4 +1,4 @@
-import * as React from "react";
+import { lazy, Component, type RefObject, createRef, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./bootstrap";
@@ -24,7 +24,7 @@ import $ from 'jquery'
 
 window.jQuery = window.$ = $
 
-const LazySplitEditor = React.lazy(() => import("./components/SplitEditor"));
+const LazySplitEditor = lazy(() => import("./components/SplitEditor"));
 
 const defaultEngine = supportedEngines[1];
 
@@ -39,11 +39,11 @@ interface Props {
 const defaultSource = tutorial;
 const loadingStyle = { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" } as const;
 
-class App extends React.Component<Props, State> {
+class App extends Component<Props, State> {
 
 	private currentSource: string | undefined = undefined;
 	private saver: FileSaver = new FileSaver();
-	private editorRef: React.RefObject<import("./components/SplitEditor").default> = React.createRef();
+	private editorRef: RefObject<import("./components/SplitEditor").default> = createRef();
 
 	state: State;
 
@@ -170,7 +170,7 @@ class App extends React.Component<Props, State> {
 						</TooltipButton>
 					</div>
 				</nav>
-				<React.Suspense fallback={
+				<Suspense fallback={
 					<div style={loadingStyle}>
 						<BarLoader />
 					</div>
@@ -182,7 +182,7 @@ class App extends React.Component<Props, State> {
 						engine={s.engine}
 						onSourceChange={this.sourceChanged}
 					/>
-				</React.Suspense>
+				</Suspense>
 			</div>
 		);
 	}
