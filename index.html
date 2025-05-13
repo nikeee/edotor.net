@@ -1,33 +1,30 @@
 <!doctype html>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset=utf-8 />
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta http-equiv=X-UA-Compatible content="IE=edge">
 <title>Edotor — Your Favorite Online Graphviz Editor</title>
 
-<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png">
-<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
-<meta name="application-name" content="Edotor">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="description" content="Your favourite online Graphviz editor">
-<meta name="keywords" content="DOT,graphviz,viz.js,monaco,editor,ide,language,features">
+<link rel=apple-touch-icon-precomposed sizes=152x152 href=/favicon/apple-touch-icon-152x152.png>
+<link rel=icon type=image/png href=/favicon/favicon-32x32.png sizes=32x32>
+<link rel=icon type=image/png href=/favicon/favicon-16x16.png sizes=16x16>
+<meta name=application-name content=Edotor>
+<meta name=description content="Your favourite online Graphviz editor">
+<meta name=keywords content="DOT,graphviz,viz.js,monaco,editor,ide,language,features">
 <% if (includeMatomo) { %>
-<!-- Matomo -->
-<script type="text/javascript">
+<script type=text/javascript>
 	var _paq = _paq || [];
-	_paq.push(['disableCookies'], ['trackPageView'], ['enableLinkTracking']);
+	_paq.push(["disableCookies"], ["trackPageView"], ["enableLinkTracking"]);
 	(function() {
-		var u='<%= matomoApiBase %>';
-		_paq.push(['setTrackerUrl', u+'piwik.php'], ['setSiteId', '1']);
-		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		const u="<%= matomoApiBase %>";
+		_paq.push(["setTrackerUrl", u+"piwik.php"], ["setSiteId", "1"]);
+		const d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+		g.type="text/javascript"; g.async=true; g.defer=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
 	})();
 </script>
-<!-- End Matomo Code -->
 <% } %>
 <!--v<%= version %>-->
-<div id="root"></div>
-<script type="module" src="/src/index.tsx"></script>
+<div id=root></div>
+<script type=module src="/src/index.tsx"></script>
 <noscript>
 	Thanks for visiting edotor! Because we offer a rich editor with code completion, this site needs JavaScript to be enabled.
 </noscript>
