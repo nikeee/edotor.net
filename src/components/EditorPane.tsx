@@ -1,5 +1,5 @@
 import * as React from "react";
-import MonacoEditor from "react-monaco-editor";
+import MonacoEditor from '@monaco-editor/react';
 import * as monacoGlobal from "monaco-editor";
 import * as ls from "../dot-monaco";
 import { saveLastSource } from "../config";
@@ -97,7 +97,6 @@ export class EditorPane extends React.Component<Props, any> {
 		const defaultValue = this.props.defaultValue || "";
 		return (
 			<MonacoEditor
-				ref="editor"
 				language="dot"
 				defaultValue={defaultValue}
 				options={{
@@ -113,8 +112,8 @@ export class EditorPane extends React.Component<Props, any> {
 					lightbulb: { enabled: true },
 				}}
 				onChange={this.onChange}
-				editorDidMount={this.editorDidMount}
-				editorWillMount={this.editorWillMount}
+				onMount={this.editorDidMount}
+				beforeMount={this.editorWillMount}
 			/>
 		);
 	}
