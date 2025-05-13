@@ -19,8 +19,8 @@
     "monaco-editor": "0.33.0",
     "monaco-languageclient": "1.1.0",
     "popper.js": "1.16.1",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "react-error-boundary": "^6.0.0",
     "react-spinners": "0.17.0",
     "react-split-pane": "0.1.92",
@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.5.32",
-    "@types/react": "18.3.21",
-    "@types/react-dom": "18.3.7",
+    "@types/react": "19.1.4",
+    "@types/react-dom": "19.1.5",
     "@vitejs/plugin-react": "^4.4.1",
     "sass-embedded": "^1.88.0",
     "typescript": "5.8.3",
@@ -39,7 +39,7 @@
     "vite-plugin-static-copy": "^3.0.0"
   },
   "overrides": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   }
 }
