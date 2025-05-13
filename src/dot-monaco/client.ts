@@ -217,8 +217,6 @@ export function registerService(context: Monaco, service: MonacoService): void {
 
 export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 	const cmds = new MonacoCommands(editor as any);
-	// MonacoServices.install(editor as any);
-
 	for (const command of ls.getAvailableCommands()) {
 		cmds.registerCommand(command, (...args: any[]) => {
 			const m = editor.getModel();
