@@ -1,12 +1,13 @@
-import Tutorial from "./tutorial.gv";
-import StatemMachine from "./state-machine.gv";
-import Clustering0 from "./clustering-0.gv";
-import Clustering1 from "./clustering-1.gv";
-import HuffmanTree from "./huffman-tree.gv";
-import HammingDistance from "./hamming-distance.gv";
-import AttributeDemo from "./attribute-distance.gv";
-import Contact from "./contact.gv";
-import Empty from "./empty-graph.gv";
+import Tutorial from "./tutorial.gv?raw";
+import StatemMachine from "./state-machine.gv?raw";
+import Clustering0 from "./clustering-0.gv?raw";
+import Clustering1 from "./clustering-1.gv?raw";
+import HuffmanTree from "./huffman-tree.gv?raw";
+import HammingDistance from "./hamming-distance.gv?raw";
+import AttributeDemo from "./attribute-distance.gv?raw";
+import Contact from "./contact.gv?raw";
+import Empty from "./empty-graph.gv?raw";
+
 import type { ItemMenuItem } from "../components/ItemMenu";
 
 export const samples: readonly ItemMenuItem<string>[] = [
