@@ -1,13 +1,13 @@
 import * as React from "react";
-import type * as monacoGlobal from "monaco-editor";
 import SplitPane from "react-split-pane";
+import type * as monaco from 'monaco-editor';
 
 import { EditorPane } from "./EditorPane";
 import { GraphPane } from "./GraphPane";
 import type { SupportedFormat, SupportedEngine } from "../rendering";
 import { getSplitConfig, saveSplitConfig } from "../config";
 
-type ErrorList = monacoGlobal.editor.IMarkerData[];
+type ErrorList = monaco.editor.IMarkerData[];
 
 interface Props {
 	initialSource: string;

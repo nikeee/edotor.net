@@ -1,5 +1,5 @@
 // Taken from the samples of: https://microsoft.github.io/monaco-editor/monarch.html
-export const tokenConfig = {
+export default {
 	// Set defaultToken to invalid to see what you do not tokenize yet
 	// defaultToken: 'invalid',
 	keywords: [

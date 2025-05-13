@@ -5,8 +5,10 @@ import {
 	MonacoCommands,
 	TextDocument,
 } from "monaco-languageclient";
-import type * as monaco from "monaco-editor";
-import { tokenConfig } from "./xdot"
+import tokenConfig from "./xdot"
+import type * as monaco from 'monaco-editor';
+
+type Monaco = typeof monaco;
 
 const LANGUAGE_ID = "dot";
 
@@ -35,7 +37,7 @@ export interface LanguageProcessor {
 }
 
 function createDocument(model: monaco.editor.IReadOnlyModel) {
-	return TextDocument.create(model.uri.toString(), model.getModeId(), model.getVersionId(), model.getValue());
+	return TextDocument.create(model.uri.toString(), model.id, model.getVersionId(), model.getValue());
 }
 
 const processor: LanguageProcessor = {
@@ -151,7 +153,7 @@ export function createService(): MonacoService {
 					m2p.asCodeActionContext(context),
 				);
 
-				return commands ? p2m.asCodeActions(commands) : [];
+				return commands ? p2m.asCodeActions(commands) : null;
 			}
 		},
 		colorProvider: {
@@ -183,7 +185,7 @@ export function createService(): MonacoService {
 	};
 }
 
-export function registerService(context: typeof monaco, service: MonacoService): void {
+export function registerService(context: Monaco, service: MonacoService): void {
 	if (!service.language)
 		return;
 
