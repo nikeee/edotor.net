@@ -13,9 +13,9 @@ export default defineConfig({
 	plugins: [
 		ViteEjsPlugin({
 			// TODO: Add CI logic
-			includeMatomo: false,
-			matomoApiBase: '',
+			includeMatomo: !!import.meta.env.VITE_MATOMO_API_BASE,
+			matomoApiBase: import.meta.env.VITE_MATOMO_API_BASE,
 		}),
 		react(),
 	],
-})
+});
