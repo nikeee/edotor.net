@@ -25,9 +25,9 @@ export default defineConfig(({ mode }) => {
 				]
 			}),
 			ViteEjsPlugin({
-				// TODO: Add env vars to CI
 				includeMatomo: !!env.VITE_MATOMO_API_BASE,
 				matomoApiBase: env.VITE_MATOMO_API_BASE,
+				version: env.VITE_VERSION,
 			}, {
 				ejs: {
 					beautify: false,
