@@ -214,11 +214,9 @@ export function registerService(context: Monaco, service: MonacoService): void {
 		langs.setLanguageConfiguration(id, service.languageConfig);
 }
 
-
 export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
-	const cmds = new MonacoCommands(editor as any);
 	for (const command of ls.getAvailableCommands()) {
-		cmds.registerCommand(command, (...args: any[]) => {
+		monaco.editor.registerCommand(command, (_accessor, ...args: unknown[]) => {
 			const m = editor.getModel();
 			if (m === null)
 				return;
