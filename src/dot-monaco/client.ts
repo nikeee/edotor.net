@@ -2,7 +2,6 @@ import * as languageService from "dot-language-support";
 import {
 	MonacoToProtocolConverter,
 	ProtocolToMonacoConverter,
-	MonacoCommands,
 	TextDocument,
 } from "monaco-languageclient";
 import tokenConfig from "./xdot"
@@ -153,7 +152,7 @@ export function createService(): MonacoService {
 					m2p.asCodeActionContext(context),
 				);
 
-				return commands ? p2m.asCodeActions(commands) : null;
+				return commands ? p2m.asCodeActionList(commands) : null;
 			}
 		},
 		colorProvider: {
