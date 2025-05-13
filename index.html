@@ -17,14 +17,13 @@
 <meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png">
 <meta name="description" content="Your favourite online Graphviz editor">
 <meta name="keywords" content="DOT,graphviz,viz.js,monaco,editor,ide,language,features">
-
-<% if (htmlWebpackPlugin.options.env.includeMatomo) { %>
+<% if (includeMatomo) { %>
 <!-- Matomo -->
 <script type="text/javascript">
 	var _paq = _paq || [];
 	_paq.push(['disableCookies'], ['trackPageView'], ['enableLinkTracking']);
 	(function() {
-		var u='<%= htmlWebpackPlugin.options.env.matomoApiBase %>';
+		var u='<%= matomoApiBase %>';
 		_paq.push(['setTrackerUrl', u+'piwik.php'], ['setSiteId', '1']);
 		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
@@ -32,7 +31,6 @@
 </script>
 <!-- End Matomo Code -->
 <% } %>
-
 <div id="root"></div>
 <noscript>
 	Thanks for visiting edotor! Because we offer a rich editor with code completion, this site needs JavaScript to be enabled.
