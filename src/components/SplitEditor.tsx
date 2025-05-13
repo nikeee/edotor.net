@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as monacoGlobal from "monaco-editor";
+import type * as monacoGlobal from "monaco-editor";
 import SplitPane from "react-split-pane";
 
 import { EditorPane } from "./EditorPane";
@@ -72,7 +72,7 @@ export default class SplitEditor extends React.Component<Props, State> {
 	private getDotSrcToRender() {
 		const s = this.state;
 
-		return !!s.dotSrc
+		return s.dotSrc
 			? s.dotSrc
 			: (s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "");
 	}
@@ -100,7 +100,7 @@ export default class SplitEditor extends React.Component<Props, State> {
 					onValueError={this.dotSourceErrored}
 				/>
 
-				<GraphPane className={"graph-container " + graphPaneClass}
+				<GraphPane className={`graph-container ${graphPaneClass}`}
 					dotSrc={dotSrc}
 					engine={p.engine}
 					format={p.format}
