@@ -1,0 +1,25 @@
+# Docs: https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+pre-push:
+  parallel: true
+  commands:
+    lint:
+      tags: lint
+      glob: "*.{js,ts,tsx,jsx,css,scss}"
+      run: npm run lint
+
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.{js,ts,tsx,jsx,css,scss}"
+      run: npm run format && git add {staged_files}
+
+skip_output:
+  - meta
+  - summary
+  - empty_summary
+  - success
+  - execution
+  - execution_out
+  - execution_info
+  - skips
