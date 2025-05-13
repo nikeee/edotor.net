@@ -151,10 +151,7 @@ export function createService(): MonacoService {
 					m2p.asCodeActionContext(context),
 				);
 
-				return {
-					actions: commands ? p2m.asCodeActions(commands) : [],
-					dispose() { },
-				};
+				return commands ? p2m.asCodeActions(commands) : [];
 			}
 		},
 		colorProvider: {
