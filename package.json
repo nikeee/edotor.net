@@ -9,6 +9,7 @@
   "scripts": {
     "test": "tsc",
     "build": "vite build",
+    "lint": "eslint ./src",
     "dev": "vite"
   },
   "dependencies": {
@@ -31,7 +32,10 @@
     "@types/jquery": "^3.5.32",
     "@types/react": "19.1.4",
     "@types/react-dom": "19.1.5",
+    "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.26.0",
+    "eslint-plugin-react-hooks": "^6.0.0-rc.1",
     "sass-embedded": "^1.88.0",
     "typescript": "5.8.3",
     "vite": "^6.3.5",
