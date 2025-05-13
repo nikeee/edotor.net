@@ -18,7 +18,7 @@ import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
 import { mergeStates, getLastState, saveLastEngine } from "./config";
-import { Version } from "./components/Version";
+import Version from "./components/Version";
 
 import $ from 'jquery'
 
