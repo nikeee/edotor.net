@@ -10,6 +10,7 @@
     "test": "tsc",
     "build": "vite build",
     "lint": "biome lint ./src && eslint ./src",
+    "format": "biome format --write ./src && biome lint --write ./src && biome check --write ./src",
     "dev": "vite"
   },
   "dependencies": {
