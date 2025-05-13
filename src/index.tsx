@@ -20,6 +20,10 @@ import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
 import { mergeStates, getLastState, saveLastEngine } from "./config";
 import { Version } from "./components/Version";
 
+import $ from 'jquery'
+
+window.jQuery = window.$ = $
+
 const LazySplitEditor = React.lazy(() => import("./components/SplitEditor"));
 
 const defaultEngine = supportedEngines[1];
