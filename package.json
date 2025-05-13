@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tsc",
     "build": "vite build",
-    "lint": "eslint ./src",
+    "lint": "biome lint ./src && eslint ./src",
     "dev": "vite"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "viz.js": "2.1.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/jquery": "^3.5.32",
     "@types/react": "19.1.4",
     "@types/react-dom": "19.1.5",
