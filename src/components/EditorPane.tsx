@@ -121,7 +121,7 @@ export class EditorPane extends React.Component<Props, any> {
 					automaticLayout: true,
 					folding: true,
 					glyphMargin: true,
-					lightbulb: { enabled: monaco.editor.ShowLightbulbIconMode.On },
+					lightbulb: { enabled: true },
 				}}
 				onChange={this.onChange}
 				onMount={this.editorDidMount}
