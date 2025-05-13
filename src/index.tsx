@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import "./bootstrap";
 
@@ -190,7 +190,6 @@ class App extends React.Component<Props, State> {
 
 const initialState = mergeStates(getSourceFromUrl(), getLastState());
 
-render(
-	<App initialText={initialState.source} initialEngine={initialState.engine} />,
-	document.getElementById("root"),
-);
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const root = createRoot(document.getElementById("root")!);
+root.render(<App initialText={initialState.source} initialEngine={initialState.engine} />);
