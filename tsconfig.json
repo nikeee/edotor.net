@@ -14,7 +14,7 @@
 
     "allowSyntheticDefaultImports": true,
 
-    "jsx": "react",
+    "jsx": "react-jsx",
     "strict": true,
 
     "removeComments": true,

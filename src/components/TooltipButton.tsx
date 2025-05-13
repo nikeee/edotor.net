@@ -62,7 +62,7 @@ export class TooltipButton extends React.Component<Props, object> {
 		return (
 			<button
 				ref={this.buttonRef}
-				className={p.className ? "btn " + p.className : "btn"}
+				className={p.className ? `btn ${p.className}` : "btn"}
 				type="button"
 				data-toggle="tooltip"
 				title={p.title}
