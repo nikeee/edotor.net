@@ -30,8 +30,8 @@
     "viz.js": "2.1.2"
   },
   "devDependencies": {
-    "@types/react": "17.0.52",
-    "@types/react-dom": "17.0.18",
+    "@types/react": "18.3.21",
+    "@types/react-dom": "18.3.7",
     "@vitejs/plugin-react": "^4.4.1",
     "sass-embedded": "^1.88.0",
     "typescript": "5.8.3",
