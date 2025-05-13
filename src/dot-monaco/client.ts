@@ -93,8 +93,6 @@ export function createService(): MonacoService {
 			provideCompletionItems(model: monaco.editor.ITextModel, position: monaco.Position) {
 				const data = processor.process(model);
 
-				p2m.getCompletionItemDefaultRange
-
 				const completions = ls.getCompletions(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
 
 				// p2m.asCompletionResult has a bug
@@ -156,7 +154,7 @@ export function createService(): MonacoService {
 					data.document,
 					data.sourceFile,
 					m2p.asRange(range),
-					m2p.asCodeActionContext(context),
+					m2p.asCodeActionContext(context, []),
 				);
 
 				return commands ? p2m.asCodeActionList(commands) : null;
