@@ -1,6 +1,7 @@
 import * as React from "react";
 import SplitPane from "react-split-pane";
 import type * as monaco from 'monaco-editor';
+import { ErrorBoundary } from "react-error-boundary";
 
 import { EditorPane } from "./EditorPane";
 import { GraphPane } from "./GraphPane";
@@ -93,18 +94,21 @@ export default class SplitEditor extends React.Component<Props, State> {
 				defaultSize={getSplitConfig() || "50%"}
 				onChange={size => saveSplitConfig(size)}
 			>
-				<EditorPane
-					ref={this.editorPaneRef}
-					defaultValue={s.dotSrc}
-					onChangeValue={this.dotSourceChanged}
-					onValueError={this.dotSourceErrored}
-				/>
-
-				<GraphPane className={`graph-container ${graphPaneClass}`}
-					dotSrc={dotSrc}
-					engine={p.engine}
-					format={p.format}
-				/>
+				<ErrorBoundary fallback="Could not load editor">
+					<EditorPane
+						ref={this.editorPaneRef}
+						defaultValue={s.dotSrc}
+						onChangeValue={this.dotSourceChanged}
+						onValueError={this.dotSourceErrored}
+					/>
+				</ErrorBoundary>
+				<ErrorBoundary fallback="Could not load graph preview">
+					<GraphPane className={`graph-container ${graphPaneClass}`}
+						dotSrc={dotSrc}
+						engine={p.engine}
+						format={p.format}
+					/>
+				</ErrorBoundary>
 			</SplitPane>
 		);
 	}
