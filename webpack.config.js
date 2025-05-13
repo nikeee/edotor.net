@@ -32,14 +32,6 @@ module.exports = (env, argv) => {
 			}
 		},
 
-		module: {
-			rules: [
-				{ test: /\.render\.js$/, use: ["file-loader"] },
-				{ test: /\.tsx?$/, use: ["ts-loader"] },
-				{ enforce: "pre", test: /\.js$/, loader: "source-map-loader", exclude: [/node_modules/] },
-			]
-		},
-
 		plugins: [
 			new HtmlWebPackPlugin({
 				template: "./src/index.ejs",

@@ -17,6 +17,10 @@ export default defineConfig(({ mode }) => {
 				// TODO: Add env vars to CI
 				includeMatomo: !!env.VITE_MATOMO_API_BASE,
 				matomoApiBase: env.VITE_MATOMO_API_BASE,
+			}, {
+				ejs: {
+					beautify: false,
+				},
 			}),
 			react(),
 		],
