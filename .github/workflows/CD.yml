@@ -40,7 +40,6 @@ jobs:
       id-token: write
 
     needs: build
-    if: ${{ github.ref == 'refs/heads/master' }}
 
     environment:
       name: edotor.net
