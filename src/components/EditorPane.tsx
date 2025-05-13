@@ -61,7 +61,7 @@ export class EditorPane extends React.Component<Props, any> {
 		}
 	}
 
-	private onChange = (value: string, event: monacoGlobal.editor.IModelContentChangedEvent): void => {
+	private onChange = (value: string | undefined, event: monacoGlobal.editor.IModelContentChangedEvent): void => {
 		const p = this.processor;
 		const e = this.editor;
 		if (!p || !e) return;
@@ -82,7 +82,7 @@ export class EditorPane extends React.Component<Props, any> {
 				props.onValueError(markers);
 			}
 		} else {
-			if (props.onChangeValue) {
+			if (props.onChangeValue && typeof value !== "undefined") {
 				props.onChangeValue(value);
 			}
 		}
