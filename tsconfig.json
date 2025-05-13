@@ -3,14 +3,19 @@
     "outDir": "dist",
     "noEmit": true,
 
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
 
-    "target": "es2020",
+    "allowSyntheticDefaultImports": true,
 
     "jsx": "react",
     "strict": true,
-    "skipLibCheck": true,
 
     "removeComments": true,
     "declaration": false,

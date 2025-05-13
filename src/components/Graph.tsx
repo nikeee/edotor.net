@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as svgPanZoom from "svg-pan-zoom";
-import { Rendering, SupportedFormat, SupportedEngine, renderElement } from "../rendering";
+import { type Rendering, type SupportedFormat, type SupportedEngine, renderElement } from "../rendering";
 import { removeChildren } from "../utils";
 
 import "./Graph.css";
