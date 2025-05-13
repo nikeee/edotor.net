@@ -1,8 +1,9 @@
 import * as React from "react";
 import MonacoEditor from '@monaco-editor/react';
 import * as monacoGlobal from "monaco-editor";
-import * as ls from "../dot-monaco";
-import { saveLastSource } from "../config";
+
+import * as ls from "../dot-monaco/index.js";
+import { saveLastSource } from "../config.js";
 
 type Props = {
 	defaultValue?: string;
