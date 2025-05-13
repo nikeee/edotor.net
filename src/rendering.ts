@@ -75,13 +75,13 @@ export async function exportAs(
 	saver: FileSaver,
 	fileName = "graph",
 ): Promise<void> {
-	const totalFileName = fileName + "." + format.toLowerCase();
+	const totalFileName = `${fileName}.${format.toLowerCase()}`;
 
 	const element = await renderElement(dotSrc, format, options.engine);
 
 	if (isSVGElement(element)) {
 		const svgData =
-			`<?xml version="1.0" encoding="UTF-8" ?>\n` + element.outerHTML;
+			`<?xml version="1.0" encoding="UTF-8" ?>\n${element.outerHTML}`;
 		saver.save(svgData, totalFileName);
 		return;
 	}
@@ -95,7 +95,7 @@ export function saveSource(
 	saver: FileSaver,
 	fileName = "graph",
 ) {
-	saver.save(dotSrc, fileName + "." + sourceFormatExtension);
+	saver.save(dotSrc, `${fileName}.${sourceFormatExtension}`);
 }
 
 const isSVGElement = (r: Rendering): r is SVGSVGElement =>

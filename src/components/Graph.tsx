@@ -63,7 +63,8 @@ export interface Props {
 }
 
 export class Graph extends Component<Props, State> {
-	private containerRef: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
+	private containerRef: RefObject<HTMLDivElement | null> =
+		createRef<HTMLDivElement>();
 	private panZoomContainer: SvgPanZoom.Instance | undefined;
 
 	state: State = createEmptyState();

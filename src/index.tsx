@@ -52,8 +52,9 @@ const loadingStyle = {
 class App extends Component<Props, State> {
 	private currentSource: string | undefined = undefined;
 	private saver: FileSaver = new FileSaver();
-	private editorRef: RefObject<import("./components/SplitEditor").default> =
-		createRef();
+	private editorRef: RefObject<
+		import("./components/SplitEditor").default | null
+	> = createRef();
 
 	state: State;
 

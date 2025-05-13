@@ -40,7 +40,7 @@ const createErroredState = (
 ): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
 export default class SplitEditor extends Component<Props, State> {
-	private editorPaneRef: RefObject<EditorPane> = createRef();
+	private editorPaneRef: RefObject<EditorPane | null> = createRef<EditorPane>();
 
 	constructor(props: Props) {
 		super(props);
