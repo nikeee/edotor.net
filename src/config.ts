@@ -1,6 +1,6 @@
-import { SupportedEngine } from "./rendering";
+import type { SupportedEngine } from "./rendering";
+import type { ShareData } from "./utils";
 import { isSupportedEngine } from "./viz";
-import { ShareData } from "./utils";
 
 const SPLIT_POS_NAME = "splitPos";
 const LAST_SOURCE = "lastSource";
@@ -19,18 +19,18 @@ export function getSplitConfig(): number | undefined {
 }
 
 export function saveLastSource(lastSource: string | undefined): void {
-	if (lastSource)
-		return localStorage.setItem(LAST_SOURCE, lastSource);
-	return localStorage.removeItem(LAST_SOURCE);
+	return lastSource
+		? localStorage.setItem(LAST_SOURCE, lastSource)
+		: localStorage.removeItem(LAST_SOURCE);
 }
 function getLastSource(): string | undefined {
 	return localStorage.getItem(LAST_SOURCE) ?? undefined;
 }
 
 export function saveLastEngine(lastEngine: SupportedEngine | undefined): void {
-	if (lastEngine)
-		return localStorage.setItem(LAST_ENGINE, lastEngine);
-	return localStorage.removeItem(LAST_ENGINE);
+	return lastEngine
+		? localStorage.setItem(LAST_ENGINE, lastEngine)
+		: localStorage.removeItem(LAST_ENGINE)
 }
 function getLastEngine(): SupportedEngine | undefined {
 	const e = localStorage.getItem(LAST_ENGINE);

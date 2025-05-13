@@ -62,7 +62,7 @@ export class ItemSelection extends React.PureComponent<Props, State> {
 		const p = this.props;
 		const s = this.state;
 
-		DEV && console.assert(!!p.label);
+		import.meta.env.DEV && console.assert(!!p.label);
 
 		const text = s.currentSelection ? s.currentSelection : "";
 

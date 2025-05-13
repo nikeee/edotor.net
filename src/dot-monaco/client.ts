@@ -2,16 +2,17 @@ import * as languageService from "dot-language-support";
 import {
 	MonacoToProtocolConverter,
 	ProtocolToMonacoConverter,
-	MonacoCommands,
 	TextDocument,
 } from "monaco-languageclient";
-import * as monaco from "monaco-editor";
-import { tokenConfig } from "./xdot"
+import tokenConfig from "./xdot"
+import * as monaco from 'monaco-editor';
+
+type Monaco = typeof monaco;
 
 const LANGUAGE_ID = "dot";
 
-const m2p = new MonacoToProtocolConverter();
-const p2m = new ProtocolToMonacoConverter();
+const m2p = new MonacoToProtocolConverter(monaco);
+const p2m = new ProtocolToMonacoConverter(monaco);
 const ls = languageService.createService();
 
 export interface MonacoService {
@@ -35,7 +36,7 @@ export interface LanguageProcessor {
 }
 
 function createDocument(model: monaco.editor.IReadOnlyModel) {
-	return TextDocument.create(model.uri.toString(), model.getModeId(), model.getVersionId(), model.getValue());
+	return TextDocument.create(model.uri.toString(), model.id, model.getVersionId(), model.getValue());
 }
 
 const processor: LanguageProcessor = {
@@ -69,7 +70,7 @@ export function createService(): MonacoService {
 			aliases: ["DOT", "dot", "Graphviz"],
 			mimetypes: ["text/vnd.graphviz"]
 		},
-		monarchTokens: tokenConfig as any as monaco.languages.IMonarchLanguage,
+		monarchTokens: tokenConfig as unknown as monaco.languages.IMonarchLanguage,
 		languageConfig: {
 			wordPattern: /(-?\d*\.\d*)|(\w+[0-9]*)/,
 			// Takem from: https://github.com/Microsoft/monaco-json/blob/master/src/jsonMode.ts#L42-L60
@@ -151,10 +152,7 @@ export function createService(): MonacoService {
 					m2p.asCodeActionContext(context),
 				);
 
-				return {
-					actions: commands ? p2m.asCodeActions(commands) : [],
-					dispose() { },
-				};
+				return commands ? p2m.asCodeActionList(commands) : null;
 			}
 		},
 		colorProvider: {
@@ -186,7 +184,7 @@ export function createService(): MonacoService {
 	};
 }
 
-export function registerService(context: typeof monaco, service: MonacoService): void {
+export function registerService(context: Monaco, service: MonacoService): void {
 	if (!service.language)
 		return;
 
@@ -215,13 +213,9 @@ export function registerService(context: typeof monaco, service: MonacoService):
 		langs.setLanguageConfiguration(id, service.languageConfig);
 }
 
-
 export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
-	const cmds = new MonacoCommands(editor as any);
-	// MonacoServices.install(editor as any);
-
 	for (const command of ls.getAvailableCommands()) {
-		cmds.registerCommand(command, (...args: any[]) => {
+		monaco.editor.registerCommand(command, (_accessor, ...args: unknown[]) => {
 			const m = editor.getModel();
 			if (m === null)
 				return;

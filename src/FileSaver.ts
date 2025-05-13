@@ -29,7 +29,7 @@ export class FileSaver {
 	}
 
 	public saveBase64(base64Data: string, fileName: string): Promise<void> {
-		var url = "data:image/png;base64," + base64Data;
+		const url = `data:image/png;base64,${base64Data}`;
 		return fetch(url)
 			.then(res => res.blob())
 			.then(blob => this.save(blob, fileName));

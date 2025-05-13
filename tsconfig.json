@@ -1,23 +1,24 @@
 {
   "compilerOptions": {
     "outDir": "dist",
+    "noEmit": true,
 
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "esnext",
-    "moduleResolution": "node",
-
-    "target": "es2015",
-
-    "jsx": "react",
-    "strict": true,
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
     "skipLibCheck": true,
+
+    "allowSyntheticDefaultImports": true,
+
+    "jsx": "react-jsx",
+    "strict": true,
 
     "removeComments": true,
     "declaration": false,
     "sourceMap": true
   },
-  /*
-  "files": [
-    "src/index.tsx"
-  ],
-  */
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
-import "./bootstrap.ts";
+import "./bootstrap";
 
 import "./index.scss";
 
@@ -11,14 +11,18 @@ import { SiteLogo } from "./components/SiteLogo";
 import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
-import { SupportedEngine, exportAs, saveSource } from "./rendering";
+import { type SupportedEngine, exportAs, saveSource } from "./rendering";
 import { samples, tutorial } from "./samples";
-import { supportedEngines, displayFormats, ExportableFormat, sourceFormatExtension } from "./viz";
+import { supportedEngines, displayFormats, type ExportableFormat, sourceFormatExtension } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
 import { mergeStates, getLastState, saveLastEngine } from "./config";
-import { Version } from "./components/Version";
+import Version from "./components/Version";
+
+import $ from 'jquery'
+
+window.jQuery = window.$ = $
 
 const LazySplitEditor = React.lazy(() => import("./components/SplitEditor"));
 
@@ -153,7 +157,7 @@ class App extends React.Component<Props, State> {
 						>
 							Issues
 						</a>
-						{DEV && <Version />}
+						{import.meta.env.DEV && <Version />}
 					</div>
 
 					<div className="btn-group btn-group-sm">
@@ -186,7 +190,6 @@ class App extends React.Component<Props, State> {
 
 const initialState = mergeStates(getSourceFromUrl(), getLastState());
 
-render(
-	<App initialText={initialState.source} initialEngine={initialState.engine} />,
-	document.getElementById("root"),
-);
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const root = createRoot(document.getElementById("root")!);
+root.render(<App initialText={initialState.source} initialEngine={initialState.engine} />);

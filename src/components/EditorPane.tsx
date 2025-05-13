@@ -1,20 +1,32 @@
 import * as React from "react";
-import MonacoEditor from "react-monaco-editor";
-import * as monacoGlobal from "monaco-editor";
-import * as ls from "../dot-monaco";
-import { saveLastSource } from "../config";
+import * as monaco from 'monaco-editor';
+import { loader, default as MonacoEditor } from '@monaco-editor/react';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+
+import * as ls from "../dot-monaco/index.js";
+import { saveLastSource } from "../config.js";
+
+type Monaco = typeof monaco;
+
+self.MonacoEnvironment = {
+  getWorker(_, _label) {
+    return new editorWorker();
+  },
+};
+loader.config({ monaco });
+
 
 type Props = {
 	defaultValue?: string;
 	onChangeValue(value: string): void;
-	onValueError(err: monacoGlobal.editor.IMarkerData[]): void;
+	onValueError(err: monaco.editor.IMarkerData[]): void;
 };
 
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 
 export class EditorPane extends React.Component<Props, any> {
 	private processor: ls.LanguageProcessor | undefined;
-	private editor: monacoGlobal.editor.IStandaloneCodeEditor | undefined;
+	private editor: monaco.editor.IStandaloneCodeEditor | undefined;
 	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	state: any = {};
@@ -26,13 +38,13 @@ export class EditorPane extends React.Component<Props, any> {
 		}
 	}
 
-	private editorWillMount = (monaco: typeof monacoGlobal): void => {
+	private editorWillMount = (monaco: Monaco): void => {
 		const service = ls.createService();
 		ls.registerService(monaco, service);
 		this.processor = service.processor;
 	}
 
-	private editorDidMount = (editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal): void => {
+	private editorDidMount = (editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco): void => {
 		this.editor = editor;
 		ls.registerCommands(editor);
 
@@ -43,13 +55,13 @@ export class EditorPane extends React.Component<Props, any> {
 		editor.focus();
 	}
 
-	private refreshModel(editor: monacoGlobal.editor.IStandaloneCodeEditor, monaco: typeof monacoGlobal) {
+	private refreshModel(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {
 		const oldModel = editor.getModel();
 		try {
-			DEV && console.assert(!!oldModel);
+			import.meta.env.DEV && console.assert(!!oldModel);
 
 			const newModel = monaco.editor.createModel(
-				!!oldModel ? oldModel.getValue() : "",
+				oldModel ? oldModel.getValue() : "",
 				"dot",
 				monaco.Uri.parse("inmemory://tmp.dot"),
 			);
@@ -61,20 +73,20 @@ export class EditorPane extends React.Component<Props, any> {
 		}
 	}
 
-	private onChange = (value: string, event: monacoGlobal.editor.IModelContentChangedEvent): void => {
+	private onChange = (value: string | undefined, event: monaco.editor.IModelContentChangedEvent): void => {
 		const p = this.processor;
 		const e = this.editor;
 		if (!p || !e) return;
 
 		const model = e.getModel();
-		let markers: monacoGlobal.editor.IMarkerData[] | undefined;
+		let markers: monaco.editor.IMarkerData[] | undefined;
 		try {
-			markers = p.processAndValidate(model as monacoGlobal.editor.IReadOnlyModel);
+			markers = p.processAndValidate(model as monaco.editor.IReadOnlyModel);
 		} catch (err) {
 			markers = undefined;
 		}
 
-		monacoGlobal.editor.setModelMarkers(model as monacoGlobal.editor.ITextModel, "dot", markers || []);
+		monaco.editor.setModelMarkers(model as monaco.editor.ITextModel, "dot", markers || []);
 
 		const props = this.props;
 		if (markers && markers.length > 0) {
@@ -82,7 +94,7 @@ export class EditorPane extends React.Component<Props, any> {
 				props.onValueError(markers);
 			}
 		} else {
-			if (props.onChangeValue) {
+			if (props.onChangeValue && typeof value !== "undefined") {
 				props.onChangeValue(value);
 			}
 		}
@@ -97,7 +109,6 @@ export class EditorPane extends React.Component<Props, any> {
 		const defaultValue = this.props.defaultValue || "";
 		return (
 			<MonacoEditor
-				ref="editor"
 				language="dot"
 				defaultValue={defaultValue}
 				options={{
@@ -113,8 +124,8 @@ export class EditorPane extends React.Component<Props, any> {
 					lightbulb: { enabled: true },
 				}}
 				onChange={this.onChange}
-				editorDidMount={this.editorDidMount}
-				editorWillMount={this.editorWillMount}
+				onMount={this.editorDidMount}
+				beforeMount={this.editorWillMount}
 			/>
 		);
 	}

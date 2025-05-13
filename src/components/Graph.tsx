@@ -1,6 +1,6 @@
 import * as React from "react";
-import * as svgPanZoom from "svg-pan-zoom";
-import { Rendering, SupportedFormat, SupportedEngine, renderElement } from "../rendering";
+import svgPanZoom from "svg-pan-zoom";
+import { type Rendering, type SupportedFormat, type SupportedEngine, renderElement } from "../rendering";
 import { removeChildren } from "../utils";
 
 import "./Graph.css";
@@ -64,7 +64,8 @@ export class Graph extends React.Component<Props, State> {
 		let element: Rendering;
 		try {
 			element = await renderElement(dotSrc, format, engine);
-		} catch (e) {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		} catch (e: any) {
 			this.setState(createErrorState(e.message));
 			return;
 		}

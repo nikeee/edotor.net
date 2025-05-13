@@ -1,15 +1,14 @@
-import * as React from "react";
+import { Component, type PropsWithChildren, createRef } from "react";
 
-interface Props {
+interface Props extends PropsWithChildren {
 	onClick(): boolean;
 	title?: string;
 
 	className?: string;
-	children: any
 }
 
-export class TooltipButton extends React.Component<Props, object> {
-	private buttonRef: React.RefObject<HTMLButtonElement> = React.createRef();
+export class TooltipButton extends Component<Props, object> {
+	private buttonRef: React.RefObject<HTMLButtonElement> = createRef();
 
 	private timeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -62,7 +61,7 @@ export class TooltipButton extends React.Component<Props, object> {
 		return (
 			<button
 				ref={this.buttonRef}
-				className={p.className ? "btn " + p.className : "btn"}
+				className={p.className ? `btn ${p.className}` : "btn"}
 				type="button"
 				data-toggle="tooltip"
 				title={p.title}

@@ -1,5 +1,5 @@
 import * as React from "react";
 
-export const Version = (props: any) => (
-	<span {...props} title={`Version ${VERSION}`}>v{VERSION}</span>
-);
+const version = import.meta.env.VITE_VERSION;
+
+export default () => <span title={`Version ${version}`}>v{version}</span>;

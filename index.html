@@ -4,27 +4,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Edotor — Your Favorite Online Graphviz Editor</title>
 
-<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png">
 <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
 <meta name="application-name" content="Edotor">
-<meta name="msapplication-TileColor" content="#FFFFFF">
-<meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png">
+<meta name="msapplication-TileColor" content="#ffffff">
 <meta name="description" content="Your favourite online Graphviz editor">
 <meta name="keywords" content="DOT,graphviz,viz.js,monaco,editor,ide,language,features">
-
-<% if (htmlWebpackPlugin.options.env.includeMatomo) { %>
+<% if (includeMatomo) { %>
 <!-- Matomo -->
 <script type="text/javascript">
 	var _paq = _paq || [];
 	_paq.push(['disableCookies'], ['trackPageView'], ['enableLinkTracking']);
 	(function() {
-		var u='<%= htmlWebpackPlugin.options.env.matomoApiBase %>';
+		var u='<%= matomoApiBase %>';
 		_paq.push(['setTrackerUrl', u+'piwik.php'], ['setSiteId', '1']);
 		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
@@ -32,8 +25,8 @@
 </script>
 <!-- End Matomo Code -->
 <% } %>
-
 <div id="root"></div>
+<script type="module" src="/src/index.tsx"></script>
 <noscript>
 	Thanks for visiting edotor! Because we offer a rich editor with code completion, this site needs JavaScript to be enabled.
 </noscript>

@@ -1,13 +1,14 @@
 import * as React from "react";
-import * as monacoGlobal from "monaco-editor";
 import SplitPane from "react-split-pane";
+import type * as monaco from 'monaco-editor';
+import { ErrorBoundary } from "react-error-boundary";
 
 import { EditorPane } from "./EditorPane";
 import { GraphPane } from "./GraphPane";
-import { SupportedFormat, SupportedEngine } from "../rendering";
+import type { SupportedFormat, SupportedEngine } from "../rendering";
 import { getSplitConfig, saveSplitConfig } from "../config";
 
-type ErrorList = monacoGlobal.editor.IMarkerData[];
+type ErrorList = monaco.editor.IMarkerData[];
 
 interface Props {
 	initialSource: string;
@@ -72,7 +73,7 @@ export default class SplitEditor extends React.Component<Props, State> {
 	private getDotSrcToRender() {
 		const s = this.state;
 
-		return !!s.dotSrc
+		return s.dotSrc
 			? s.dotSrc
 			: (s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "");
 	}
@@ -93,18 +94,21 @@ export default class SplitEditor extends React.Component<Props, State> {
 				defaultSize={getSplitConfig() || "50%"}
 				onChange={size => saveSplitConfig(size)}
 			>
-				<EditorPane
-					ref={this.editorPaneRef}
-					defaultValue={s.dotSrc}
-					onChangeValue={this.dotSourceChanged}
-					onValueError={this.dotSourceErrored}
-				/>
-
-				<GraphPane className={"graph-container " + graphPaneClass}
-					dotSrc={dotSrc}
-					engine={p.engine}
-					format={p.format}
-				/>
+				<ErrorBoundary fallback="Could not load editor">
+					<EditorPane
+						ref={this.editorPaneRef}
+						defaultValue={s.dotSrc}
+						onChangeValue={this.dotSourceChanged}
+						onValueError={this.dotSourceErrored}
+					/>
+				</ErrorBoundary>
+				<ErrorBoundary fallback="Could not load graph preview">
+					<GraphPane className={`graph-container ${graphPaneClass}`}
+						dotSrc={dotSrc}
+						engine={p.engine}
+						format={p.format}
+					/>
+				</ErrorBoundary>
 			</SplitPane>
 		);
 	}

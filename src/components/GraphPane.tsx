@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Graph, Props as GraphProps } from "./Graph";
+import { Graph, type Props as GraphProps } from "./Graph";
 
 import "./GraphPane.css";
 
