@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as svgPanZoom from "svg-pan-zoom";
+import svgPanZoom from "svg-pan-zoom";
 import { type Rendering, type SupportedFormat, type SupportedEngine, renderElement } from "../rendering";
 import { removeChildren } from "../utils";
 
