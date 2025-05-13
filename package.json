@@ -7,11 +7,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:new": "vite build",
-    "build:prod": "NODE_OPTIONS=--openssl-legacy-provider webpack -p",
-    "build:dev": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode development",
-    "watch": "NODE_OPTIONS=--openssl-legacy-provider webpack --watch --mode development",
-    "analyze": "webpack --mode production --profile --json > stats.json && webpack-bundle-analyzer stats.json"
+    "build:prod": "vite build",
+    "dev": "vite"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
