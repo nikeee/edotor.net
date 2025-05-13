@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render } from "react-dom";
 
-import "./bootstrap.ts";
+import "./bootstrap";
 
 import "./index.scss";
 
@@ -11,9 +11,9 @@ import { SiteLogo } from "./components/SiteLogo";
 import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
 
-import { SupportedEngine, exportAs, saveSource } from "./rendering";
+import { type SupportedEngine, exportAs, saveSource } from "./rendering";
 import { samples, tutorial } from "./samples";
-import { supportedEngines, displayFormats, ExportableFormat, sourceFormatExtension } from "./viz";
+import { supportedEngines, displayFormats, type ExportableFormat, sourceFormatExtension } from "./viz";
 import { TooltipButton } from "./components/TooltipButton";
 import { FileSaver } from "./FileSaver";
 import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";

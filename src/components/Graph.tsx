@@ -64,7 +64,8 @@ export class Graph extends React.Component<Props, State> {
 		let element: Rendering;
 		try {
 			element = await renderElement(dotSrc, format, engine);
-		} catch (e) {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		} catch (e: any) {
 			this.setState(createErrorState(e.message));
 			return;
 		}

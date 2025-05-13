@@ -5,7 +5,7 @@ import {
 	MonacoCommands,
 	TextDocument,
 } from "monaco-languageclient";
-import * as monaco from "monaco-editor";
+import type * as monaco from "monaco-editor";
 import { tokenConfig } from "./xdot"
 
 const LANGUAGE_ID = "dot";
@@ -69,7 +69,7 @@ export function createService(): MonacoService {
 			aliases: ["DOT", "dot", "Graphviz"],
 			mimetypes: ["text/vnd.graphviz"]
 		},
-		monarchTokens: tokenConfig as any as monaco.languages.IMonarchLanguage,
+		monarchTokens: tokenConfig as unknown as monaco.languages.IMonarchLanguage,
 		languageConfig: {
 			wordPattern: /(-?\d*\.\d*)|(\w+[0-9]*)/,
 			// Takem from: https://github.com/Microsoft/monaco-json/blob/master/src/jsonMode.ts#L42-L60

@@ -1,5 +1,5 @@
 import { isSupportedEngine } from "./viz";
-import { SupportedEngine } from "./rendering";
+import type { SupportedEngine } from "./rendering";
 
 export const assertNever = (_: never): never => {
 	throw new Error("This should never happen.");

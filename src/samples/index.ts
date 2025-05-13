@@ -7,7 +7,7 @@ import HammingDistance from "./hamming-distance.gv";
 import AttributeDemo from "./attribute-distance.gv";
 import Contact from "./contact.gv";
 import Empty from "./empty-graph.gv";
-import { ItemMenuItem } from "../components/ItemMenu";
+import type { ItemMenuItem } from "../components/ItemMenu";
 
 export const samples: readonly ItemMenuItem<string>[] = [
 	{ display: "State Machine", value: StatemMachine },
