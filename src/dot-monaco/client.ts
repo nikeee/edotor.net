@@ -93,10 +93,17 @@ export function createService(): MonacoService {
 			provideCompletionItems(model: monaco.editor.ITextModel, position: monaco.Position) {
 				const data = processor.process(model);
 
+				p2m.getCompletionItemDefaultRange
+
 				const completions = ls.getCompletions(data.document, data.sourceFile, m2p.asPosition(position.lineNumber, position.column));
-				return p2m.asCompletionResult(completions, undefined);
+
+				// p2m.asCompletionResult has a bug
+				const defaultMonacoRange = monaco.Range.fromPositions(position);
+				return {
+					incomplete: false,
+					suggestions: completions.map(item => p2m.asCompletionItem(item, defaultMonacoRange, undefined))
+				};
 			},
-			// resolveCompletionItem(item: CompletionItem) {}
 		},
 		hoverProvider: {
 			provideHover(model, position) {
