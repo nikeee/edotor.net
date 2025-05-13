@@ -49,7 +49,7 @@ export class EditorPane extends React.Component<Props, any> {
 			import.meta.env.DEV && console.assert(!!oldModel);
 
 			const newModel = monaco.editor.createModel(
-				!!oldModel ? oldModel.getValue() : "",
+				oldModel ? oldModel.getValue() : "",
 				"dot",
 				monaco.Uri.parse("inmemory://tmp.dot"),
 			);
