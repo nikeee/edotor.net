@@ -1,16 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = (env, argv) => {
-	env = env || process.env;
-
-	const isProduction = argv.mode === "production";
-	const isDevelopment = !isProduction;
-
+module.exports = () => {
 	const config = {
 		entry: "./src/index.tsx",
 
@@ -21,10 +13,6 @@ module.exports = (env, argv) => {
 			path: path.join(__dirname, "dist"),
 		},
 
-		devtool: isDevelopment
-			? "source-map"
-			: undefined,
-
 		resolve: {
 			extensions: [".ts", ".tsx", ".js", ".json"],
 			alias: {
@@ -33,28 +21,8 @@ module.exports = (env, argv) => {
 		},
 
 		plugins: [
-			new HtmlWebPackPlugin({
-				template: "./src/index.ejs",
-				filename: "./index.html",
-				env: {
-					includeMatomo: isProduction && !!env["MATOMO_API_BASE"] && !!env["MATOMO_ENABLED"],
-					// Has to end with a trailing forward slash!
-					matomoApiBase: env["MATOMO_API_BASE"] ? env["MATOMO_API_BASE"].trim() : undefined,
-				},
-				minify: {
-					collapseWhitespace: isProduction,
-				}
-			}),
 			new MonacoWebpackPlugin({
 				languages: [],
-			}),
-			new CopyWebpackPlugin([
-				{ from: "assets" },
-				{ from: "CNAME" },
-			]),
-			new CleanWebpackPlugin(),
-			new webpack.DefinePlugin({
-				VERSION: JSON.stringify(require("./package.json").version),
 			}),
 			new webpack.ProvidePlugin({
 				$: "jquery",

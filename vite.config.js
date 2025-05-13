@@ -2,6 +2,7 @@ import * as path from 'node:path';
 
 import { defineConfig, loadEnv } from 'vite'
 import { ViteEjsPlugin } from "vite-plugin-ejs";
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
@@ -13,6 +14,14 @@ export default defineConfig(({ mode }) => {
 			}
 		},
 		plugins: [
+			viteStaticCopy({
+				targets: [
+					{
+						src: 'CNAME',
+						dest: ''
+					}
+				]
+			}),
 			ViteEjsPlugin({
 				// TODO: Add env vars to CI
 				includeMatomo: !!env.VITE_MATOMO_API_BASE,
@@ -25,5 +34,4 @@ export default defineConfig(({ mode }) => {
 			react(),
 		],
 	}
-}
-);
+});
