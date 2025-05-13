@@ -15,22 +15,26 @@ export function saveSplitConfig(size?: string | number): void {
 
 export function getSplitConfig(): number | undefined {
 	const splitPos = localStorage.getItem(SPLIT_POS_NAME);
-	return splitPos ? parseInt(splitPos, 10) : undefined;
+	return splitPos ? Number(splitPos) : undefined;
 }
 
 export function saveLastSource(lastSource: string | undefined): void {
-	return lastSource
-		? localStorage.setItem(LAST_SOURCE, lastSource)
-		: localStorage.removeItem(LAST_SOURCE);
+	if (lastSource) {
+		localStorage.setItem(LAST_SOURCE, lastSource)
+	} else {
+		localStorage.removeItem(LAST_SOURCE);
+	}
 }
 function getLastSource(): string | undefined {
 	return localStorage.getItem(LAST_SOURCE) ?? undefined;
 }
 
 export function saveLastEngine(lastEngine: SupportedEngine | undefined): void {
-	return lastEngine
-		? localStorage.setItem(LAST_ENGINE, lastEngine)
-		: localStorage.removeItem(LAST_ENGINE)
+	if (lastEngine) {
+		localStorage.setItem(LAST_ENGINE, lastEngine);
+	} else {
+		localStorage.removeItem(LAST_ENGINE);
+	}
 }
 function getLastEngine(): SupportedEngine | undefined {
 	const e = localStorage.getItem(LAST_ENGINE);
