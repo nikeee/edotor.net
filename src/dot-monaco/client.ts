@@ -6,14 +6,14 @@ import {
 	TextDocument,
 } from "monaco-languageclient";
 import tokenConfig from "./xdot"
-import type * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor';
 
 type Monaco = typeof monaco;
 
 const LANGUAGE_ID = "dot";
 
-const m2p = new MonacoToProtocolConverter();
-const p2m = new ProtocolToMonacoConverter();
+const m2p = new MonacoToProtocolConverter(monaco);
+const p2m = new ProtocolToMonacoConverter(monaco);
 const ls = languageService.createService();
 
 export interface MonacoService {
