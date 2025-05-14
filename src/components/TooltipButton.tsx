@@ -61,7 +61,11 @@ export class TooltipButton extends Component<Props, object> {
 	private updateTooltipTriggers() {
 		const domButton = this.buttonRef.current;
 		if (domButton) {
-			($(domButton) as any).tooltip({ trigger: "click" });
+			(
+				$(domButton) as unknown as { tooltip(t: { trigger: string }): void }
+			).tooltip({
+				trigger: "click",
+			});
 		}
 	}
 
