@@ -66,7 +66,7 @@ export class EditorPane extends Component<Props, State> {
 			import.meta.env.DEV && console.assert(!!oldModel);
 
 			const newModel = monaco.editor.createModel(
-				oldModel ? oldModel.getValue() : "",
+				oldModel?.getValue() ?? "",
 				"dot",
 				monaco.Uri.parse("inmemory://tmp.dot"),
 			);
@@ -79,38 +79,38 @@ export class EditorPane extends Component<Props, State> {
 
 	#onChange = (
 		value: string | undefined,
-		event: monaco.editor.IModelContentChangedEvent,
+		_event: monaco.editor.IModelContentChangedEvent,
 	): void => {
 		const p = this.#processor;
 		const e = this.#editor;
-		if (!p || !e) return;
-
-		const model = e.getModel();
-		let markers: monaco.editor.IMarkerData[] | undefined;
-		try {
-			markers = p.processAndValidate(model as monaco.editor.IReadOnlyModel);
-		} catch (err) {
-			markers = undefined;
+		if (!p || !e) {
+			return;
 		}
 
-		monaco.editor.setModelMarkers(
-			model as monaco.editor.ITextModel,
-			"dot",
-			markers || [],
+		const model = e.getModel() as monaco.editor.ITextModel;
+
+		p.processAndValidate(model).then(
+			markers => {
+				monaco.editor.setModelMarkers(model, "dot", markers || []);
+
+				const props = this.props;
+				if (markers && markers.length > 0) {
+					props.onValueError?.(markers);
+				} else {
+					if (typeof value !== "undefined") {
+						props.onChangeValue?.(value);
+					}
+				}
+			},
+			() => {
+				/* swallow exception */
+			},
 		);
-
-		const props = this.props;
-		if (markers && markers.length > 0) {
-			props.onValueError?.(markers);
-		} else {
-			if (typeof value !== "undefined") {
-				props.onChangeValue?.(value);
-			}
-		}
 
 		if (typeof this.#autoSaveTimeout !== "undefined") {
 			clearTimeout(this.#autoSaveTimeout);
 		}
+
 		this.#autoSaveTimeout = setTimeout(
 			() => saveLastSource(value),
 			SOURCE_SAVE_TIMEOUT,
@@ -118,11 +118,10 @@ export class EditorPane extends Component<Props, State> {
 	};
 
 	render() {
-		const defaultValue = this.props.defaultValue || "";
 		return (
 			<MonacoEditor
 				language="dot"
-				defaultValue={defaultValue}
+				defaultValue={this.props.defaultValue || ""}
 				options={{
 					selectOnLineNumbers: true,
 					lineNumbers: "on",

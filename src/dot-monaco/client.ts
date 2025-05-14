@@ -186,7 +186,10 @@ export function createService(): MonacoService {
 					return undefined;
 				}
 
-				return await p2m.asCodeActionResult(commands, token);
+				return {
+					actions: await p2m.asCodeActionResult(commands, token),
+					dispose() {},
+				};
 			},
 		},
 		colorProvider: {
