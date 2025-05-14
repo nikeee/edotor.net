@@ -14,27 +14,30 @@ export class TooltipButton extends Component<Props, object> {
 
 	#handleClick = () => {
 		const handler = this.props.onClick;
-		if (handler) {
-			const showTooltip = handler();
-
-			if (showTooltip) {
-				const domButton = this.#buttonRef.current;
-
-				if (domButton) {
-					($(domButton) as unknown as { tooltip(s: string): void }).tooltip(
-						"show",
-					);
-					this.#removeTimeout();
-					setTimeout(
-						() =>
-							($(domButton) as unknown as { tooltip(s: string): void }).tooltip(
-								"hide",
-							),
-						2500,
-					);
-				}
-			}
+		if (!handler) {
+			return;
 		}
+
+		const showTooltip = handler();
+		if (!showTooltip) {
+			return;
+		}
+
+		const domButton = this.#buttonRef.current;
+		if (!domButton) {
+			return;
+		}
+
+		($(domButton) as unknown as { tooltip(s: string): void }).tooltip("show");
+		this.#removeTimeout();
+
+		setTimeout(
+			() =>
+				($(domButton) as unknown as { tooltip(s: string): void }).tooltip(
+					"hide",
+				),
+			2500,
+		);
 	};
 
 	#removeTimeout() {
