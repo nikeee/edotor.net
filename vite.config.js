@@ -32,7 +32,13 @@ export default defineConfig(({ mode }) => {
 					beautify: false,
 				},
 			}),
-			react(),
+			react({
+				babel: {
+					plugins: [
+						["babel-plugin-react-compiler"],
+					],
+				},
+			}),
 		],
 	}
 });
