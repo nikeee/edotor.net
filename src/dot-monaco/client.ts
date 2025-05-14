@@ -1,18 +1,18 @@
 import * as languageService from "dot-language-support";
 import * as monaco from "monaco-editor";
-import {
-	MonacoToProtocolConverter,
-	ProtocolToMonacoConverter,
-	TextDocument,
-} from "monaco-languageclient";
+import { TextDocument } from "monaco-languageclient";
 import tokenConfig from "./xdot";
+
+import { createConverter as createCodeConverter } from "vscode-languageclient/lib/common/codeConverter";
+import { createConverter as createProtocolConverter } from "vscode-languageclient/lib/common/protocolConverter";
+
+const m2p = createCodeConverter();
+const p2m = createProtocolConverter(undefined, true, true);
 
 type Monaco = typeof monaco;
 
 const LANGUAGE_ID = "dot";
 
-const m2p = new MonacoToProtocolConverter(monaco);
-const p2m = new ProtocolToMonacoConverter(monaco);
 const ls = languageService.createService();
 
 export interface MonacoService {
@@ -31,10 +31,10 @@ export interface MonacoService {
 
 export interface LanguageProcessor {
 	process(model: monaco.editor.IReadOnlyModel): ParsedDocument;
-	validate(document: ParsedDocument): monaco.editor.IMarkerData[];
+	validate(document: ParsedDocument): Promise<monaco.editor.IMarkerData[]>;
 	processAndValidate(
 		model: monaco.editor.IReadOnlyModel,
-	): monaco.editor.IMarkerData[];
+	): Promise<monaco.editor.IMarkerData[]>;
 }
 
 function createDocument(model: monaco.editor.IReadOnlyModel) {
@@ -54,9 +54,9 @@ const processor: LanguageProcessor = {
 			sourceFile: ls.parseDocument(document),
 		};
 	},
-	validate(doc: ParsedDocument) {
+	async validate(doc: ParsedDocument) {
 		const diagnostics = ls.validateDocument(doc.document, doc.sourceFile);
-		return p2m.asDiagnostics(diagnostics);
+		return await p2m.asDiagnostics(diagnostics);
 	},
 	processAndValidate(model) {
 		const doc = this.process(model);
@@ -97,24 +97,25 @@ export function createService(): MonacoService {
 		},
 		completionItemProvider: {
 			triggerCharacters: ["=", ",", "["],
-			provideCompletionItems(
+			async provideCompletionItems(
 				model: monaco.editor.ITextModel,
 				position: monaco.Position,
+				token,
 			) {
 				const data = processor.process(model);
 
 				const completions = ls.getCompletions(
 					data.document,
 					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
+					m2p.asPosition(position),
 				);
 
-				// p2m.asCompletionResult has a bug
-				const defaultMonacoRange = monaco.Range.fromPositions(position);
 				return {
 					incomplete: false,
-					suggestions: completions.map(item =>
-						p2m.asCompletionItem(item, defaultMonacoRange, undefined),
+					suggestions: await p2m.asCompletionResult(
+						completions,
+						undefined,
+						token,
 					),
 				};
 			},
@@ -126,7 +127,7 @@ export function createService(): MonacoService {
 				const hover = ls.hover(
 					data.document,
 					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
+					m2p.asPosition(position),
 				);
 				return p2m.asHover(hover);
 			},
@@ -138,7 +139,7 @@ export function createService(): MonacoService {
 				const definition = ls.findDefinition(
 					data.document,
 					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
+					m2p.asPosition(position),
 				);
 				return p2m.asDefinitionResult(definition);
 			},
@@ -150,7 +151,7 @@ export function createService(): MonacoService {
 				const refs = ls.findReferences(
 					data.document,
 					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
+					m2p.asPosition(position),
 					context,
 				);
 				return p2m.asReferences(refs);
@@ -163,7 +164,7 @@ export function createService(): MonacoService {
 				const workspaceEdit = ls.renameSymbol(
 					data.document,
 					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
+					m2p.asPosition(position),
 					newName,
 				);
 
@@ -171,17 +172,21 @@ export function createService(): MonacoService {
 			},
 		},
 		codeActionProvider: {
-			provideCodeActions(model, range, context) {
+			async provideCodeActions(model, range, context, token) {
 				const data = processor.process(model);
 
 				const commands = ls.getCodeActions(
 					data.document,
 					data.sourceFile,
 					m2p.asRange(range),
-					m2p.asCodeActionContext(context, []),
+					await m2p.asCodeActionContext(context, token),
 				);
 
-				return commands ? p2m.asCodeActionList(commands) : null;
+				if (!commands) {
+					return undefined;
+				}
+
+				return await p2m.asCodeActionResult(commands, token);
 			},
 		},
 		colorProvider: {
@@ -272,7 +277,6 @@ export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 			if (!modelChanges) {
 				return;
 			}
-
 			const editOps = modelChanges.map(e => ({
 				range: p2m.asRange(e.range),
 				text: e.newText,
