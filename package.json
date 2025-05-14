@@ -28,7 +28,8 @@
     "react-spinners": "0.17.0",
     "react-split-pane": "0.1.92",
     "svg-pan-zoom": "3.6.2",
-    "viz.js": "2.1.2"
+    "viz.js": "2.1.2",
+    "vscode-languageclient": "^8.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
