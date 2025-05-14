@@ -133,7 +133,7 @@ export function createService(): MonacoService {
 			},
 		},
 		definitionProvider: {
-			provideDefinition(model, position) {
+			async provideDefinition(model, position, token) {
 				const data = processor.process(model);
 
 				const definition = ls.findDefinition(
@@ -141,11 +141,11 @@ export function createService(): MonacoService {
 					data.sourceFile,
 					m2p.asPosition(position),
 				);
-				return p2m.asDefinitionResult(definition);
+				return await p2m.asDefinitionResult(definition, token);
 			},
 		},
 		referenceProvider: {
-			provideReferences(model, position, context) {
+			async provideReferences(model, position, context, token) {
 				const data = processor.process(model);
 
 				const refs = ls.findReferences(
@@ -154,11 +154,11 @@ export function createService(): MonacoService {
 					m2p.asPosition(position),
 					context,
 				);
-				return p2m.asReferences(refs);
+				return await p2m.asReferences(refs, token);
 			},
 		},
 		renameProvider: {
-			provideRenameEdits(model, position, newName) {
+			async provideRenameEdits(model, position, newName, token) {
 				const data = processor.process(model);
 
 				const workspaceEdit = ls.renameSymbol(
@@ -168,7 +168,7 @@ export function createService(): MonacoService {
 					newName,
 				);
 
-				return p2m.asWorkspaceEdit(workspaceEdit);
+				return await p2m.asWorkspaceEdit(workspaceEdit, token);
 			},
 		},
 		codeActionProvider: {
@@ -195,7 +195,7 @@ export function createService(): MonacoService {
 				const res = ls.getDocumentColors(data.document, data.sourceFile);
 				return await p2m.asColorInformations(res, token);
 			},
-			provideColorPresentations(model, colorInfo) {
+			async provideColorPresentations(model, colorInfo, token) {
 				const data = processor.process(model);
 
 				const color = colorInfo.color;
@@ -207,7 +207,7 @@ export function createService(): MonacoService {
 					range,
 				);
 
-				return res ? p2m.asColorPresentations(res) : [];
+				return res ? await p2m.asColorPresentations(res, token) : [];
 			},
 		},
 		processor,
