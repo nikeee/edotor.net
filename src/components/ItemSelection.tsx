@@ -67,15 +67,14 @@ export class ItemSelection extends PureComponent<Props, State> {
 		const text = s.currentSelection ? s.currentSelection : "";
 
 		return (
-			<a
+			<span
 				className="nav-link dropdown-toggle"
-				href="#"
 				data-toggle="dropdown"
 				aria-haspopup="true"
 				aria-expanded="false"
 			>
 				{p.label} <span className={p.selectionClassName}>{text}</span>
-			</a>
+			</span>
 		);
 	}
 
