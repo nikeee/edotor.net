@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => {
 			alias: {
 				"~": path.resolve(__dirname, './node_modules'),
 				"vscode": path.resolve(__dirname, "./node_modules/monaco-languageclient/lib/vscode-compatibility"),
-
 			}
 		},
 		plugins: [
