@@ -21,15 +21,18 @@ type Props = {
 	onValueError(err: monaco.editor.IMarkerData[]): void;
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: will be migrated
+type State = any;
+
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 
-export class EditorPane extends Component<Props, any> {
+export class EditorPane extends Component<Props, State> {
 	private processor: ls.LanguageProcessor | undefined;
 	private editor: monaco.editor.IStandaloneCodeEditor | undefined;
 	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined =
 		undefined;
 
-	state: any = {};
+	state: State = {};
 
 	public loadValue(value: string) {
 		const e = this.editor;
