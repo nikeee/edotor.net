@@ -80,8 +80,7 @@ export async function exportAs(
 	const element = await renderElement(dotSrc, format, options.engine);
 
 	if (isSVGElement(element)) {
-		const svgData =
-			`<?xml version="1.0" encoding="UTF-8" ?>\n${element.outerHTML}`;
+		const svgData = `<?xml version="1.0" encoding="UTF-8" ?>\n${element.outerHTML}`;
 		saver.save(svgData, totalFileName);
 		return;
 	}

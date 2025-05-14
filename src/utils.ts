@@ -42,9 +42,7 @@ export const getFullUrl = (): string => {
  * @param sourceToShare The source to encode.
  */
 export const getShareUrl = (data: ShareData): string => {
-	return (
-		`${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#${encodeURIComponent(data.source)}`
-	);
+	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#${encodeURIComponent(data.source)}`;
 };
 
 /**
