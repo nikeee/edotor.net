@@ -190,17 +190,10 @@ export function createService(): MonacoService {
 			},
 		},
 		colorProvider: {
-			provideDocumentColors(model) {
+			async provideDocumentColors(model, token) {
 				const data = processor.process(model);
 				const res = ls.getDocumentColors(data.document, data.sourceFile);
-
-				// TODO: Create PR for this kind
-				return res
-					? res.map(c => ({
-							range: p2m.asRange(c.range),
-							color: c.color,
-						}))
-					: [];
+				return await p2m.asColorInformations(res, token);
 			},
 			provideColorPresentations(model, colorInfo) {
 				const data = processor.process(model);
