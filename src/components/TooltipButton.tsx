@@ -1,7 +1,7 @@
 import { Component, type PropsWithChildren, createRef } from "react";
 
 interface Props extends PropsWithChildren {
-	onClick(): boolean;
+	onClick: () => boolean;
 	title?: string;
 
 	className?: string;
