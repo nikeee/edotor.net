@@ -63,13 +63,12 @@ export interface Props {
 }
 
 export class Graph extends Component<Props, State> {
-	private containerRef: RefObject<HTMLDivElement | null> =
-		createRef<HTMLDivElement>();
-	private panZoomContainer: SvgPanZoom.Instance | undefined;
+	#containerRef: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
+	#panZoomContainer: SvgPanZoom.Instance | undefined;
 
 	state: State = createEmptyState();
 
-	private async updateGraph(): Promise<void> {
+	async #updateGraph(): Promise<void> {
 		const { dotSrc, format, engine } = this.props;
 
 		// If the input is empty (or only whitespace), render nothing.
@@ -94,13 +93,14 @@ export class Graph extends Component<Props, State> {
 	}
 
 	componentDidMount() {
-		this.updateGraph();
+		this.#updateGraph();
 	}
 	componentWillUnmount() {
-		this.destroyCurrentZoomContainer();
+		this.#destroyCurrentZoomContainer();
 	}
-	private destroyCurrentZoomContainer() {
-		const container = this.panZoomContainer;
+
+	#destroyCurrentZoomContainer() {
+		const container = this.#panZoomContainer;
 		if (container) container.destroy();
 	}
 
@@ -112,12 +112,12 @@ export class Graph extends Component<Props, State> {
 			format !== prevProps.format ||
 			engine !== prevProps.engine
 		) {
-			this.updateGraph();
+			this.#updateGraph();
 		}
 
 		const state = this.state;
-		if (state.element !== prevState.element && this.containerRef.current) {
-			const container = this.containerRef.current;
+		if (state.element !== prevState.element && this.#containerRef.current) {
+			const container = this.#containerRef.current;
 			removeChildren(container);
 
 			if (isRenderingState(state)) {
@@ -127,14 +127,14 @@ export class Graph extends Component<Props, State> {
 				const zoomContainer = createZoomWrapper(state.element);
 				zoomContainer.zoom(0.8);
 
-				this.destroyCurrentZoomContainer();
-				this.panZoomContainer = zoomContainer;
+				this.#destroyCurrentZoomContainer();
+				this.#panZoomContainer = zoomContainer;
 			}
 		}
 	}
 
 	render() {
-		return <div className={"graph"} ref={this.containerRef} />;
+		return <div className={"graph"} ref={this.#containerRef} />;
 	}
 }
 

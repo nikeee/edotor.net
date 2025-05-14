@@ -50,11 +50,10 @@ const loadingStyle = {
 } as const;
 
 class App extends Component<Props, State> {
-	private currentSource: string | undefined = undefined;
-	private saver: FileSaver = new FileSaver();
-	private editorRef: RefObject<
-		import("./components/SplitEditor").default | null
-	> = createRef();
+	#currentSource: string | undefined = undefined;
+	#saver: FileSaver = new FileSaver();
+	#editorRef: RefObject<import("./components/SplitEditor").default | null> =
+		createRef();
 
 	state: State;
 
@@ -65,7 +64,7 @@ class App extends Component<Props, State> {
 		};
 	}
 
-	private onChangeEngine = (engine: SupportedEngine): void => {
+	#onChangeEngine = (engine: SupportedEngine): void => {
 		this.setState(
 			{
 				engine,
@@ -74,32 +73,32 @@ class App extends Component<Props, State> {
 		);
 	};
 
-	private loadSample = (sampleDotSrc: string): void => {
+	#loadSample = (sampleDotSrc: string): void => {
 		if (!sampleDotSrc) return;
 
-		const editor = this.editorRef.current;
+		const editor = this.#editorRef.current;
 		if (sampleDotSrc && editor) {
 			editor.loadDotSource(sampleDotSrc);
 		}
 	};
 
-	private exportAs = (format: ExportableFormat): void => {
-		const dotSrc = this.currentSource;
+	#exportAs = (format: ExportableFormat): void => {
+		const dotSrc = this.#currentSource;
 		if (dotSrc) {
 			if (format === sourceFormatExtension) {
-				saveSource(dotSrc, this.saver);
+				saveSource(dotSrc, this.#saver);
 			} else {
-				exportAs(dotSrc, format, this.state, this.saver);
+				exportAs(dotSrc, format, this.state, this.#saver);
 			}
 		}
 	};
 
-	private sourceChanged = (source: string): void => {
-		this.currentSource = source;
+	#sourceChanged = (source: string): void => {
+		this.#currentSource = source;
 	};
 
-	private share = (): boolean => {
-		const sourceToShare = this.currentSource;
+	#share = (): boolean => {
+		const sourceToShare = this.#currentSource;
 		if (!sourceToShare) return false;
 
 		const link = getShareUrl({
@@ -135,19 +134,19 @@ class App extends Component<Props, State> {
 					<div className="collapse navbar-collapse" id="navbar-collapse">
 						<ul className="navbar-nav mr-auto">
 							<ItemMenu
-								onClickItem={this.loadSample}
+								onClickItem={this.#loadSample}
 								items={samples}
 								label="Load Sample"
 							/>
 
 							<ItemMenu
-								onClickItem={this.exportAs}
+								onClickItem={this.#exportAs}
 								items={displayFormats}
 								label="Download"
 							/>
 
 							<ItemSelection
-								onChangeItem={this.onChangeEngine}
+								onChangeItem={this.#onChangeEngine}
 								defaultItem={s.engine}
 								possibleItems={supportedEngines}
 								label="Engine:"
@@ -181,7 +180,7 @@ class App extends Component<Props, State> {
 
 					<div className="btn-group btn-group-sm">
 						<TooltipButton
-							onClick={this.share}
+							onClick={this.#share}
 							title="Link copied to clipboard!"
 							className="btn-secondary"
 						>
@@ -197,11 +196,11 @@ class App extends Component<Props, State> {
 					}
 				>
 					<LazySplitEditor
-						ref={this.editorRef}
+						ref={this.#editorRef}
 						initialSource={initialSource}
 						format="svg"
 						engine={s.engine}
-						onSourceChange={this.sourceChanged}
+						onSourceChange={this.#sourceChanged}
 					/>
 				</Suspense>
 			</div>

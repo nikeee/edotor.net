@@ -40,7 +40,7 @@ const createErroredState = (
 ): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
 export default class SplitEditor extends Component<Props, State> {
-	private editorPaneRef: RefObject<EditorPane | null> = createRef<EditorPane>();
+	#editorPaneRef: RefObject<EditorPane | null> = createRef<EditorPane>();
 
 	constructor(props: Props) {
 		super(props);
@@ -54,7 +54,7 @@ export default class SplitEditor extends Component<Props, State> {
 		// Change the value of the underlying monaco instance
 		// Monaco will call onChange and
 		// the rest is going to be handled as if the user changed the value by hand
-		const editor = this.editorPaneRef.current;
+		const editor = this.#editorPaneRef.current;
 		if (editor) {
 			editor.loadValue(dotSrc);
 		}
@@ -74,7 +74,7 @@ export default class SplitEditor extends Component<Props, State> {
 		});
 	};
 
-	private getDotSrcToRender() {
+	#getDotSrcToRender() {
 		const s = this.state;
 
 		return s.dotSrc ? s.dotSrc : s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "";
@@ -85,7 +85,7 @@ export default class SplitEditor extends Component<Props, State> {
 		const p = this.props;
 
 		const isErrored = s.errors && s.errors.length > 0;
-		const dotSrc = this.getDotSrcToRender();
+		const dotSrc = this.#getDotSrcToRender();
 
 		const graphPaneClass = isErrored ? "errored" : "successful";
 
@@ -100,7 +100,7 @@ export default class SplitEditor extends Component<Props, State> {
 			>
 				<ErrorBoundary fallback="Could not load editor">
 					<EditorPane
-						ref={this.editorPaneRef}
+						ref={this.#editorPaneRef}
 						defaultValue={s.dotSrc}
 						onChangeValue={this.dotSourceChanged}
 						onValueError={this.dotSourceErrored}

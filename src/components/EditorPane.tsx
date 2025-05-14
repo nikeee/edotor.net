@@ -27,44 +27,40 @@ type State = any;
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 
 export class EditorPane extends Component<Props, State> {
-	private processor: ls.LanguageProcessor | undefined;
-	private editor: monaco.editor.IStandaloneCodeEditor | undefined;
-	private autoSaveTimeout: ReturnType<typeof setTimeout> | undefined =
-		undefined;
+	#processor: ls.LanguageProcessor | undefined;
+	#editor: monaco.editor.IStandaloneCodeEditor | undefined;
+	#autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	state: State = {};
 
 	loadValue(value: string) {
-		const e = this.editor;
+		const e = this.#editor;
 		if (e) {
 			e.setValue(value);
 		}
 	}
 
-	private editorWillMount = (monaco: Monaco): void => {
+	#editorWillMount = (monaco: Monaco): void => {
 		const service = ls.createService();
 		ls.registerService(monaco, service);
-		this.processor = service.processor;
+		this.#processor = service.processor;
 	};
 
-	private editorDidMount = (
+	#editorDidMount = (
 		editor: monaco.editor.IStandaloneCodeEditor,
 		monaco: Monaco,
 	): void => {
-		this.editor = editor;
+		this.#editor = editor;
 		ls.registerCommands(editor);
 
 		// the first render() is called before the language is registered
 		// We need to refresh the model with the identical value, but a different language
-		this.refreshModel(editor, monaco);
+		this.#refreshModel(editor, monaco);
 
 		editor.focus();
 	};
 
-	private refreshModel(
-		editor: monaco.editor.IStandaloneCodeEditor,
-		monaco: Monaco,
-	) {
+	#refreshModel(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {
 		const oldModel = editor.getModel();
 		try {
 			import.meta.env.DEV && console.assert(!!oldModel);
@@ -81,12 +77,12 @@ export class EditorPane extends Component<Props, State> {
 		}
 	}
 
-	private onChange = (
+	#onChange = (
 		value: string | undefined,
 		event: monaco.editor.IModelContentChangedEvent,
 	): void => {
-		const p = this.processor;
-		const e = this.editor;
+		const p = this.#processor;
+		const e = this.#editor;
 		if (!p || !e) return;
 
 		const model = e.getModel();
@@ -114,10 +110,10 @@ export class EditorPane extends Component<Props, State> {
 			}
 		}
 
-		if (typeof this.autoSaveTimeout !== "undefined") {
-			clearTimeout(this.autoSaveTimeout);
+		if (typeof this.#autoSaveTimeout !== "undefined") {
+			clearTimeout(this.#autoSaveTimeout);
 		}
-		this.autoSaveTimeout = setTimeout(
+		this.#autoSaveTimeout = setTimeout(
 			() => saveLastSource(value),
 			SOURCE_SAVE_TIMEOUT,
 		);
@@ -141,9 +137,9 @@ export class EditorPane extends Component<Props, State> {
 					glyphMargin: true,
 					lightbulb: { enabled: true },
 				}}
-				onChange={this.onChange}
-				onMount={this.editorDidMount}
-				beforeMount={this.editorWillMount}
+				onChange={this.#onChange}
+				onMount={this.#editorDidMount}
+				beforeMount={this.#editorWillMount}
 			/>
 		);
 	}

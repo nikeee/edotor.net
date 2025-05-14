@@ -24,7 +24,7 @@ export class ItemSelection extends PureComponent<Props, State> {
 		};
 	}
 
-	private handleChange(newItem: TItem) {
+	#handleChange(newItem: TItem) {
 		this.setState(prevState => {
 			const oldItem = prevState.currentSelection;
 			if (oldItem === undefined || newItem !== oldItem) {
@@ -39,12 +39,12 @@ export class ItemSelection extends PureComponent<Props, State> {
 		});
 	}
 
-	private getDropDown() {
+	#getDropDown() {
 		const options = this.props.possibleItems.map(e => (
 			<button
 				className="dropdown-item"
 				key={e}
-				onClick={() => this.handleChange(e)}
+				onClick={() => this.#handleChange(e)}
 				type="button"
 			>
 				{e}
@@ -58,7 +58,7 @@ export class ItemSelection extends PureComponent<Props, State> {
 		);
 	}
 
-	private getShowSelectionLabel() {
+	#getShowSelectionLabel() {
 		const p = this.props;
 		const s = this.state;
 
@@ -81,8 +81,8 @@ export class ItemSelection extends PureComponent<Props, State> {
 	render() {
 		return (
 			<li className="nav-item dropdown">
-				{this.getShowSelectionLabel()}
-				{this.getDropDown()}
+				{this.#getShowSelectionLabel()}
+				{this.#getDropDown()}
 			</li>
 		);
 	}
