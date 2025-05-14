@@ -34,7 +34,7 @@ export class EditorPane extends Component<Props, State> {
 
 	state: State = {};
 
-	public loadValue(value: string) {
+	loadValue(value: string) {
 		const e = this.editor;
 		if (e) {
 			e.setValue(value);
@@ -123,7 +123,7 @@ export class EditorPane extends Component<Props, State> {
 		);
 	};
 
-	public render() {
+	render() {
 		const defaultValue = this.props.defaultValue || "";
 		return (
 			<MonacoEditor

@@ -46,15 +46,15 @@ export class TooltipButton extends Component<Props, object> {
 		}
 	}
 
-	public componentWillUnmount() {
+	componentWillUnmount() {
 		this.removeTimeout();
 	}
 
-	public componentDidMount() {
+	componentDidMount() {
 		this.updateTooltipTriggers();
 	}
 
-	public componentDidUpdate() {
+	componentDidUpdate() {
 		this.updateTooltipTriggers();
 	}
 
@@ -69,7 +69,7 @@ export class TooltipButton extends Component<Props, object> {
 		}
 	}
 
-	public render() {
+	render() {
 		const p = this.props;
 		return (
 			<button

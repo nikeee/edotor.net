@@ -50,7 +50,7 @@ export default class SplitEditor extends Component<Props, State> {
 		if (p.onSourceChange) p.onSourceChange(this.state.dotSrc);
 	}
 
-	public loadDotSource(dotSrc: string) {
+	loadDotSource(dotSrc: string) {
 		// Change the value of the underlying monaco instance
 		// Monaco will call onChange and
 		// the rest is going to be handled as if the user changed the value by hand
@@ -80,7 +80,7 @@ export default class SplitEditor extends Component<Props, State> {
 		return s.dotSrc ? s.dotSrc : s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "";
 	}
 
-	public render() {
+	render() {
 		const s = this.state;
 		const p = this.props;
 

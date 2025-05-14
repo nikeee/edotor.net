@@ -111,7 +111,7 @@ class App extends Component<Props, State> {
 		return true;
 	};
 
-	public render() {
+	render() {
 		const s = this.state;
 		const p = this.props;
 		const initialSource = p.initialText ? p.initialText : defaultSource;

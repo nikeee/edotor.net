@@ -6,7 +6,7 @@ export class FileSaver {
 		this._link.style.display = "none";
 	}
 
-	public save(data: Blob | BlobPart, fileName: string) {
+	save(data: Blob | BlobPart, fileName: string) {
 		const blob =
 			data instanceof Blob ? data : new Blob([data], { type: "octet/stream" });
 
@@ -20,13 +20,13 @@ export class FileSaver {
 		}
 	}
 
-	public saveImage(image: HTMLImageElement, fileName: string) {
+	saveImage(image: HTMLImageElement, fileName: string) {
 		this._link.href = image.src;
 		this._link.download = fileName;
 		this._link.click();
 	}
 
-	public saveBase64(base64Data: string, fileName: string): Promise<void> {
+	saveBase64(base64Data: string, fileName: string): Promise<void> {
 		const url = `data:image/png;base64,${base64Data}`;
 		return fetch(url)
 			.then(res => res.blob())

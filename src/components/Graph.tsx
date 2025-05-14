@@ -93,10 +93,10 @@ export class Graph extends Component<Props, State> {
 		}
 	}
 
-	public componentDidMount() {
+	componentDidMount() {
 		this.updateGraph();
 	}
-	public componentWillUnmount() {
+	componentWillUnmount() {
 		this.destroyCurrentZoomContainer();
 	}
 	private destroyCurrentZoomContainer() {
@@ -104,7 +104,7 @@ export class Graph extends Component<Props, State> {
 		if (container) container.destroy();
 	}
 
-	public componentDidUpdate(prevProps: Props, prevState: State) {
+	componentDidUpdate(prevProps: Props, prevState: State) {
 		const { dotSrc, format, engine } = this.props;
 
 		if (
@@ -133,7 +133,7 @@ export class Graph extends Component<Props, State> {
 		}
 	}
 
-	public render() {
+	render() {
 		return <div className={"graph"} ref={this.containerRef} />;
 	}
 }
