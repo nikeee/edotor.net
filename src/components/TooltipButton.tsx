@@ -22,9 +22,17 @@ export class TooltipButton extends Component<Props, object> {
 				const domButton = this.buttonRef.current;
 
 				if (domButton) {
-					($(domButton) as any).tooltip("show");
+					($(domButton) as unknown as { tooltip(s: string): void }).tooltip(
+						"show",
+					);
 					this.removeTimeout();
-					setTimeout(() => ($(domButton) as any).tooltip("hide"), 2500);
+					setTimeout(
+						() =>
+							($(domButton) as unknown as { tooltip(s: string): void }).tooltip(
+								"hide",
+							),
+						2500,
+					);
 				}
 			}
 		}
