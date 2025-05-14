@@ -6,7 +6,7 @@ export class FileSaver {
 		this._link.style.display = "none";
 	}
 
-	public save(data: any, fileName: string) {
+	public save(data: Blob | BlobPart, fileName: string) {
 		const blob =
 			data instanceof Blob ? data : new Blob([data], { type: "octet/stream" });
 
