@@ -1,9 +1,9 @@
-import { Component, createRef, type RefObject } from "react";
+import { Component, type RefObject, createRef } from "react";
 import svgPanZoom from "svg-pan-zoom";
 import {
 	type Rendering,
-	type SupportedFormat,
 	type SupportedEngine,
+	type SupportedFormat,
 	renderElement,
 } from "../rendering";
 import { removeChildren } from "../utils";

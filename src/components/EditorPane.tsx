@@ -1,10 +1,10 @@
-import { Component } from "react";
+import { default as MonacoEditor, loader } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { loader, default as MonacoEditor } from "@monaco-editor/react";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import { Component } from "react";
 
-import * as ls from "../dot-monaco/index.js";
 import { saveLastSource } from "../config.js";
+import * as ls from "../dot-monaco/index.js";
 
 type Monaco = typeof monaco;
 

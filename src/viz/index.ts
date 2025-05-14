@@ -1,5 +1,5 @@
-import type { SupportedEngine, SupportedFormat } from "../rendering";
 import type { ItemMenuItem } from "../components/ItemMenu";
+import type { SupportedEngine, SupportedFormat } from "../rendering";
 
 export const sourceFormatName = "Source";
 export const sourceFormatExtension = "gv";

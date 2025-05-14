@@ -1,7 +1,7 @@
 import Viz from "viz.js";
 import workerURL from "viz.js/full.render.js?url";
-import { assertNever } from "./utils";
 import type { FileSaver } from "./FileSaver";
+import { assertNever } from "./utils";
 import { sourceFormatExtension } from "./viz";
 
 const createViz = () => new Viz({ workerURL });

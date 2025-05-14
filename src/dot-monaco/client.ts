@@ -1,11 +1,11 @@
 import * as languageService from "dot-language-support";
+import * as monaco from "monaco-editor";
 import {
 	MonacoToProtocolConverter,
 	ProtocolToMonacoConverter,
 	TextDocument,
 } from "monaco-languageclient";
 import tokenConfig from "./xdot";
-import * as monaco from "monaco-editor";
 
 type Monaco = typeof monaco;
 

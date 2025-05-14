@@ -1,4 +1,4 @@
-import { lazy, Component, type RefObject, createRef, Suspense } from "react";
+import { Component, type RefObject, Suspense, createRef, lazy } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./bootstrap";
@@ -7,23 +7,23 @@ import "./index.scss";
 
 import BarLoader from "react-spinners/BarLoader";
 
-import { SiteLogo } from "./components/SiteLogo";
-import { ItemSelection } from "./components/ItemSelection";
 import { ItemMenu } from "./components/ItemMenu";
+import { ItemSelection } from "./components/ItemSelection";
+import { SiteLogo } from "./components/SiteLogo";
 
+import { FileSaver } from "./FileSaver";
+import { TooltipButton } from "./components/TooltipButton";
+import Version from "./components/Version";
+import { getLastState, mergeStates, saveLastEngine } from "./config";
 import { type SupportedEngine, exportAs, saveSource } from "./rendering";
 import { samples, tutorial } from "./samples";
+import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils";
 import {
-	supportedEngines,
-	displayFormats,
 	type ExportableFormat,
+	displayFormats,
 	sourceFormatExtension,
+	supportedEngines,
 } from "./viz";
-import { TooltipButton } from "./components/TooltipButton";
-import { FileSaver } from "./FileSaver";
-import { copyToClipboard, getSourceFromUrl, getShareUrl } from "./utils";
-import { mergeStates, getLastState, saveLastEngine } from "./config";
-import Version from "./components/Version";
 
 import $ from "jquery";
 

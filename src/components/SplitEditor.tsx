@@ -1,12 +1,12 @@
-import { Component, createRef, type RefObject } from "react";
-import SplitPane from "react-split-pane";
 import type * as monaco from "monaco-editor";
+import { Component, type RefObject, createRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import SplitPane from "react-split-pane";
 
+import { getSplitConfig, saveSplitConfig } from "../config";
+import type { SupportedEngine, SupportedFormat } from "../rendering";
 import { EditorPane } from "./EditorPane";
 import { GraphPane } from "./GraphPane";
-import type { SupportedFormat, SupportedEngine } from "../rendering";
-import { getSplitConfig, saveSplitConfig } from "../config";
 
 type ErrorList = monaco.editor.IMarkerData[];
 
