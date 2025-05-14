@@ -101,12 +101,10 @@ export class EditorPane extends Component<Props, State> {
 
 		const props = this.props;
 		if (markers && markers.length > 0) {
-			if (props.onValueError) {
-				props.onValueError(markers);
-			}
+			props.onValueError?.(markers);
 		} else {
-			if (props.onChangeValue && typeof value !== "undefined") {
-				props.onChangeValue(value);
+			if (typeof value !== "undefined") {
+				props.onChangeValue?.(value);
 			}
 		}
 
