@@ -248,7 +248,9 @@ export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 	for (const command of ls.getAvailableCommands()) {
 		monaco.editor.registerCommand(command, (_accessor, ...args: unknown[]) => {
 			const m = editor.getModel();
-			if (m === null) return;
+			if (m === null) {
+				return;
+			}
 
 			const data = processor.process(m);
 			const doc = data.document;
@@ -256,19 +258,27 @@ export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
 				command,
 				arguments: args,
 			});
-			if (edits) {
-				const changes = edits.edit.changes;
-				if (changes) {
-					const modelChanges = changes[doc.uri];
-					if (modelChanges) {
-						const editOps = modelChanges.map(e => ({
-							range: p2m.asRange(e.range),
-							text: e.newText,
-						}));
-						m.pushEditOperations([], editOps, () => []);
-					}
-				}
+
+			if (!edits) {
+				return;
 			}
+
+			const changes = edits.edit.changes;
+			if (!changes) {
+				return;
+			}
+
+			const modelChanges = changes[doc.uri];
+			if (!modelChanges) {
+				return;
+			}
+
+			const editOps = modelChanges.map(e => ({
+				range: p2m.asRange(e.range),
+				text: e.newText,
+			}));
+
+			m.pushEditOperations([], editOps, () => []);
 		});
 	}
 }
