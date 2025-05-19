@@ -40,7 +40,7 @@
     "babel-plugin-react-compiler": "^19.1.0-rc.1",
     "eslint": "^9.26.0",
     "eslint-plugin-react-hooks": "^6.0.0-rc.1",
-    "lefthook": "^1.11.12",
+    "lefthook": "^1.11.13",
     "sass-embedded": "^1.88.0",
     "typescript": "5.8.3",
     "vite": "^6.3.5",
