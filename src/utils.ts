@@ -51,34 +51,38 @@ export const getShareUrl = (data: ShareData): string => {
  * Gets the source that is provided via window.location.hash, if any
  */
 export const getSourceFromUrl = (): Partial<ShareData> => {
-	const res: Partial<ShareData> = {
-		source: undefined,
-		engine: undefined,
-	};
-
 	const l = window.location;
+	let engine: SupportedEngine | undefined = undefined;
 	if (l.search) {
 		const params = new URLSearchParams(l.search);
 		const engineToUse = params.get("engine");
-		res.engine = isSupportedEngine(engineToUse) ? engineToUse : undefined;
+		engine = isSupportedEngine(engineToUse) ? engineToUse : undefined;
 	}
 
 	const hash = l.hash;
-	if (!hash || hash === "#") return res;
-
-	const source = hash.substring(1);
-	if (source.startsWith("pako:")) {
-		try {
-			res.source = inflate(toUint8Array(source.substring(5)), { to: "string" });
-		} catch (e) {
-			console.error(`Failed to decode the compressed "pako" source: ${e}`);
-			res.source = undefined;
-		}
-	} else {
-		res.source = source ? decodeURIComponent(source) : undefined;
+	if (!hash || hash === "#") {
+		return {
+			source: undefined,
+			engine,
+		};
 	}
 
-	return res;
+	let source: string | undefined = hash.substring(1);
+	if (source.startsWith("pako:")) {
+		try {
+			source = inflate(toUint8Array(source.substring(5)), { to: "string" });
+		} catch (e) {
+			console.error(`Failed to decode the compressed "pako" source: ${e}`);
+			source = undefined;
+		}
+	} else {
+		source = source ? decodeURIComponent(source) : undefined;
+	}
+
+	return {
+		source,
+		engine,
+	};
 };
 
 export interface ShareData {
