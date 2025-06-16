@@ -1,3 +1,5 @@
+import { fromUint8Array, toUint8Array } from "js-base64";
+import { deflate, inflate } from "pako";
 import type { SupportedEngine } from "./rendering";
 import { isSupportedEngine } from "./viz";
 
@@ -42,7 +44,7 @@ export const getFullUrl = (): string => {
  * @param sourceToShare The source to encode.
  */
 export const getShareUrl = (data: ShareData): string => {
-	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#${encodeURIComponent(data.source)}`;
+	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#pako:${fromUint8Array(deflate(data.source, { level: 9 }))}`;
 };
 
 /**
@@ -65,7 +67,16 @@ export const getSourceFromUrl = (): Partial<ShareData> => {
 	if (!hash || hash === "#") return res;
 
 	const source = hash.substring(1);
-	res.source = source ? decodeURIComponent(source) : undefined;
+	if (source.startsWith("pako:")) {
+		try {
+			res.source = inflate(toUint8Array(source.substring(5)), { to: "string" });
+		} catch (e) {
+			console.error(`Failed to decode the compressed "pako" source: ${e}`);
+			res.source = undefined;
+		}
+	} else {
+		res.source = source ? decodeURIComponent(source) : undefined;
+	}
 
 	return res;
 };
