@@ -44,37 +44,26 @@ export const getFullUrl = (): string => {
  * @param sourceToShare The source to encode.
  */
 export const getShareUrl = (data: ShareData): string => {
-	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#pako:${fromUint8Array(deflate(data.source, { level: 9 }))}`;
+	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#deflate:${fromUint8Array(deflate(data.source, { level: 9 }))}`;
 };
 
 /**
  * Gets the source that is provided via window.location.hash, if any
  */
-export const getSourceFromUrl = (): Partial<ShareData> => {
-	const l = window.location;
-	let engine: SupportedEngine | undefined = undefined;
-	if (l.search) {
-		const params = new URLSearchParams(l.search);
-		const engineToUse = params.get("engine");
-		engine = isSupportedEngine(engineToUse) ? engineToUse : undefined;
-	}
+export const getSourceFromUrl = (url: URL): Partial<ShareData> => {
+	const passedEndinge = url.searchParams.get("engine");
+	const engine = isSupportedEngine(passedEndinge) ? passedEndinge : undefined;
 
-	const hash = l.hash;
-	if (!hash || hash === "#") {
+	if (!url.hash || url.hash === "#") {
 		return {
 			source: undefined,
 			engine,
 		};
 	}
 
-	let source: string | undefined = hash.substring(1);
-	if (source.startsWith("pako:")) {
-		try {
-			source = inflate(toUint8Array(source.substring(5)), { to: "string" });
-		} catch (e) {
-			console.error(`Failed to decode the compressed "pako" source: ${e}`);
-			source = undefined;
-		}
+	let source: string | undefined = url.hash.substring(1);
+	if (source.startsWith("deflate:")) {
+		source = tryInflate(source.substring("deflate:".length));
 	} else {
 		source = source ? decodeURIComponent(source) : undefined;
 	}
@@ -84,6 +73,15 @@ export const getSourceFromUrl = (): Partial<ShareData> => {
 		engine,
 	};
 };
+
+function tryInflate(base64Content: string): string | undefined {
+	try {
+		return inflate(toUint8Array(base64Content), { to: "string" });
+	} catch (e) {
+		console.error(`Failed to decode the compressed deflate source: ${e}`);
+		return undefined;
+	}
+}
 
 export interface ShareData {
 	source: string;

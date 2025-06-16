@@ -143,7 +143,10 @@ class App extends Component<Props, State> {
 	}
 }
 
-const initialState = mergeStates(getSourceFromUrl(), getLastState());
+const initialState = mergeStates(
+	getSourceFromUrl(new URL(window.location)),
+	getLastState(),
+);
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 const root = createRoot(document.getElementById("root")!);
