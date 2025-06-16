@@ -144,7 +144,7 @@ class App extends Component<Props, State> {
 }
 
 const initialState = mergeStates(
-	getSourceFromUrl(new URL(window.location)),
+	getSourceFromUrl(new URL(window.location.href)),
 	getLastState(),
 );
 
