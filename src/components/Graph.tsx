@@ -1,10 +1,10 @@
-import { Component, type RefObject, createRef } from "react";
+import { Component, createRef, type RefObject } from "react";
 import svgPanZoom from "svg-pan-zoom";
 import {
 	type Rendering,
+	renderElement,
 	type SupportedEngine,
 	type SupportedFormat,
-	renderElement,
 } from "../rendering";
 import { removeChildren } from "../utils";
 
@@ -39,9 +39,6 @@ const createErrorState = (error: string): ErrorState => ({
 	error,
 });
 
-const isEmptyState = (s: State): s is EmptyState =>
-	s.element === undefined && s.error === undefined;
-
 function isRenderingState(s: State): s is RenderingState {
 	if (s.error !== undefined) return false;
 	const e = s.element;
@@ -52,9 +49,6 @@ function isRenderingState(s: State): s is RenderingState {
 		!e.innerHTML.includes("<sourcetext")
 	); // Firefox
 }
-
-const isErrorState = (s: State): s is ErrorState =>
-	s.element === undefined && s.error !== undefined;
 
 export interface Props {
 	dotSrc: string;
@@ -80,7 +74,7 @@ export class Graph extends Component<Props, State> {
 		let element: Rendering;
 		try {
 			element = await renderElement(dotSrc, format, engine);
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: todo
 		} catch (e: any) {
 			this.setState(createErrorState(e.message));
 			return;

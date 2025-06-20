@@ -52,6 +52,7 @@ export class ItemSelection extends PureComponent<Props, State> {
 		));
 
 		return (
+			// biome-ignore lint/nursery/useUniqueElementIds: todo
 			<div className="dropdown-menu" id="supported-engines-list">
 				{options}
 			</div>
@@ -71,7 +72,6 @@ export class ItemSelection extends PureComponent<Props, State> {
 				className="nav-link dropdown-toggle"
 				data-toggle="dropdown"
 				aria-haspopup="true"
-				aria-expanded="false"
 			>
 				{p.label} <span className={p.selectionClassName}>{text}</span>
 			</span>

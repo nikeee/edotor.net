@@ -26,7 +26,6 @@ export function ItemMenu<TItem>(props: Props<TItem>) {
 				className="nav-link dropdown-toggle"
 				data-toggle="dropdown"
 				aria-haspopup="true"
-				aria-expanded="false"
 			>
 				{props.label}
 			</span>

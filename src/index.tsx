@@ -1,20 +1,16 @@
-import { Component, type RefObject, Suspense, createRef, lazy } from "react";
+import { Component, createRef, lazy, type RefObject, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./bootstrap";
 
 import "./index.scss";
 
+import $ from "jquery";
 import BarLoader from "react-spinners/BarLoader";
-
-import { FileSaver } from "./FileSaver";
+import Navigation from "./components/Navigation";
 import { getLastState, mergeStates, saveLastEngine } from "./config";
-import {
-	type SupportedEngine,
-	type SupportedFormat,
-	exportAs,
-	saveSource,
-} from "./rendering";
+import { FileSaver } from "./FileSaver";
+import { exportAs, type SupportedEngine, saveSource } from "./rendering";
 import { tutorial } from "./samples";
 import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils";
 import {
@@ -22,9 +18,6 @@ import {
 	sourceFormatExtension,
 	supportedEngines,
 } from "./viz";
-
-import $ from "jquery";
-import Navigation from "./components/Navigation";
 
 window.jQuery = window.$ = $;
 
@@ -148,7 +141,7 @@ const initialState = mergeStates(
 	getLastState(),
 );
 
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
+// biome-ignore lint/style/noNonNullAssertion: todo
 const root = createRoot(document.getElementById("root")!);
 root.render(
 	<App initialText={initialState.source} initialEngine={initialState.engine} />,

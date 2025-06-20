@@ -1,4 +1,4 @@
-import { Component, type PropsWithChildren, createRef } from "react";
+import { Component, createRef, type PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
 	onClick: () => boolean;

@@ -1,5 +1,5 @@
 import type * as monaco from "monaco-editor";
-import { Component, type RefObject, createRef } from "react";
+import { Component, createRef, type RefObject } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import SplitPane from "react-split-pane";
 

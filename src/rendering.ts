@@ -85,7 +85,7 @@ export async function exportAs(
 		return;
 	}
 
-	const imageElement = await renderElement(dotSrc, format, options.engine);
+	const _imageElement = await renderElement(dotSrc, format, options.engine);
 	saver.saveImage(element, totalFileName);
 }
 

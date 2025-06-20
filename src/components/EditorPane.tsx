@@ -1,4 +1,4 @@
-import { default as MonacoEditor, loader } from "@monaco-editor/react";
+import { loader, default as MonacoEditor } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { Component } from "react";
@@ -79,7 +79,7 @@ export class EditorPane extends Component<Props, State> {
 
 	#onChange = (
 		value: string | undefined,
-		event: monaco.editor.IModelContentChangedEvent,
+		_event: monaco.editor.IModelContentChangedEvent,
 	): void => {
 		const p = this.#processor;
 		const e = this.#editor;
@@ -89,7 +89,7 @@ export class EditorPane extends Component<Props, State> {
 		let markers: monaco.editor.IMarkerData[] | undefined;
 		try {
 			markers = p.processAndValidate(model as monaco.editor.IReadOnlyModel);
-		} catch (err) {
+		} catch {
 			markers = undefined;
 		}
 
