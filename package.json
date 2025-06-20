@@ -17,7 +17,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "bootstrap": "4.6.2",
-    "dot-language-support": "2.2.9",
+    "dot-language-support": "2.2.10",
     "jquery": "3.7.1",
     "js-base64": "^3.7.7",
     "monaco-editor": "0.33.0",
@@ -33,7 +33,7 @@
     "viz.js": "2.1.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.0",
     "@types/jquery": "^3.5.32",
     "@types/pako": "^2.0.3",
     "@types/react": "19.1.8",
