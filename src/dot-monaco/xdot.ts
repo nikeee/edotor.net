@@ -83,7 +83,7 @@ export default {
 	],
 
 	// we include these common regular expressions
-	symbols: /[=><!~?:&|+\-*\/\^%]+/,
+	symbols: /[=><!~?:&|+\-*/^%]+/,
 
 	// The main tokenizer for our languages
 	tokenizer: {
@@ -111,7 +111,7 @@ export default {
 			],
 
 			// delimiters and operators
-			[/[{}()\[\]]/, "@brackets"],
+			[/[{}()[\]]/, "@brackets"],
 			[
 				/@symbols/,
 				{
@@ -126,7 +126,7 @@ export default {
 			[/[;,]/, "delimiter"],
 
 			// numbers
-			[/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
+			[/\d*\.\d+([eE][-+]?\d+)?/, "number.float"],
 			[/0[xX][0-9a-fA-F]+/, "number.hex"],
 			[/\d+/, "number"],
 
@@ -136,10 +136,10 @@ export default {
 		],
 
 		comment: [
-			[/[^\/*]+/, "comment"],
+			[/[^/*]+/, "comment"],
 			[/\/\*/, "comment", "@push"], // nested comment
 			["\\*/", "comment", "@pop"],
-			[/[\/*]/, "comment"],
+			[/[/*]/, "comment"],
 		],
 
 		html: [
