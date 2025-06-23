@@ -21,7 +21,7 @@
     "jquery": "3.7.1",
     "js-base64": "^3.7.7",
     "monaco-editor": "0.33.0",
-    "monaco-languageclient": "1.1.0",
+    "monaco-languageclient": "9.7.1",
     "pako": "^2.1.0",
     "popper.js": "1.16.1",
     "react": "19.1.0",
