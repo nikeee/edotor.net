@@ -34,14 +34,14 @@ export default function Navigation({
 			<button
 				className="navbar-toggler"
 				type="button"
-				data-toggle="collapse"
-				data-target="#navbar-collapse"
+				data-bs-toggle="collapse"
+				data-bs-target="#navbar-collapse"
 			>
 				<span className="navbar-toggler-icon" />
 			</button>
 
 			<div className="collapse navbar-collapse" id="navbar-collapse">
-				<ul className="navbar-nav mr-auto">
+				<ul className="navbar-nav me-auto">
 					<ItemMenu
 						onClickItem={loadSample}
 						items={samples}

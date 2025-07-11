@@ -24,7 +24,7 @@ export function ItemMenu<TItem>(props: Props<TItem>) {
 		<li className="nav-item dropdown">
 			<span
 				className="nav-link dropdown-toggle"
-				data-toggle="dropdown"
+				data-bs-toggle="dropdown"
 				aria-haspopup="true"
 			>
 				{props.label}

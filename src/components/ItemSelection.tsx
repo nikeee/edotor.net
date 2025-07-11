@@ -69,7 +69,7 @@ export class ItemSelection extends PureComponent<Props, State> {
 		return (
 			<span
 				className="nav-link dropdown-toggle"
-				data-toggle="dropdown"
+				data-bs-toggle="dropdown"
 				aria-haspopup="true"
 			>
 				{p.label} <span className={p.selectionClassName}>{text}</span>
