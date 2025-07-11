@@ -1,7 +1,7 @@
 import { Component, createRef, lazy, type RefObject, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 
-import "./bootstrap";
+import "bootstrap";
 
 import "./index.scss";
 
