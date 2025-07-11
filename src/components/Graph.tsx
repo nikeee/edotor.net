@@ -128,7 +128,7 @@ export class Graph extends Component<Props, State> {
 	}
 
 	render() {
-		return <div className={"graph"} ref={this.#containerRef} />;
+		return <div className="graph" ref={this.#containerRef} />;
 	}
 }
 

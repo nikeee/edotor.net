@@ -40,7 +40,6 @@ export default function Navigation({
 				<span className="navbar-toggler-icon" />
 			</button>
 
-			{/** biome-ignore lint/nursery/useUniqueElementIds: todo */}
 			<div className="collapse navbar-collapse" id="navbar-collapse">
 				<ul className="navbar-nav mr-auto">
 					<ItemMenu

@@ -52,7 +52,6 @@ export class ItemSelection extends PureComponent<Props, State> {
 		));
 
 		return (
-			// biome-ignore lint/nursery/useUniqueElementIds: todo
 			<div className="dropdown-menu" id="supported-engines-list">
 				{options}
 			</div>
