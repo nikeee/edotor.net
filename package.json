@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.1",
-    "@types/jquery": "^3.5.32",
     "@types/pako": "^2.0.3",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",

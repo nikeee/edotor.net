@@ -5,7 +5,6 @@ import "./bootstrap";
 
 import "./index.scss";
 
-import $ from "jquery";
 import BarLoader from "react-spinners/BarLoader";
 import Navigation from "./components/Navigation";
 import { getLastState, mergeStates, saveLastEngine } from "./config";
@@ -18,8 +17,6 @@ import {
 	sourceFormatExtension,
 	supportedEngines,
 } from "./viz";
-
-window.jQuery = window.$ = $;
 
 const LazySplitEditor = lazy(() => import("./components/SplitEditor"));
 
