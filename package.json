@@ -17,7 +17,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "bootstrap": "4.6.2",
-    "dot-language-support": "^2.3.0",
+    "dot-language-support": "^3.0.0",
     "jquery": "3.7.1",
     "js-base64": "^3.7.7",
     "monaco-editor": "0.33.0",
