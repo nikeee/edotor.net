@@ -5,7 +5,7 @@ import { displayFormats, supportedEngines } from "../viz";
 import { ItemMenu } from "./ItemMenu";
 import { ItemSelection } from "./ItemSelection";
 import { SiteLogo } from "./SiteLogo";
-import { TooltipButton } from "./TooltipButton";
+import TooltipButton from "./TooltipButton";
 import Version from "./Version";
 
 export type NavigationProps = {
