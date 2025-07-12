@@ -22,13 +22,14 @@ export function ItemMenu<TItem>(props: Props<TItem>) {
 
 	return (
 		<li className="nav-item dropdown">
-			<span
+			<button
+				type="button"
 				className="nav-link dropdown-toggle"
 				data-bs-toggle="dropdown"
 				aria-haspopup="true"
 			>
 				{props.label}
-			</span>
+			</button>
 			<div className="dropdown-menu">{options}</div>
 		</li>
 	);

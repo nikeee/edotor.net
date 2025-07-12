@@ -27,74 +27,76 @@ export default function Navigation({
 }: NavigationProps) {
 	return (
 		<nav className="navbar navbar-expand-md navbar-dark bg-dark mb-0">
-			<a className="navbar-brand" href="//edotor.net">
-				<SiteLogo />
-			</a>
-
-			<button
-				className="navbar-toggler"
-				type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#navbar-collapse"
-			>
-				<span className="navbar-toggler-icon" />
-			</button>
-
-			<div className="collapse navbar-collapse" id="navbar-collapse">
-				<ul className="navbar-nav me-auto">
-					<ItemMenu
-						onClickItem={loadSample}
-						items={samples}
-						label="Load Sample"
-					/>
-
-					<ItemMenu
-						onClickItem={exportAs}
-						items={displayFormats}
-						label="Download"
-					/>
-
-					<ItemSelection
-						onChangeItem={changeEngine}
-						defaultItem={currentEngine}
-						possibleItems={supportedEngines}
-						label="Engine:"
-						selectionClassName="engine"
-					/>
-				</ul>
-			</div>
-
-			<div className="nav-item navbar-nav">
-				<a
-					className="nav-link external-link"
-					target="_blank"
-					rel="noopener noreferrer"
-					href="//www.graphviz.org/documentation/"
-				>
-					Graphviz Documentation
+			<div className="container-fluid">
+				<a className="navbar-brand" href="//edotor.net">
+					<SiteLogo />
 				</a>
-			</div>
 
-			<div className="nav-item navbar-nav">
-				<a
-					className="nav-link external-link"
-					target="_blank"
-					rel="noopener noreferrer"
-					href="//github.com/nikeee/edotor.net"
+				<button
+					className="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbar-collapse"
 				>
-					Issues
-				</a>
-				{import.meta.env.DEV && <Version />}
-			</div>
+					<span className="navbar-toggler-icon" />
+				</button>
 
-			<div className="btn-group btn-group-sm">
-				<TooltipButton
-					onClick={share}
-					title="Link copied to clipboard!"
-					className="btn-secondary"
-				>
-					Copy Share Link
-				</TooltipButton>
+				<div className="collapse navbar-collapse" id="navbar-collapse">
+					<ul className="navbar-nav me-auto">
+						<ItemMenu
+							onClickItem={loadSample}
+							items={samples}
+							label="Load Sample"
+						/>
+
+						<ItemMenu
+							onClickItem={exportAs}
+							items={displayFormats}
+							label="Download"
+						/>
+
+						<ItemSelection
+							onChangeItem={changeEngine}
+							defaultItem={currentEngine}
+							possibleItems={supportedEngines}
+							label="Engine:"
+							selectionClassName="engine"
+						/>
+					</ul>
+				</div>
+
+				<div className="nav-item navbar-nav">
+					<a
+						className="nav-link external-link"
+						target="_blank"
+						rel="noopener noreferrer"
+						href="//www.graphviz.org/documentation/"
+					>
+						Graphviz Documentation
+					</a>
+				</div>
+
+				<div className="nav-item navbar-nav">
+					<a
+						className="nav-link external-link"
+						target="_blank"
+						rel="noopener noreferrer"
+						href="//github.com/nikeee/edotor.net"
+					>
+						Issues
+					</a>
+					{import.meta.env.DEV && <Version />}
+				</div>
+
+				<div className="btn-group btn-group-sm">
+					<TooltipButton
+						onClick={share}
+						title="Link copied to clipboard!"
+						className="btn-secondary"
+					>
+						Copy Share Link
+					</TooltipButton>
+				</div>
 			</div>
 		</nav>
 	);
