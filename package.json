@@ -31,7 +31,7 @@
     "viz.js": "2.1.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.2",
+    "@biomejs/biome": "2.1.3",
     "@types/bootstrap": "^5.2.10",
     "@types/pako": "^2.0.3",
     "@types/react": "19.1.8",
