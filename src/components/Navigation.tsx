@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { SupportedEngine, SupportedFormat } from "../rendering";
 import { samples } from "../samples";
 
@@ -25,6 +26,7 @@ export default function Navigation({
 	changeEngine,
 	share,
 }: NavigationProps) {
+	const navbarId = useId();
 	return (
 		<nav className="navbar navbar-expand-md navbar-dark bg-dark mb-0">
 			<div className="container-fluid">
@@ -36,12 +38,12 @@ export default function Navigation({
 					className="navbar-toggler"
 					type="button"
 					data-bs-toggle="collapse"
-					data-bs-target="#navbar-collapse"
+					data-bs-target={`#${navbarId}`}
 				>
 					<span className="navbar-toggler-icon" />
 				</button>
 
-				<div className="collapse navbar-collapse" id="navbar-collapse">
+				<div className="collapse navbar-collapse" id={navbarId}>
 					<ul className="navbar-nav me-auto">
 						<ItemMenu
 							onClickItem={loadSample}

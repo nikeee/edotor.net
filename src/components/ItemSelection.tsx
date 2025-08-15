@@ -51,11 +51,7 @@ export class ItemSelection extends PureComponent<Props, State> {
 			</button>
 		));
 
-		return (
-			<div className="dropdown-menu" id="supported-engines-list">
-				{options}
-			</div>
-		);
+		return <div className="dropdown-menu">{options}</div>;
 	}
 
 	#getShowSelectionLabel() {
