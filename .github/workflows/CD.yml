@@ -27,7 +27,7 @@ jobs:
       env:
         VITE_MATOMO_API_BASE: ${{ vars.MATOMO_API_BASE }}
 
-    - uses: actions/upload-pages-artifact@v3
+    - uses: actions/upload-pages-artifact@v4
       with:
         path: ./dist
 
