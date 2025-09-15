@@ -31,10 +31,10 @@
     "viz.js": "2.1.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.3",
+    "@biomejs/biome": "2.2.4",
     "@types/bootstrap": "^5.2.10",
     "@types/pako": "^2.0.4",
-    "@types/react": "19.1.12",
+    "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
     "@typescript-eslint/parser": "^8.43.0",
     "@vitejs/plugin-react": "^5.0.2",
