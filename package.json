@@ -19,7 +19,7 @@
     "bootstrap": "^5.3.8",
     "dot-language-support": "^3.0.2",
     "js-base64": "^3.7.8",
-    "monaco-editor": "0.33.0",
+    "monaco-editor": "0.53.0",
     "monaco-languageclient": "1.1.0",
     "pako": "^2.1.0",
     "react": "19.1.1",
