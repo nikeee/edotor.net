@@ -42,7 +42,7 @@
     "eslint": "^9.35.0",
     "eslint-plugin-react-hooks": "^6.0.0-rc.2",
     "lefthook": "^1.13.0",
-    "sass-embedded": "^1.92.1",
+    "sass-embedded": "^1.93.0",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vite-plugin-ejs": "^1.7.0",
