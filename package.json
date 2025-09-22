@@ -36,7 +36,7 @@
     "@types/pako": "^2.0.4",
     "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
-    "@typescript-eslint/parser": "^8.43.0",
+    "@typescript-eslint/parser": "^8.44.0",
     "@vitejs/plugin-react": "^5.0.2",
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "eslint": "^9.35.0",
