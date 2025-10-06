@@ -40,7 +40,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "eslint": "^9.37.0",
-    "eslint-plugin-react-hooks": "^6.0.0-rc.2",
+    "eslint-plugin-react-hooks": "^6.1.1",
     "lefthook": "^1.13.6",
     "sass-embedded": "^1.93.2",
     "typescript": "^5.9.3",
