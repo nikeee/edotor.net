@@ -39,7 +39,7 @@
     "@typescript-eslint/parser": "^8.46.0",
     "@vitejs/plugin-react": "^5.0.4",
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "eslint-plugin-react-hooks": "^7.0.0",
     "lefthook": "^1.13.6",
     "sass-embedded": "^1.93.2",
