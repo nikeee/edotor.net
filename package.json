@@ -11,7 +11,7 @@
     "build": "vite build",
     "ci": "biome ci ./src",
     "lint": "biome lint ./src && eslint",
-    "format": "biome format --write ./src && biome lint --write ./src && biome check --write ./src",
+    "format": "biome check --write ./src",
     "start": "vite"
   },
   "dependencies": {
