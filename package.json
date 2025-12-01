@@ -31,10 +31,10 @@
     "viz.js": "2.1.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.7",
+    "@biomejs/biome": "^2.3.8",
     "@types/bootstrap": "^5.2.10",
     "@types/pako": "^2.0.4",
-    "@types/react": "19.2.6",
+    "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@typescript-eslint/parser": "^8.48.0",
     "@vitejs/plugin-react": "^5.1.1",
@@ -44,7 +44,7 @@
     "lefthook": "^2.0.4",
     "sass-embedded": "^1.93.3",
     "typescript": "^5.9.3",
-    "vite": "^7.2.4",
+    "vite": "^7.2.6",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-static-copy": "^3.1.4"
   },
