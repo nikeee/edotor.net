@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     environment:
       name: edotor.net
@@ -32,7 +32,7 @@ jobs:
         path: ./dist
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     name: Deploy
 
     permissions:
