@@ -1,3 +1,5 @@
+import type * as monaco from "monaco-editor";
+
 // Taken from the samples of: https://microsoft.github.io/monaco-editor/monarch.html
 export default {
 	// Set defaultToken to invalid to see what you do not tokenize yet
@@ -165,4 +167,4 @@ export default {
 			[/#.*$/, "comment"],
 		],
 	},
-};
+} as monaco.languages.IMonarchLanguage;

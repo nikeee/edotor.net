@@ -41,9 +41,8 @@ export class EditorPane extends Component<Props, State> {
 	}
 
 	#editorWillMount = (monaco: Monaco): void => {
-		const service = ls.createService();
-		ls.registerService(monaco, service);
-		this.#processor = service.processor;
+		ls.registerService(monaco, ls.service);
+		this.#processor = ls.service.processor;
 	};
 
 	#editorDidMount = (

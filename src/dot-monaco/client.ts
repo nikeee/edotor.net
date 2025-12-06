@@ -18,15 +18,15 @@ const ls = languageService.createService();
 export interface MonacoService {
 	processor: LanguageProcessor;
 	language: monaco.languages.ILanguageExtensionPoint;
-	monarchTokens?: monaco.languages.IMonarchLanguage;
-	languageConfig?: monaco.languages.LanguageConfiguration;
-	completionItemProvider?: monaco.languages.CompletionItemProvider;
-	hoverProvider?: monaco.languages.HoverProvider;
-	definitionProvider?: monaco.languages.DefinitionProvider;
-	referenceProvider?: monaco.languages.ReferenceProvider;
-	renameProvider?: monaco.languages.RenameProvider;
-	codeActionProvider?: monaco.languages.CodeActionProvider;
-	colorProvider?: monaco.languages.DocumentColorProvider;
+	monarchTokens: monaco.languages.IMonarchLanguage;
+	languageConfig: monaco.languages.LanguageConfiguration;
+	completionItemProvider: monaco.languages.CompletionItemProvider;
+	hoverProvider: monaco.languages.HoverProvider;
+	definitionProvider: monaco.languages.DefinitionProvider;
+	referenceProvider: monaco.languages.ReferenceProvider;
+	renameProvider: monaco.languages.RenameProvider;
+	codeActionProvider: monaco.languages.CodeActionProvider;
+	colorProvider: monaco.languages.DocumentColorProvider;
 }
 
 export interface LanguageProcessor {
@@ -69,152 +69,150 @@ interface ParsedDocument {
 	sourceFile: languageService.SourceFile;
 }
 
-export function createService(): MonacoService {
-	return {
-		language: {
-			id: LANGUAGE_ID,
-			extensions: [".dot", ".gv"],
-			aliases: ["DOT", "dot", "Graphviz"],
-			mimetypes: ["text/vnd.graphviz"],
+export const service = {
+	language: {
+		id: LANGUAGE_ID,
+		extensions: [".dot", ".gv"],
+		aliases: ["DOT", "dot", "Graphviz"],
+		mimetypes: ["text/vnd.graphviz"],
+	},
+	monarchTokens: tokenConfig as unknown as monaco.languages.IMonarchLanguage,
+	languageConfig: {
+		wordPattern: /(-?\d*\.\d*)|(\w+[0-9]*)/,
+		// Takem from: https://github.com/Microsoft/monaco-json/blob/master/src/jsonMode.ts#L42-L60
+		comments: {
+			lineComment: "//",
+			blockComment: ["/*", "*/"],
 		},
-		monarchTokens: tokenConfig as unknown as monaco.languages.IMonarchLanguage,
-		languageConfig: {
-			wordPattern: /(-?\d*\.\d*)|(\w+[0-9]*)/,
-			// Takem from: https://github.com/Microsoft/monaco-json/blob/master/src/jsonMode.ts#L42-L60
-			comments: {
-				lineComment: "//",
-				blockComment: ["/*", "*/"],
-			},
-			brackets: [
-				["{", "}"],
-				["[", "]"],
-			],
-			autoClosingPairs: [
-				{ open: "{", close: "}", notIn: ["string"] },
-				{ open: "[", close: "]", notIn: ["string"] },
-				{ open: '"', close: '"', notIn: ["string"] },
-			],
+		brackets: [
+			["{", "}"],
+			["[", "]"],
+		],
+		autoClosingPairs: [
+			{ open: "{", close: "}", notIn: ["string"] },
+			{ open: "[", close: "]", notIn: ["string"] },
+			{ open: '"', close: '"', notIn: ["string"] },
+		],
+	},
+	completionItemProvider: {
+		triggerCharacters: ["=", ",", "["],
+		provideCompletionItems(
+			model: monaco.editor.ITextModel,
+			position: monaco.Position,
+		) {
+			const data = processor.process(model);
+
+			const completions = ls.getCompletions(
+				data.document,
+				data.sourceFile,
+				m2p.asPosition(position.lineNumber, position.column),
+			);
+
+			// p2m.asCompletionResult has a bug
+			const defaultMonacoRange = monaco.Range.fromPositions(position);
+			return {
+				incomplete: false,
+				suggestions: completions.map(item =>
+					p2m.asCompletionItem(item, defaultMonacoRange, undefined),
+				),
+			} as monaco.languages.CompletionList;
 		},
-		completionItemProvider: {
-			triggerCharacters: ["=", ",", "["],
-			provideCompletionItems(
-				model: monaco.editor.ITextModel,
-				position: monaco.Position,
-			) {
-				const data = processor.process(model);
+	},
+	hoverProvider: {
+		provideHover(model, position) {
+			const data = processor.process(model);
 
-				const completions = ls.getCompletions(
-					data.document,
-					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
-				);
-
-				// p2m.asCompletionResult has a bug
-				const defaultMonacoRange = monaco.Range.fromPositions(position);
-				return {
-					incomplete: false,
-					suggestions: completions.map(item =>
-						p2m.asCompletionItem(item, defaultMonacoRange, undefined),
-					),
-				};
-			},
+			const hover = ls.hover(
+				data.document,
+				data.sourceFile,
+				m2p.asPosition(position.lineNumber, position.column),
+			);
+			return p2m.asHover(hover);
 		},
-		hoverProvider: {
-			provideHover(model, position) {
-				const data = processor.process(model);
+	},
+	definitionProvider: {
+		provideDefinition(model, position) {
+			const data = processor.process(model);
 
-				const hover = ls.hover(
-					data.document,
-					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
-				);
-				return p2m.asHover(hover);
-			},
+			const definition = ls.findDefinition(
+				data.document,
+				data.sourceFile,
+				m2p.asPosition(position.lineNumber, position.column),
+			);
+			return p2m.asDefinitionResult(definition);
 		},
-		definitionProvider: {
-			provideDefinition(model, position) {
-				const data = processor.process(model);
+	},
+	referenceProvider: {
+		provideReferences(model, position, context) {
+			const data = processor.process(model);
 
-				const definition = ls.findDefinition(
-					data.document,
-					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
-				);
-				return p2m.asDefinitionResult(definition);
-			},
+			const refs = ls.findReferences(
+				data.document,
+				data.sourceFile,
+				m2p.asPosition(position.lineNumber, position.column),
+				context,
+			);
+			return p2m.asReferences(refs);
 		},
-		referenceProvider: {
-			provideReferences(model, position, context) {
-				const data = processor.process(model);
+	},
+	renameProvider: {
+		provideRenameEdits(model, position, newName) {
+			const data = processor.process(model);
 
-				const refs = ls.findReferences(
-					data.document,
-					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
-					context,
-				);
-				return p2m.asReferences(refs);
-			},
+			const workspaceEdit = ls.renameSymbol(
+				data.document,
+				data.sourceFile,
+				m2p.asPosition(position.lineNumber, position.column),
+				newName,
+			);
+
+			return p2m.asWorkspaceEdit(workspaceEdit);
 		},
-		renameProvider: {
-			provideRenameEdits(model, position, newName) {
-				const data = processor.process(model);
+	},
+	codeActionProvider: {
+		provideCodeActions(model, range, context) {
+			const data = processor.process(model);
 
-				const workspaceEdit = ls.renameSymbol(
-					data.document,
-					data.sourceFile,
-					m2p.asPosition(position.lineNumber, position.column),
-					newName,
-				);
+			const commands = ls.getCodeActions(
+				data.document,
+				data.sourceFile,
+				m2p.asRange(range),
+				m2p.asCodeActionContext(context, []),
+			);
 
-				return p2m.asWorkspaceEdit(workspaceEdit);
-			},
+			return commands ? p2m.asCodeActionList(commands) : null;
 		},
-		codeActionProvider: {
-			provideCodeActions(model, range, context) {
-				const data = processor.process(model);
+	},
+	colorProvider: {
+		provideDocumentColors(model) {
+			const data = processor.process(model);
+			const res = ls.getDocumentColors(data.document, data.sourceFile);
 
-				const commands = ls.getCodeActions(
-					data.document,
-					data.sourceFile,
-					m2p.asRange(range),
-					m2p.asCodeActionContext(context, []),
-				);
-
-				return commands ? p2m.asCodeActionList(commands) : null;
-			},
+			// TODO: Create PR for this kind
+			return res
+				? res.map(c => ({
+						range: p2m.asRange(c.range),
+						color: c.color,
+					}))
+				: [];
 		},
-		colorProvider: {
-			provideDocumentColors(model) {
-				const data = processor.process(model);
-				const res = ls.getDocumentColors(data.document, data.sourceFile);
+		provideColorPresentations(model, colorInfo) {
+			const data = processor.process(model);
 
-				// TODO: Create PR for this kind
-				return res
-					? res.map(c => ({
-							range: p2m.asRange(c.range),
-							color: c.color,
-						}))
-					: [];
-			},
-			provideColorPresentations(model, colorInfo) {
-				const data = processor.process(model);
+			const color = colorInfo.color;
+			const range = m2p.asRange(colorInfo.range);
+			const res = ls.getColorRepresentations(
+				data.document,
+				data.sourceFile,
+				color,
+				range,
+			);
 
-				const color = colorInfo.color;
-				const range = m2p.asRange(colorInfo.range);
-				const res = ls.getColorRepresentations(
-					data.document,
-					data.sourceFile,
-					color,
-					range,
-				);
-
-				return res ? p2m.asColorPresentations(res) : [];
-			},
+			return res ? p2m.asColorPresentations(res) : [];
 		},
-		processor,
-	};
-}
+	},
+	processor,
+} satisfies MonacoService;
 
 export function registerService(context: Monaco, service: MonacoService): void {
 	if (!service.language) return;

@@ -29,7 +29,7 @@ export default function Editor() {
 							'\tconsole.log("Hello world!");',
 							"}",
 						].join("\n"),
-						language: "typescript",
+						language: "dot", //"typescript",
 					});
 				});
 
