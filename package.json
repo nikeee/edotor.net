@@ -15,7 +15,6 @@
     "start": "vite"
   },
   "dependencies": {
-    "@monaco-editor/react": "^4.7.0",
     "bootstrap": "^5.3.8",
     "dot-language-support": "^4.0.2",
     "js-base64": "^3.7.8",
