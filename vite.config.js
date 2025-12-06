@@ -8,12 +8,6 @@ import react from "@vitejs/plugin-react"
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
 	return {
-		resolve: {
-			alias: {
-				"~": path.resolve(__dirname, "./node_modules"),
-				"vscode": path.resolve(__dirname, "./node_modules/monaco-languageclient/lib/vscode-compatibility"),
-			}
-		},
 		plugins: [
 			viteStaticCopy({
 				targets: [
