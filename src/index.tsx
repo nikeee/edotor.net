@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
 import BarLoader from "react-spinners/BarLoader";
+import Editor from "./components/Editor";
 import Navigation from "./components/Navigation";
 import { getLastState, mergeStates, saveLastEngine } from "./config";
 import { FileSaver } from "./FileSaver";
@@ -104,7 +105,8 @@ class App extends Component<Props, State> {
 		const s = this.state;
 		const p = this.props;
 		const initialSource = p.initialText ? p.initialText : defaultSource;
-
+		return <Editor />;
+		/*
 		return (
 			<div className="main-container">
 				<Navigation
@@ -131,6 +133,7 @@ class App extends Component<Props, State> {
 				</Suspense>
 			</div>
 		);
+		*/
 	}
 }
 

@@ -1,4 +1,3 @@
-import { loader, default as MonacoEditor } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { Component } from "react";
