@@ -3,7 +3,13 @@ import { useState } from "react";
 
 import "./importWorker";
 
-export default function Editor() {
+export type EditorProps = {
+	initialValue?: string | undefined;
+	onChangeValue?(value: string): void;
+	onValueError?(err: monaco.editor.IMarkerData[]): void;
+};
+
+export default function Editor({ initialValue }: EditorProps) {
 	const [editor, setEditor] =
 		useState<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -24,12 +30,8 @@ export default function Editor() {
 					}
 
 					return monaco.editor.create(monacoEl, {
-						value: [
-							"function x() {",
-							'\tconsole.log("Hello world!");',
-							"}",
-						].join("\n"),
-						language: "dot", //"typescript",
+						value: initialValue,
+						language: "dot",
 					});
 				});
 
