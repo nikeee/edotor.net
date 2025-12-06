@@ -1,6 +1,7 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
 import "./importWorker";
+import { registerCommands } from "../dot-monaco";
 
 export type EditorProps = {
 	initialValue?: string | undefined;
@@ -34,6 +35,8 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 					glyphMargin: true,
 					lightbulb: { enabled: monaco.editor.ShowLightbulbIconMode.On },
 				});
+
+				registerCommands(editor);
 
 				const model = editor.getModel();
 				if (model === null) {
