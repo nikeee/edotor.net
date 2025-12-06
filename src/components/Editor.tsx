@@ -28,7 +28,16 @@ export default function Editor({ initialValue }: EditorProps) {
 					language: "dot",
 				});
 
-				return () => editor?.dispose();
+				const model = editor.getModel();
+				if (model === null) {
+					import.meta.env.DEV && console.log("Model is null");
+					return () => editor?.dispose();
+				}
+
+				return () => {
+					model.dispose();
+					editor?.dispose();
+				};
 			}}
 		></div>
 	);
