@@ -1,5 +1,5 @@
 # [edotor.net](https://edotor.net)
-> [![CI](https://github.com/nikeee/edotor.net/actions/workflows/CI.yml/badge.svg)](https://github.com/nikeee/edotor.net/actions/workflows/CI.yml) [![CD](https://github.com/nikeee/edotor.net/actions/workflows/CD.yml/badge.svg)](https://github.com/nikeee/edotor.net/actions/workflows/CD.yml) ![Dependency Status](https://david-dm.org/nikeee/edotor.net.svg)
+> [![CI](https://github.com/nikeee/edotor.net/actions/workflows/CI.yaml/badge.svg)](https://github.com/nikeee/edotor.net/actions/workflows/CI.yaml) [![CD](https://github.com/nikeee/edotor.net/actions/workflows/CD.yaml/badge.svg)](https://github.com/nikeee/edotor.net/actions/workflows/CD.yaml) ![Dependency Status](https://david-dm.org/nikeee/edotor.net.svg)
 
 This site uses:
 - [`dot-language-support`](https://github.com/nikeee/dot-language-support) for its language capabilities
