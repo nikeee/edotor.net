@@ -4,14 +4,11 @@ import "./importWorker";
 
 export type EditorProps = {
 	initialValue?: string | undefined;
-	onChangeValue?(value: string): void;
-	onValueError?(err: monaco.editor.IMarkerData[]): void;
+	onChangeValue: (value: string) => monaco.editor.IMarkerData[];
+	// onValueError?(err: monaco.editor.IMarkerData[]): void;
 };
 
-export default function Editor({ initialValue }: EditorProps) {
-	const [editor, setEditor] =
-		useState<monaco.editor.IStandaloneCodeEditor | null>(null);
-
+export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 	return (
 		<div
 			style={{
@@ -43,6 +40,14 @@ export default function Editor({ initialValue }: EditorProps) {
 					import.meta.env.DEV && console.log("Model is null");
 					return () => editor?.dispose();
 				}
+
+				model.onDidChangeContent(() => {
+					const newMarkers = onChangeValue?.(model.getValue());
+					if (!newMarkers) {
+						return;
+					}
+					monaco.editor.setModelMarkers(model, "dot", newMarkers);
+				});
 
 				return () => {
 					model.dispose();
