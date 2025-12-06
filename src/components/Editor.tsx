@@ -1,5 +1,4 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { useState } from "react";
 
 import "./importWorker";
 
@@ -24,15 +23,9 @@ export default function Editor({ initialValue }: EditorProps) {
 					return;
 				}
 
-				setEditor(editor => {
-					if (editor) {
-						return editor;
-					}
-
-					return monaco.editor.create(monacoEl, {
-						value: initialValue,
-						language: "dot",
-					});
+				const editor = monaco.editor.create(monacoEl, {
+					value: initialValue,
+					language: "dot",
 				});
 
 				return () => editor?.dispose();
