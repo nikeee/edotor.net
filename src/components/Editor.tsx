@@ -13,6 +13,7 @@ languages.registerReferenceProvider("dot", service.referenceProvider);
 languages.registerRenameProvider("dot", service.renameProvider);
 languages.registerCodeActionProvider("dot", service.codeActionProvider);
 languages.registerColorProvider("dot", service.colorProvider);
+// TODO: Check if we have other providers to register (or if we can implement some)
 
 self.MonacoEnvironment = {
 	getWorker(_: unknown, _label: string) {
