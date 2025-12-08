@@ -1,18 +1,15 @@
 import * as languageService from "dot-language-support";
 import * as monaco from "monaco-editor";
-import {
-	MonacoToProtocolConverter,
-	ProtocolToMonacoConverter,
-	TextDocument,
-} from "monaco-languageclient";
+import { TextDocument } from "monaco-languageclient";
+
+import * as m2p from "./monaco-to-protocol.js";
+import * as p2m from "./protocol-to-monaco.js";
 import tokenConfig from "./xdot";
 
 type Monaco = typeof monaco;
 
 const LANGUAGE_ID = "dot";
 
-const m2p = new MonacoToProtocolConverter(monaco);
-const p2m = new ProtocolToMonacoConverter(monaco);
 const ls = languageService.createService();
 
 export interface MonacoService {
