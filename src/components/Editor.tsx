@@ -1,7 +1,6 @@
 import { editor, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 
-import "./importWorker.js";
 import { registerCommands, service } from "../dot-monaco/index.js";
 
 languages.register(service.language);

@@ -1,37 +1,33 @@
-import * as languageService from "dot-language-support";
-import * as monaco from "monaco-editor";
+import { createService, type SourceFile } from "dot-language-support";
+import { editor, type languages, type Position } from "monaco-editor";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
 import * as m2p from "./monaco-to-protocol.js";
 import * as p2m from "./protocol-to-monaco.js";
 import tokenConfig from "./xdot.js";
 
-type Monaco = typeof monaco;
-
 const LANGUAGE_ID = "dot";
 
-const ls = languageService.createService();
+const ls = createService();
 
 export interface MonacoService {
 	processor: LanguageProcessor;
-	language: monaco.languages.ILanguageExtensionPoint;
-	monarchTokens: monaco.languages.IMonarchLanguage;
-	languageConfig: monaco.languages.LanguageConfiguration;
-	completionItemProvider: monaco.languages.CompletionItemProvider;
-	hoverProvider: monaco.languages.HoverProvider;
-	definitionProvider: monaco.languages.DefinitionProvider;
-	referenceProvider: monaco.languages.ReferenceProvider;
-	renameProvider: monaco.languages.RenameProvider;
-	codeActionProvider: monaco.languages.CodeActionProvider;
-	colorProvider: monaco.languages.DocumentColorProvider;
+	language: languages.ILanguageExtensionPoint;
+	monarchTokens: languages.IMonarchLanguage;
+	languageConfig: languages.LanguageConfiguration;
+	completionItemProvider: languages.CompletionItemProvider;
+	hoverProvider: languages.HoverProvider;
+	definitionProvider: languages.DefinitionProvider;
+	referenceProvider: languages.ReferenceProvider;
+	renameProvider: languages.RenameProvider;
+	codeActionProvider: languages.CodeActionProvider;
+	colorProvider: languages.DocumentColorProvider;
 }
 
 export interface LanguageProcessor {
-	process(model: monaco.editor.IReadOnlyModel): ParsedDocument;
-	validate(document: ParsedDocument): monaco.editor.IMarkerData[];
-	processAndValidate(
-		model: monaco.editor.IReadOnlyModel,
-	): monaco.editor.IMarkerData[];
+	process(model: editor.IReadOnlyModel): ParsedDocument;
+	validate(document: ParsedDocument): editor.IMarkerData[];
+	processAndValidate(model: editor.IReadOnlyModel): editor.IMarkerData[];
 }
 
 const processor: LanguageProcessor = {
@@ -58,7 +54,7 @@ const processor: LanguageProcessor = {
 
 interface ParsedDocument {
 	document: TextDocument;
-	sourceFile: languageService.SourceFile;
+	sourceFile: SourceFile;
 }
 
 export const service = {
@@ -68,7 +64,7 @@ export const service = {
 		aliases: ["DOT", "dot", "Graphviz"],
 		mimetypes: ["text/vnd.graphviz"],
 	},
-	monarchTokens: tokenConfig as unknown as monaco.languages.IMonarchLanguage,
+	monarchTokens: tokenConfig as unknown as languages.IMonarchLanguage,
 	languageConfig: {
 		wordPattern: /(-?\d*\.\d*)|(\w+[0-9]*)/,
 		// Takem from: https://github.com/Microsoft/monaco-json/blob/master/src/jsonMode.ts#L42-L60
@@ -88,10 +84,7 @@ export const service = {
 	},
 	completionItemProvider: {
 		triggerCharacters: ["=", ",", "["],
-		provideCompletionItems(
-			model: monaco.editor.ITextModel,
-			position: monaco.Position,
-		) {
+		provideCompletionItems(model: editor.ITextModel, position: Position) {
 			const data = processor.process(model);
 
 			const completions = ls.getCompletions(
@@ -188,7 +181,8 @@ export const service = {
 	processor,
 } satisfies MonacoService;
 
-export function registerService(context: Monaco, service: MonacoService): void {
+// biome-ignore lint/suspicious/noExplicitAny: :todo:
+export function registerService(context: any, service: MonacoService): void {
 	if (!service.language) return;
 
 	const langs = context.languages;
@@ -216,10 +210,10 @@ export function registerService(context: Monaco, service: MonacoService): void {
 		langs.setLanguageConfiguration(id, service.languageConfig);
 }
 
-export function registerCommands(editor: monaco.editor.IStandaloneCodeEditor) {
+export function registerCommands(instance: editor.IStandaloneCodeEditor) {
 	for (const command of ls.getAvailableCommands()) {
-		monaco.editor.registerCommand(command, (_accessor, ...args: unknown[]) => {
-			const m = editor.getModel();
+		editor.registerCommand(command, (_accessor, ...args: unknown[]) => {
+			const m = instance.getModel();
 			if (m === null) return;
 
 			const data = processor.process(m);
