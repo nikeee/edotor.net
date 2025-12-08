@@ -56,6 +56,8 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 
 				registerCommands(e);
 
+				e.focus();
+
 				const model = e.getModel();
 				if (model === null) {
 					import.meta.env.DEV && console.log("Model is null");
