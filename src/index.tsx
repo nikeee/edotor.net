@@ -24,10 +24,10 @@ const LazySplitEditor = lazy(() => import("./components/SplitEditor"));
 
 const defaultEngine = supportedEngines[1];
 
-interface State {
+interface AppState {
 	engine: SupportedEngine;
 }
-interface Props {
+interface AppProps {
 	initialText?: string;
 	initialEngine?: SupportedEngine;
 }
@@ -40,15 +40,15 @@ const loadingStyle = {
 	transform: "translate(-50%, -50%)",
 } as const;
 
-class App extends Component<Props, State> {
+class App extends Component<AppProps, AppState> {
 	#currentSource: string | undefined = undefined;
 	#saver: FileSaver = new FileSaver();
 	#editorRef: RefObject<import("./components/SplitEditor").default | null> =
 		createRef();
 
-	state: State;
+	state: AppState;
 
-	constructor(p: Props) {
+	constructor(p: AppProps) {
 		super(p);
 		this.state = {
 			engine: p.initialEngine ?? defaultEngine,

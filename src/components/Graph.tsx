@@ -12,7 +12,7 @@ import { removeChildren } from "../utils.js";
 import "./Graph.css";
 
 // Thanks to mdaines for providing a react sample
-type State = ErrorState | RenderingState | EmptyState;
+type GraphState = ErrorState | RenderingState | EmptyState;
 
 interface ErrorState {
 	element: undefined;
@@ -40,7 +40,7 @@ const createErrorState = (error: string): ErrorState => ({
 	error,
 });
 
-function isRenderingState(s: State): s is RenderingState {
+function isRenderingState(s: GraphState): s is RenderingState {
 	if (s.error !== undefined) return false;
 	const e = s.element;
 	if (e === undefined) return false;
@@ -51,17 +51,17 @@ function isRenderingState(s: State): s is RenderingState {
 	); // Firefox
 }
 
-export interface Props {
+export interface GraphProps {
 	dotSrc: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
 }
 
-export default class Graph extends Component<Props, State> {
+export default class Graph extends Component<GraphProps, GraphState> {
 	#containerRef: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
 	#panZoomContainer: SvgPanZoom.Instance | undefined;
 
-	state: State = createEmptyState();
+	state: GraphState = createEmptyState();
 
 	async #updateGraph(): Promise<void> {
 		const { dotSrc, format, engine } = this.props;
@@ -99,7 +99,7 @@ export default class Graph extends Component<Props, State> {
 		if (container) container.destroy();
 	}
 
-	componentDidUpdate(prevProps: Props, prevState: State) {
+	componentDidUpdate(prevProps: GraphProps, prevState: GraphState) {
 		const { dotSrc, format, engine } = this.props;
 
 		if (

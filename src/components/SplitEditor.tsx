@@ -10,14 +10,14 @@ import GraphPane from "./GraphPane.js";
 
 type ErrorList = monaco.editor.IMarkerData[];
 
-interface Props {
+interface SplitEditorProps {
 	initialSource: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
 	onSourceChange?(source: string): void;
 }
 
-type State = SourceState | ErroredState;
+type SplitEditorState = SourceState | ErroredState;
 interface SourceState {
 	dotSrc: string;
 	errors: undefined;
@@ -39,10 +39,13 @@ const createErroredState = (
 	lastKnownGoodSrc?: string,
 ): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
-export default class SplitEditor extends Component<Props, State> {
+export default class SplitEditor extends Component<
+	SplitEditorProps,
+	SplitEditorState
+> {
 	#editorPaneRef: RefObject<EditorPane | null> = createRef<EditorPane>();
 
-	constructor(props: Props) {
+	constructor(props: SplitEditorProps) {
 		super(props);
 		const p = this.props;
 
