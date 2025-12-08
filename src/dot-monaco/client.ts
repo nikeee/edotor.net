@@ -1,6 +1,6 @@
 import * as languageService from "dot-language-support";
 import { editor, type languages, type Position } from "monaco-editor";
-import { TextDocument } from "monaco-languageclient";
+import { TextDocument } from "vscode-languageserver-textdocument";
 
 import * as m2p from "./monaco-to-protocol.js";
 import * as p2m from "./protocol-to-monaco.js";
