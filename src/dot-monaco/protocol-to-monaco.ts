@@ -1,0 +1,300 @@
+import * as monaco from "monaco-editor";
+import type * as lst from "vscode-languageserver-types";
+
+export function asRange(range: lst.Range): monaco.IRange {
+	return {
+		startLineNumber: range.start.line + 1,
+		startColumn: range.start.character + 1,
+		endLineNumber: range.end.line + 1,
+		endColumn: range.end.character + 1,
+	};
+}
+
+export function asPosition(position: lst.Position): monaco.Position {
+	return new monaco.Position(position.line + 1, position.character + 1);
+}
+
+export function asDiagnostics(
+	diagnostics: lst.Diagnostic[],
+): monaco.editor.IMarkerData[] {
+	return diagnostics.map(diagnostic => {
+		const range = asRange(diagnostic.range);
+		return {
+			severity: asSeverity(diagnostic.severity),
+			startLineNumber: range.startLineNumber,
+			startColumn: range.startColumn,
+			endLineNumber: range.endLineNumber,
+			endColumn: range.endColumn,
+			message: diagnostic.message,
+			code:
+				typeof diagnostic.code === "string"
+					? diagnostic.code
+					: String(diagnostic.code || ""),
+			source: diagnostic.source,
+			tags: diagnostic.tags,
+		};
+	});
+}
+
+export function asCompletionItem(
+	item: lst.CompletionItem,
+	defaultRange: monaco.IRange,
+	insertTextReplaceRange?: monaco.IRange,
+): monaco.languages.CompletionItem {
+	const textEdit = item.textEdit;
+	const range =
+		textEdit && "range" in textEdit
+			? asRange(textEdit.range)
+			: textEdit && "insert" in textEdit
+				? asRange(textEdit.insert)
+				: insertTextReplaceRange || defaultRange;
+
+	const documentation = asDocumentation(item.documentation);
+
+	const result: monaco.languages.CompletionItem = {
+		label: item.label,
+		kind:
+			item.kind !== undefined
+				? asCompletionItemKind(item.kind)
+				: monaco.languages.CompletionItemKind.Text,
+		detail: item.detail,
+		documentation,
+		insertText:
+			(textEdit && "newText" in textEdit ? textEdit.newText : undefined) ||
+			item.insertText ||
+			item.label,
+		insertTextRules:
+			item.insertTextFormat === 2
+				? monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+				: undefined,
+		range,
+		sortText: item.sortText,
+		filterText: item.filterText,
+		preselect: item.preselect,
+		additionalTextEdits: item.additionalTextEdits?.map(edit => ({
+			range: asRange(edit.range),
+			text: edit.newText,
+		})),
+		command: item.command as monaco.languages.Command | undefined,
+		commitCharacters: item.commitCharacters,
+	};
+
+	return result;
+}
+
+export function asHover(
+	hover: lst.Hover | null | undefined,
+): monaco.languages.Hover | null {
+	return hover
+		? {
+				contents: asHoverContents(hover.contents),
+				range: hover.range ? asRange(hover.range) : undefined,
+			}
+		: null;
+}
+
+export function asDefinitionResult(
+	definition: lst.Location | lst.Location[] | null | undefined,
+): monaco.languages.Definition | null {
+	if (!definition) {
+		return null;
+	}
+
+	if (Array.isArray(definition)) {
+		return definition.map(loc => asLocation(loc));
+	}
+
+	return asLocation(definition);
+}
+
+export function asReferences(
+	references: lst.Location[] | null | undefined,
+): monaco.languages.Location[] {
+	return references?.map(ref => asLocation(ref)) ?? [];
+}
+
+function asLocation(location: lst.Location): monaco.languages.Location {
+	return {
+		uri: monaco.Uri.parse(location.uri),
+		range: asRange(location.range),
+	};
+}
+
+export function asWorkspaceEdit(
+	edit: lst.WorkspaceEdit | null | undefined,
+): monaco.languages.WorkspaceEdit | undefined {
+	if (!edit) {
+		return undefined;
+	}
+
+	const edits: monaco.languages.IWorkspaceTextEdit[] = [];
+
+	if (edit.changes) {
+		for (const [uri, textEdits] of Object.entries(edit.changes)) {
+			for (const textEdit of textEdits) {
+				edits.push({
+					resource: monaco.Uri.parse(uri),
+					versionId: undefined, // Version ID is not available from LSP, Monaco will handle it
+					textEdit: {
+						range: asRange(textEdit.range),
+						text: textEdit.newText,
+					},
+				});
+			}
+		}
+	}
+
+	return {
+		edits,
+	};
+}
+
+export function asCodeActionList(
+	commands: (lst.CodeAction | lst.Command)[] | null | undefined,
+): monaco.languages.CodeActionList | null {
+	if (!commands) {
+		return null;
+	}
+
+	const actions: monaco.languages.CodeAction[] = commands.map(command => {
+		if (
+			"command" in command &&
+			typeof command.command === "string" &&
+			"arguments" in command
+		) {
+			const cmd = command as lst.Command;
+			return {
+				title: cmd.title,
+				command: {
+					id: cmd.command,
+					title: cmd.title,
+					arguments: cmd.arguments,
+				},
+			};
+		}
+
+		const codeAction = command as lst.CodeAction;
+		const action: monaco.languages.CodeAction = {
+			title: codeAction.title,
+			kind: codeAction.kind,
+			diagnostics: codeAction.diagnostics?.map(d => {
+				const range = asRange(d.range);
+				return {
+					severity: asSeverity(d.severity),
+					startLineNumber: range.startLineNumber,
+					startColumn: range.startColumn,
+					endLineNumber: range.endLineNumber,
+					endColumn: range.endColumn,
+					message: d.message,
+					code: typeof d.code === "string" ? d.code : String(d.code || ""),
+					source: d.source,
+				};
+			}),
+			edit: codeAction.edit
+				? asWorkspaceEdit(codeAction.edit) || undefined
+				: undefined,
+			command: codeAction.command as monaco.languages.Command | undefined,
+			isPreferred: codeAction.isPreferred,
+			disabled: codeAction.disabled?.reason,
+		};
+
+		return action;
+	});
+
+	return {
+		actions,
+		dispose: () => {},
+	};
+}
+
+export function asColorPresentations(
+	presentations: lst.ColorPresentation[] | null | undefined,
+): monaco.languages.IColorPresentation[] {
+	if (!presentations) {
+		return [];
+	}
+
+	return presentations.map(presentation => ({
+		label: presentation.label,
+		textEdit: presentation.textEdit
+			? {
+					range: asRange(presentation.textEdit.range),
+					text: presentation.textEdit.newText,
+				}
+			: undefined,
+		additionalTextEdits: presentation.additionalTextEdits?.map(edit => ({
+			range: asRange(edit.range),
+			text: edit.newText,
+		})),
+	}));
+}
+
+// Helper functions
+function asSeverity(severity?: number): monaco.MarkerSeverity {
+	// LSP DiagnosticSeverity: Error=1, Warning=2, Information=3, Hint=4
+	// Monaco MarkerSeverity: Error=8, Warning=4, Info=2, Hint=1
+	switch (severity) {
+		case 1:
+			return monaco.MarkerSeverity.Error;
+		case 2:
+			return monaco.MarkerSeverity.Warning;
+		case 3:
+			return monaco.MarkerSeverity.Info;
+		case 4:
+			return monaco.MarkerSeverity.Hint;
+		default:
+			return monaco.MarkerSeverity.Error;
+	}
+}
+
+function asCompletionItemKind(
+	kind: number,
+): monaco.languages.CompletionItemKind {
+	// Map LSP CompletionItemKind to Monaco CompletionItemKind
+	// LSP and Monaco use the same numeric values, but we'll map them explicitly
+	return kind as monaco.languages.CompletionItemKind;
+}
+
+function asDocumentation(
+	documentation?: string | { value: string; kind?: string },
+): monaco.IMarkdownString | string | undefined {
+	if (!documentation) {
+		return undefined;
+	}
+
+	if (typeof documentation === "string") {
+		return documentation;
+	}
+
+	if (documentation.kind === "markdown") {
+		return { value: documentation.value };
+	}
+
+	return documentation.value;
+}
+
+function asHoverContents(
+	contents:
+		| string
+		| Array<{ value: string; kind?: string } | string>
+		| { value: string; kind?: string },
+): monaco.IMarkdownString[] {
+	if (typeof contents === "string") {
+		return [{ value: contents }];
+	}
+
+	if (Array.isArray(contents)) {
+		return contents.map(c => {
+			if (typeof c === "string") {
+				return { value: c };
+			}
+			return {
+				value: c.kind === "markdown" ? c.value : c.value,
+			};
+		});
+	}
+
+	return [
+		{ value: contents.kind === "markdown" ? contents.value : contents.value },
+	];
+}
