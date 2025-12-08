@@ -1,18 +1,15 @@
 import * as languageService from "dot-language-support";
 import * as monaco from "monaco-editor";
-import {
-	MonacoToProtocolConverter,
-	ProtocolToMonacoConverter,
-	TextDocument,
-} from "monaco-languageclient";
+
+import { TextDocument } from "vscode-languageserver-textdocument";
+import * as m2p from "./monaco-to-protocol";
+import * as p2m from "./protocol-to-monaco";
 import tokenConfig from "./xdot";
 
 type Monaco = typeof monaco;
 
 const LANGUAGE_ID = "dot";
 
-const m2p = new MonacoToProtocolConverter(monaco);
-const p2m = new ProtocolToMonacoConverter(monaco);
 const ls = languageService.createService();
 
 export interface MonacoService {
@@ -177,7 +174,7 @@ export const service = {
 				data.document,
 				data.sourceFile,
 				m2p.asRange(range),
-				m2p.asCodeActionContext(context, []),
+				m2p.asCodeActionContext(context),
 			);
 
 			return commands ? p2m.asCodeActionList(commands) : null;
