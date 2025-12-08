@@ -1,5 +1,6 @@
 import * as monaco from "monaco-editor";
 import type * as lst from "vscode-languageserver-types";
+import type { ColorInformation } from "./polyfill";
 
 export function asRange(range: lst.Range): monaco.IRange {
 	return {
@@ -34,6 +35,19 @@ export function asDiagnostics(
 			tags: diagnostic.tags,
 		};
 	});
+}
+
+export function asCompletionList(
+	completions: lst.CompletionItem[] | null | undefined,
+	position: monaco.Position,
+): monaco.languages.CompletionList {
+	const defaultMonacoRange = monaco.Range.fromPositions(position);
+	return {
+		incomplete: false,
+		suggestions: (completions ?? []).map(item =>
+			asCompletionItem(item, defaultMonacoRange, undefined),
+		),
+	};
 }
 
 export function asCompletionItem(
@@ -205,6 +219,19 @@ export function asCodeActionList(
 		actions,
 		dispose: () => {},
 	};
+}
+
+export function asColorInformation(
+	colorInfo: ColorInformation[] | null | undefined,
+): monaco.languages.IColorInformation[] {
+	if (!colorInfo) {
+		return [];
+	}
+
+	return colorInfo.map(c => ({
+		range: asRange(c.range),
+		color: c.color,
+	}));
 }
 
 export function asColorPresentations(

@@ -34,26 +34,21 @@ export interface LanguageProcessor {
 	): monaco.editor.IMarkerData[];
 }
 
-function createDocument(model: monaco.editor.IReadOnlyModel) {
-	return TextDocument.create(
-		model.uri.toString(),
-		model.id,
-		model.getVersionId(),
-		model.getValue(),
-	);
-}
-
 const processor: LanguageProcessor = {
 	process(model): ParsedDocument {
-		const document = createDocument(model);
+		const document = TextDocument.create(
+			model.uri.toString(),
+			model.id,
+			model.getVersionId(),
+			model.getValue(),
+		);
 		return {
 			document,
 			sourceFile: ls.parseDocument(document),
 		};
 	},
 	validate(doc: ParsedDocument) {
-		const diagnostics = ls.validateDocument(doc.document, doc.sourceFile);
-		return p2m.asDiagnostics(diagnostics);
+		return p2m.asDiagnostics(ls.validateDocument(doc.document, doc.sourceFile));
 	},
 	processAndValidate(model) {
 		const doc = this.process(model);
@@ -105,14 +100,7 @@ export const service = {
 				m2p.asPosition(position.lineNumber, position.column),
 			);
 
-			// p2m.asCompletionResult has a bug
-			const defaultMonacoRange = monaco.Range.fromPositions(position);
-			return {
-				incomplete: false,
-				suggestions: completions.map(item =>
-					p2m.asCompletionItem(item, defaultMonacoRange, undefined),
-				),
-			} as monaco.languages.CompletionList;
+			return p2m.asCompletionList(completions, position);
 		},
 	},
 	hoverProvider: {
@@ -162,7 +150,6 @@ export const service = {
 				m2p.asPosition(position.lineNumber, position.column),
 				newName,
 			);
-
 			return p2m.asWorkspaceEdit(workspaceEdit);
 		},
 	},
@@ -176,8 +163,7 @@ export const service = {
 				m2p.asRange(range),
 				m2p.asCodeActionContext(context),
 			);
-
-			return commands ? p2m.asCodeActionList(commands) : null;
+			return p2m.asCodeActionList(commands);
 		},
 	},
 	colorProvider: {
@@ -185,27 +171,18 @@ export const service = {
 			const data = processor.process(model);
 			const res = ls.getDocumentColors(data.document, data.sourceFile);
 
-			// TODO: Create PR for this kind
-			return res
-				? res.map(c => ({
-						range: p2m.asRange(c.range),
-						color: c.color,
-					}))
-				: [];
+			return p2m.asColorInformation(res);
 		},
 		provideColorPresentations(model, colorInfo) {
 			const data = processor.process(model);
 
-			const color = colorInfo.color;
-			const range = m2p.asRange(colorInfo.range);
 			const res = ls.getColorRepresentations(
 				data.document,
 				data.sourceFile,
-				color,
-				range,
+				colorInfo.color,
+				m2p.asRange(colorInfo.range),
 			);
-
-			return res ? p2m.asColorPresentations(res) : [];
+			return p2m.asColorPresentations(res);
 		},
 	},
 	processor,
