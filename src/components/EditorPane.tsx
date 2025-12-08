@@ -26,7 +26,7 @@ type State = any;
 
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 
-export class EditorPane extends Component<Props, State> {
+export default class EditorPane extends Component<Props, State> {
 	#processor: ls.LanguageProcessor | undefined;
 	#editor: monaco.editor.IStandaloneCodeEditor | undefined;
 	#autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
