@@ -2,12 +2,12 @@ import { useId } from "react";
 import type { SupportedEngine, SupportedFormat } from "../rendering";
 import { samples } from "../samples";
 
-import { displayFormats, supportedEngines } from "../viz";
-import { ItemMenu } from "./ItemMenu";
-import ItemSelection from "./ItemSelection";
-import { SiteLogo } from "./SiteLogo";
-import TooltipButton from "./TooltipButton";
-import Version from "./Version";
+import { displayFormats, supportedEngines } from "../viz/index.js";
+import ItemMenu from "./ItemMenu.js";
+import ItemSelection from "./ItemSelection.js";
+import SiteLogo from "./SiteLogo.js";
+import TooltipButton from "./TooltipButton.js";
+import Version from "./Version.js";
 
 export type NavigationProps = {
 	loadSample: (sampleName: string) => void;

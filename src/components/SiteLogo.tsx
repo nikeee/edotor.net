@@ -1,4 +1,4 @@
-export function SiteLogo() {
+export default function SiteLogo() {
 	// E.||
 	return (
 		<span className="logo">
