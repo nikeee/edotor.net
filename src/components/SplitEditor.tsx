@@ -5,8 +5,8 @@ import SplitPane from "react-split-pane";
 
 import { getSplitConfig, saveSplitConfig } from "../config.js";
 import type { SupportedEngine, SupportedFormat } from "../rendering.js";
-import { EditorPane } from "./EditorPane.js";
-import { GraphPane } from "./GraphPane.js";
+import EditorPane from "./EditorPane.js";
+import GraphPane from "./GraphPane.js";
 
 type ErrorList = monaco.editor.IMarkerData[];
 

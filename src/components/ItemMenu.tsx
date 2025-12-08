@@ -8,7 +8,7 @@ interface Props<T> {
 	onClickItem(item: ItemMenuItem<T>["value"]): void;
 	label: string;
 }
-export function ItemMenu<TItem>(props: Props<TItem>) {
+export default function ItemMenu<TItem>(props: Props<TItem>) {
 	const options = props.items.map(item => (
 		<button
 			type="button"

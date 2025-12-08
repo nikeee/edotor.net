@@ -15,7 +15,7 @@ interface State {
 	currentSelection: TItem | undefined;
 }
 
-export class ItemSelection extends PureComponent<Props, State> {
+export default class ItemSelection extends PureComponent<Props, State> {
 	constructor(p: Props) {
 		super(p);
 

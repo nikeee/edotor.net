@@ -57,7 +57,7 @@ export interface Props {
 	engine: SupportedEngine;
 }
 
-export class Graph extends Component<Props, State> {
+export default class Graph extends Component<Props, State> {
 	#containerRef: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
 	#panZoomContainer: SvgPanZoom.Instance | undefined;
 

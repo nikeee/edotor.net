@@ -3,9 +3,9 @@ import type { SupportedEngine, SupportedFormat } from "../rendering";
 import { samples } from "../samples";
 
 import { displayFormats, supportedEngines } from "../viz/index.js";
-import { ItemMenu } from "./ItemMenu.js";
-import { ItemSelection } from "./ItemSelection.js";
-import { SiteLogo } from "./SiteLogo.js";
+import ItemMenu from "./ItemMenu.js";
+import ItemSelection from "./ItemSelection.js";
+import SiteLogo from "./SiteLogo.js";
 import TooltipButton from "./TooltipButton.js";
 import Version from "./Version.js";
 
