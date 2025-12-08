@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { useState } from "react";
 
 type TItem = string;
 
@@ -11,74 +11,48 @@ interface Props {
 	selectionClassName?: string;
 }
 
-interface State {
-	currentSelection: TItem | undefined;
-}
+export default function ItemSelection({
+	defaultItem,
+	possibleItems,
+	onChangeItem,
+	label,
+	selectionClassName,
+}: Props) {
+	const [currentSelection, setCurrentSelection] = useState<TItem | undefined>(
+		defaultItem,
+	);
 
-export class ItemSelection extends PureComponent<Props, State> {
-	constructor(p: Props) {
-		super(p);
+	const handleChange = (newItem: TItem) => {
+		if (currentSelection === undefined || newItem !== currentSelection) {
+			onChangeItem(newItem);
+			setCurrentSelection(newItem);
+		}
+	};
 
-		this.state = {
-			currentSelection: p.defaultItem,
-		};
-	}
+	import.meta.env.DEV && console.assert(!!label);
 
-	#handleChange(newItem: TItem) {
-		this.setState(prevState => {
-			const oldItem = prevState.currentSelection;
-			if (oldItem === undefined || newItem !== oldItem) {
-				if (this.props.onChangeItem) {
-					this.props.onChangeItem(newItem);
-				}
-				return {
-					currentSelection: newItem,
-				};
-			}
-			return prevState;
-		});
-	}
-
-	#getDropDown() {
-		const options = this.props.possibleItems.map(e => (
-			<button
-				className="dropdown-item"
-				key={e}
-				onClick={() => this.#handleChange(e)}
-				type="button"
-			>
-				{e}
-			</button>
-		));
-
-		return <div className="dropdown-menu">{options}</div>;
-	}
-
-	#getShowSelectionLabel() {
-		const p = this.props;
-		const s = this.state;
-
-		import.meta.env.DEV && console.assert(!!p.label);
-
-		const text = s.currentSelection ? s.currentSelection : "";
-
-		return (
+	return (
+		<li className="nav-item dropdown">
 			<span
 				className="nav-link dropdown-toggle"
 				data-bs-toggle="dropdown"
 				aria-haspopup="true"
 			>
-				{p.label} <span className={p.selectionClassName}>{text}</span>
+				{label}{" "}
+				<span className={selectionClassName}>{currentSelection || ""}</span>
 			</span>
-		);
-	}
-
-	render() {
-		return (
-			<li className="nav-item dropdown">
-				{this.#getShowSelectionLabel()}
-				{this.#getDropDown()}
-			</li>
-		);
-	}
+			<div className="dropdown-menu">
+				{possibleItems.map(e => (
+					<button
+						className="dropdown-item"
+						key={e}
+						onClick={() => handleChange(e)}
+						type="button"
+					>
+						{e}
+					</button>
+				))}
+			</div>
+		</li>
+	);
 }

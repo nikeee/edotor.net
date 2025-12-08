@@ -4,7 +4,7 @@ import { samples } from "../samples";
 
 import { displayFormats, supportedEngines } from "../viz";
 import { ItemMenu } from "./ItemMenu";
-import { ItemSelection } from "./ItemSelection";
+import ItemSelection from "./ItemSelection";
 import { SiteLogo } from "./SiteLogo";
 import TooltipButton from "./TooltipButton";
 import Version from "./Version";
