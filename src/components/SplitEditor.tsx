@@ -20,24 +20,14 @@ export type SplitEditorProps = {
 type SplitEditorState = SourceState | ErroredState;
 type SourceState = {
 	dotSrc: string;
-	errors: undefined;
-	lastKnownGoodSrc: undefined;
+	errors?: undefined;
+	lastKnownGoodSrc?: undefined;
 };
 type ErroredState = {
-	dotSrc: undefined;
+	dotSrc?: undefined;
 	errors: ErrorList;
 	lastKnownGoodSrc?: string;
 };
-
-const createSourceState = (dotSrc: string): SourceState => ({
-	dotSrc,
-	errors: undefined,
-	lastKnownGoodSrc: undefined,
-});
-const createErroredState = (
-	errors: ErrorList,
-	lastKnownGoodSrc?: string,
-): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
 
 export default class SplitEditor extends Component<
 	SplitEditorProps,
@@ -49,7 +39,7 @@ export default class SplitEditor extends Component<
 		super(props);
 		const p = this.props;
 
-		this.state = createSourceState(p.initialSource);
+		this.state = { dotSrc: p.initialSource };
 		p.onSourceChange?.(this.state.dotSrc);
 	}
 
@@ -62,13 +52,13 @@ export default class SplitEditor extends Component<
 
 	dotSourceChanged = (dotSrc: string): void => {
 		this.props.onSourceChange?.(dotSrc);
-		this.setState(createSourceState(dotSrc));
+		this.setState({ dotSrc });
 	};
 
 	dotSourceErrored = (errors: ErrorList): void => {
 		this.setState(prevState => {
 			const lastKnownGoodSrc = prevState.dotSrc || prevState.lastKnownGoodSrc;
-			return createErroredState(errors, lastKnownGoodSrc);
+			return { errors, lastKnownGoodSrc };
 		});
 	};
 

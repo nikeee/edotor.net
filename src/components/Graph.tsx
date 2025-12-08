@@ -15,31 +15,22 @@ import "./Graph.css";
 type GraphState = ErrorState | RenderingState | EmptyState;
 
 type ErrorState = {
-	element: undefined;
+	element?: undefined;
 	error: string;
 };
 type RenderingState = {
 	element: Rendering;
-	error: undefined;
+	error?: undefined;
 };
 type EmptyState = {
-	element: undefined;
-	error: undefined;
+	element?: undefined;
+	error?: undefined;
 };
 
 const emptyState = {
 	element: undefined,
 	error: undefined,
 } satisfies EmptyState;
-
-const createElementState = (element: Rendering): RenderingState => ({
-	element,
-	error: undefined,
-});
-const createErrorState = (error: string): ErrorState => ({
-	element: undefined,
-	error,
-});
 
 function isRenderingState(s: GraphState): s is RenderingState {
 	if (s.error !== undefined) {
@@ -83,13 +74,13 @@ export default class Graph extends Component<GraphProps, GraphState> {
 			element = await renderElement(dotSrc, format, engine);
 			// biome-ignore lint/suspicious/noExplicitAny: todo
 		} catch (e: any) {
-			this.setState(createErrorState(e.message));
+			this.setState({ error: e.message });
 			return;
 		}
 		if (element) {
-			this.setState(createElementState(element));
+			this.setState({ element });
 		} else {
-			this.setState(createErrorState("Graph could not be rendered"));
+			this.setState({ error: "Graph could not be rendered" });
 		}
 	}
 
