@@ -1,4 +1,4 @@
-import { Component, createRef, type RefObject } from "react";
+import { Component, createRef } from "react";
 import svgPanZoom from "svg-pan-zoom";
 
 import {
@@ -14,18 +14,18 @@ import "./Graph.css";
 // Thanks to mdaines for providing a react sample
 type GraphState = ErrorState | RenderingState | EmptyState;
 
-interface ErrorState {
+type ErrorState = {
 	element: undefined;
 	error: string;
-}
-interface RenderingState {
+};
+type RenderingState = {
 	element: Rendering;
 	error: undefined;
-}
-interface EmptyState {
+};
+type EmptyState = {
 	element: undefined;
 	error: undefined;
-}
+};
 
 const emptyState = {
 	element: undefined,
@@ -42,9 +42,14 @@ const createErrorState = (error: string): ErrorState => ({
 });
 
 function isRenderingState(s: GraphState): s is RenderingState {
-	if (s.error !== undefined) return false;
+	if (s.error !== undefined) {
+		return false;
+	}
+
 	const e = s.element;
-	if (e === undefined) return false;
+	if (e === undefined) {
+		return false;
+	}
 	// Dirty hack to catch erroneous XML/SVGs by Viz.js (Chrome and Firefox output behave differently)
 	return (
 		!e.innerHTML.includes("<parsererror") && // Chrome
@@ -52,14 +57,14 @@ function isRenderingState(s: GraphState): s is RenderingState {
 	); // Firefox
 }
 
-export interface GraphProps {
+export type GraphProps = {
 	dotSrc: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
-}
+};
 
 export default class Graph extends Component<GraphProps, GraphState> {
-	#containerRef: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
+	#containerRef = createRef<HTMLDivElement>();
 	#panZoomContainer: SvgPanZoom.Instance | undefined;
 
 	state: GraphState = emptyState;
@@ -96,8 +101,7 @@ export default class Graph extends Component<GraphProps, GraphState> {
 	}
 
 	#destroyCurrentZoomContainer() {
-		const container = this.#panZoomContainer;
-		if (container) container.destroy();
+		this.#panZoomContainer?.destroy();
 	}
 
 	componentDidUpdate(prevProps: GraphProps, prevState: GraphState) {
