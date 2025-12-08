@@ -1,5 +1,5 @@
 import type * as monaco from "monaco-editor";
-import { Component, createRef, type RefObject } from "react";
+import { Component, createRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import SplitPane from "react-split-pane";
 
@@ -10,24 +10,24 @@ import GraphPane from "./GraphPane.js";
 
 type ErrorList = monaco.editor.IMarkerData[];
 
-interface SplitEditorProps {
+export type SplitEditorProps = {
 	initialSource: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
 	onSourceChange?(source: string): void;
-}
+};
 
 type SplitEditorState = SourceState | ErroredState;
-interface SourceState {
+type SourceState = {
 	dotSrc: string;
 	errors: undefined;
 	lastKnownGoodSrc: undefined;
-}
-interface ErroredState {
+};
+type ErroredState = {
 	dotSrc: undefined;
 	errors: ErrorList;
 	lastKnownGoodSrc?: string;
-}
+};
 
 const createSourceState = (dotSrc: string): SourceState => ({
 	dotSrc,
@@ -43,30 +43,25 @@ export default class SplitEditor extends Component<
 	SplitEditorProps,
 	SplitEditorState
 > {
-	#editorPaneRef: RefObject<EditorPane | null> = createRef<EditorPane>();
+	#editorPaneRef = createRef<EditorPane>();
 
 	constructor(props: SplitEditorProps) {
 		super(props);
 		const p = this.props;
 
 		this.state = createSourceState(p.initialSource);
-		if (p.onSourceChange) p.onSourceChange(this.state.dotSrc);
+		p.onSourceChange?.(this.state.dotSrc);
 	}
 
 	loadDotSource(dotSrc: string) {
 		// Change the value of the underlying monaco instance
 		// Monaco will call onChange and
 		// the rest is going to be handled as if the user changed the value by hand
-		const editor = this.#editorPaneRef.current;
-		if (editor) {
-			editor.loadValue(dotSrc);
-		}
+		this.#editorPaneRef.current?.loadValue(dotSrc);
 	}
 
 	dotSourceChanged = (dotSrc: string): void => {
-		const p = this.props;
-		if (p.onSourceChange) p.onSourceChange(dotSrc);
-
+		this.props.onSourceChange?.(dotSrc);
 		this.setState(createSourceState(dotSrc));
 	};
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type TItem = string;
+export type TItem = string;
 
 export interface ItemSelectionProps {
 	defaultItem: TItem | undefined;
