@@ -112,6 +112,8 @@ export function asCompletionItem(
 	return result;
 }
 
+export function asHover(hover: null | undefined): null;
+export function asHover(hover: lst.Hover): monaco.languages.Hover;
 export function asHover(
 	hover: lst.Hover | null | undefined,
 ): monaco.languages.Hover | null {
@@ -272,7 +274,6 @@ export function asColorPresentations(
 	}));
 }
 
-// Helper functions
 function asSeverity(severity?: number): monaco.MarkerSeverity {
 	// LSP DiagnosticSeverity: Error=1, Warning=2, Information=3, Hint=4
 	// Monaco MarkerSeverity: Error=8, Warning=4, Info=2, Hint=1
@@ -293,7 +294,6 @@ function asSeverity(severity?: number): monaco.MarkerSeverity {
 function asCompletionItemKind(
 	kind: number,
 ): monaco.languages.CompletionItemKind {
-	// Map LSP CompletionItemKind to Monaco CompletionItemKind
 	// LSP and Monaco use the same numeric values, but we'll map them explicitly
 	return kind as monaco.languages.CompletionItemKind;
 }
