@@ -3,23 +3,12 @@ export interface ItemMenuItem<T> {
 	display: string;
 }
 
-interface Props<T> {
+export interface ItemMenuProps<T> {
 	items: readonly ItemMenuItem<T>[];
 	onClickItem(item: ItemMenuItem<T>["value"]): void;
 	label: string;
 }
-export default function ItemMenu<TItem>(props: Props<TItem>) {
-	const options = props.items.map(item => (
-		<button
-			type="button"
-			className="dropdown-item"
-			key={item.display}
-			onClick={() => props.onClickItem(item.value)}
-		>
-			{item.display}
-		</button>
-	));
-
+export default function ItemMenu<TItem>(props: ItemMenuProps<TItem>) {
 	return (
 		<li className="nav-item dropdown">
 			<button
@@ -30,7 +19,18 @@ export default function ItemMenu<TItem>(props: Props<TItem>) {
 			>
 				{props.label}
 			</button>
-			<div className="dropdown-menu">{options}</div>
+			<div className="dropdown-menu">
+				{props.items.map(item => (
+					<button
+						type="button"
+						className="dropdown-item"
+						key={item.display}
+						onClick={() => props.onClickItem(item.value)}
+					>
+						{item.display}
+					</button>
+				))}
+			</div>
 		</li>
 	);
 }

@@ -2,11 +2,11 @@ import { Graph, type Props as GraphProps } from "./Graph";
 
 import "./GraphPane.css";
 
-interface Props extends GraphProps {
+export interface GraphPaneProps extends GraphProps {
 	className?: string;
 }
 
-export const GraphPane = (props: Props) => {
+export default function GraphPane(props: GraphPaneProps) {
 	return (
 		<div className={props.className}>
 			<Graph
@@ -16,4 +16,4 @@ export const GraphPane = (props: Props) => {
 			/>
 		</div>
 	);
-};
+}
