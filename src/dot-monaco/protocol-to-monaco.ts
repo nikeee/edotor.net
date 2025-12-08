@@ -1,17 +1,34 @@
 import * as monaco from "monaco-editor";
+import type * as ls from "vscode-languageserver-types";
 import type * as lst from "vscode-languageserver-types";
 
-export function asRange(range: lst.Range): monaco.IRange {
-	return {
-		startLineNumber: range.start.line + 1,
-		startColumn: range.start.character + 1,
-		endLineNumber: range.end.line + 1,
-		endColumn: range.end.character + 1,
-	};
+export function asPosition(value: undefined | null): undefined;
+export function asPosition(value: ls.Position): monaco.Position;
+export function asPosition(
+	value: ls.Position | undefined | null,
+): monaco.Position | undefined;
+export function asPosition(
+	value: ls.Position | undefined | null,
+): monaco.Position | undefined {
+	return value ? new monaco.Position(value.line, value.character) : undefined;
 }
 
-export function asPosition(position: lst.Position): monaco.Position {
-	return new monaco.Position(position.line + 1, position.character + 1);
+export function asRange(value: undefined | null): undefined;
+export function asRange(value: ls.Range): monaco.Range;
+export function asRange(
+	value: ls.Range | undefined | null,
+): monaco.Range | undefined;
+export function asRange(
+	value: ls.Range | undefined | null,
+): monaco.Range | undefined {
+	return value
+		? new monaco.Range(
+				value.start.line,
+				value.start.character,
+				value.end.line,
+				value.end.character,
+			)
+		: undefined;
 }
 
 export function asDiagnostics(
