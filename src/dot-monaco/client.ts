@@ -34,18 +34,14 @@ export interface LanguageProcessor {
 	): monaco.editor.IMarkerData[];
 }
 
-function createDocument(model: monaco.editor.IReadOnlyModel) {
-	return TextDocument.create(
-		model.uri.toString(),
-		model.id,
-		model.getVersionId(),
-		model.getValue(),
-	);
-}
-
 const processor: LanguageProcessor = {
 	process(model): ParsedDocument {
-		const document = createDocument(model);
+		const document = TextDocument.create(
+			model.uri.toString(),
+			model.id,
+			model.getVersionId(),
+			model.getValue(),
+		);
 		return {
 			document,
 			sourceFile: ls.parseDocument(document),
