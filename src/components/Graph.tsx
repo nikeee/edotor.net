@@ -133,8 +133,8 @@ export default class Graph extends Component<Props, State> {
 	}
 }
 
-const createZoomWrapper = (child: Rendering): SvgPanZoom.Instance => {
-	return svgPanZoom(child, {
+const createZoomWrapper = (child: Rendering) =>
+	svgPanZoom(child, {
 		zoomEnabled: true,
 		controlIconsEnabled: false,
 		fit: true,
@@ -143,4 +143,3 @@ const createZoomWrapper = (child: Rendering): SvgPanZoom.Instance => {
 		maxZoom: 200,
 		zoomScaleSensitivity: 0.5,
 	});
-};
