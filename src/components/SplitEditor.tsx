@@ -3,10 +3,10 @@ import { Component, createRef, type RefObject } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import SplitPane from "react-split-pane";
 
-import { getSplitConfig, saveSplitConfig } from "../config";
-import type { SupportedEngine, SupportedFormat } from "../rendering";
-import { EditorPane } from "./EditorPane";
-import { GraphPane } from "./GraphPane";
+import { getSplitConfig, saveSplitConfig } from "../config.js";
+import type { SupportedEngine, SupportedFormat } from "../rendering.js";
+import { EditorPane } from "./EditorPane.js";
+import { GraphPane } from "./GraphPane.js";
 
 type ErrorList = monaco.editor.IMarkerData[];
 

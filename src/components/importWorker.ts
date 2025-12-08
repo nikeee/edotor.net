@@ -5,7 +5,7 @@ import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 // import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 // import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 
-import { service } from "../dot-monaco/client.js";
+import { service } from "../dot-monaco/index.js";
 
 const langs = monaco.languages;
 langs.register(service.language);

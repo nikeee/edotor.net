@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
-import "./importWorker";
-import { registerCommands } from "../dot-monaco";
+import "./importWorker.js";
+import { registerCommands } from "../dot-monaco/index.js";
 
 export type EditorProps = {
 	initialValue?: string | undefined;

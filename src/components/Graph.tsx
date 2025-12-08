@@ -1,12 +1,13 @@
 import { Component, createRef, type RefObject } from "react";
 import svgPanZoom from "svg-pan-zoom";
+
 import {
 	type Rendering,
 	renderElement,
 	type SupportedEngine,
 	type SupportedFormat,
-} from "../rendering";
-import { removeChildren } from "../utils";
+} from "../rendering.js";
+import { removeChildren } from "../utils.js";
 
 import "./Graph.css";
 

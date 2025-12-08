@@ -1,4 +1,4 @@
-import { Graph, type Props as GraphProps } from "./Graph";
+import { Graph, type Props as GraphProps } from "./Graph.js";
 
 import "./GraphPane.css";
 

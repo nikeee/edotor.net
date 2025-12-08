@@ -6,14 +6,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./index.scss";
 
-import BarLoader from "react-spinners/BarLoader";
-import Editor from "./components/Editor";
-import Navigation from "./components/Navigation";
-import { getLastState, mergeStates, saveLastEngine } from "./config";
-import { FileSaver } from "./FileSaver";
-import { exportAs, type SupportedEngine, saveSource } from "./rendering";
-import { tutorial } from "./samples";
-import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils";
+import BarLoader from "react-spinners/BarLoader.js";
+import Editor from "./components/Editor.js";
+import Navigation from "./components/Navigation.js";
+import { getLastState, mergeStates, saveLastEngine } from "./config.js";
+import { FileSaver } from "./FileSaver.js";
+import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
+import { tutorial } from "./samples/index.js";
+import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils.js";
 import {
 	type ExportableFormat,
 	sourceFormatExtension,
