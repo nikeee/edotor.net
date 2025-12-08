@@ -1,12 +1,30 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { editor, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 
 import "./importWorker.js";
-import { registerCommands } from "../dot-monaco/index.js";
+import { registerCommands, service } from "../dot-monaco/index.js";
+
+languages.register(service.language);
+languages.setMonarchTokensProvider("dot", service.monarchTokens);
+languages.setLanguageConfiguration("dot", service.languageConfig);
+languages.registerCompletionItemProvider("dot", service.completionItemProvider);
+languages.registerHoverProvider("dot", service.hoverProvider);
+languages.registerDefinitionProvider("dot", service.definitionProvider);
+languages.registerReferenceProvider("dot", service.referenceProvider);
+languages.registerRenameProvider("dot", service.renameProvider);
+languages.registerCodeActionProvider("dot", service.codeActionProvider);
+languages.registerColorProvider("dot", service.colorProvider);
+
+self.MonacoEnvironment = {
+	getWorker(_: unknown, _label: string) {
+		return new editorWorker();
+	},
+};
 
 export type EditorProps = {
 	initialValue?: string | undefined;
-	onChangeValue: (value: string) => monaco.editor.IMarkerData[];
-	// onValueError?(err: monaco.editor.IMarkerData[]): void;
+	onChangeValue: (value: string) => editor.IMarkerData[];
+	// onValueError?(err: editor.IMarkerData[]): void;
 };
 
 export default function Editor({ initialValue, onChangeValue }: EditorProps) {
@@ -16,12 +34,12 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 				width: "100vw",
 				height: "100vh",
 			}}
-			ref={monacoEl => {
-				if (!monacoEl) {
+			ref={div => {
+				if (!div) {
 					return;
 				}
 
-				const editor = monaco.editor.create(monacoEl, {
+				const e = editor.create(div, {
 					value: initialValue,
 					language: "dot",
 					lineNumbers: "on",
@@ -33,15 +51,15 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 					automaticLayout: true,
 					folding: true,
 					glyphMargin: true,
-					lightbulb: { enabled: monaco.editor.ShowLightbulbIconMode.On },
+					lightbulb: { enabled: editor.ShowLightbulbIconMode.On },
 				});
 
-				registerCommands(editor);
+				registerCommands(e);
 
-				const model = editor.getModel();
+				const model = e.getModel();
 				if (model === null) {
 					import.meta.env.DEV && console.log("Model is null");
-					return () => editor?.dispose();
+					return () => e?.dispose();
 				}
 
 				model.onDidChangeContent(() => {
@@ -49,12 +67,12 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 					if (!newMarkers) {
 						return;
 					}
-					monaco.editor.setModelMarkers(model, "dot", newMarkers);
+					editor.setModelMarkers(model, "dot", newMarkers);
 				});
 
 				return () => {
 					model.dispose();
-					editor?.dispose();
+					e?.dispose();
 				};
 			}}
 		></div>
