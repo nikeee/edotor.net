@@ -1,7 +1,7 @@
 import * as languageService from "dot-language-support";
 import * as monaco from "monaco-editor";
-
 import { TextDocument } from "vscode-languageserver-textdocument";
+
 import * as m2p from "./monaco-to-protocol";
 import * as p2m from "./protocol-to-monaco";
 import tokenConfig from "./xdot";

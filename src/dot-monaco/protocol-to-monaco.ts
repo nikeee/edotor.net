@@ -1,6 +1,5 @@
 import * as monaco from "monaco-editor";
 import type * as lst from "vscode-languageserver-types";
-import type { ColorInformation } from "./polyfill";
 
 export function asRange(range: lst.Range): monaco.IRange {
 	return {
@@ -222,7 +221,7 @@ export function asCodeActionList(
 }
 
 export function asColorInformation(
-	colorInfo: ColorInformation[] | null | undefined,
+	colorInfo: lst.ColorInformation[] | null | undefined,
 ): monaco.languages.IColorInformation[] {
 	if (!colorInfo) {
 		return [];
