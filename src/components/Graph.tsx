@@ -27,10 +27,11 @@ interface EmptyState {
 	error: undefined;
 }
 
-const createEmptyState = (): EmptyState => ({
+const emptyState = {
 	element: undefined,
 	error: undefined,
-});
+} satisfies EmptyState;
+
 const createElementState = (element: Rendering): RenderingState => ({
 	element,
 	error: undefined,
@@ -61,14 +62,14 @@ export default class Graph extends Component<GraphProps, GraphState> {
 	#containerRef: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
 	#panZoomContainer: SvgPanZoom.Instance | undefined;
 
-	state: GraphState = createEmptyState();
+	state: GraphState = emptyState;
 
 	async #updateGraph(): Promise<void> {
 		const { dotSrc, format, engine } = this.props;
 
 		// If the input is empty (or only whitespace), render nothing.
 		if (!dotSrc.match(/\S+/)) {
-			this.setState(createEmptyState());
+			this.setState(emptyState);
 			return;
 		}
 
