@@ -84,10 +84,7 @@ export default class SplitEditor extends Component<Props, State> {
 		const s = this.state;
 		const p = this.props;
 
-		const isErrored = s.errors && s.errors.length > 0;
 		const dotSrc = this.#getDotSrcToRender();
-
-		const graphPaneClass = isErrored ? "errored" : "successful";
 
 		return (
 			<SplitPane
@@ -108,7 +105,7 @@ export default class SplitEditor extends Component<Props, State> {
 				</ErrorBoundary>
 				<ErrorBoundary fallback="Could not load graph preview">
 					<GraphPane
-						className={`graph-container ${graphPaneClass}`}
+						hasErrors={!!(s.errors && s.errors.length > 0)}
 						dotSrc={dotSrc}
 						engine={p.engine}
 						format={p.format}
