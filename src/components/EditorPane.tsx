@@ -44,31 +44,6 @@ export default class EditorPane extends Component<EditorPaneProps, object> {
 		const e = this.#editor;
 		if (!p || !e) return;
 
-		const model = e.getModel();
-		let markers: monaco.editor.IMarkerData[] | undefined;
-		try {
-			markers = p.processAndValidate(model as monaco.editor.IReadOnlyModel);
-		} catch {
-			markers = undefined;
-		}
-
-		monaco.editor.setModelMarkers(
-			model as monaco.editor.ITextModel,
-			"dot",
-			markers || [],
-		);
-
-		const props = this.props;
-		if (markers && markers.length > 0) {
-			if (props.onValueError) {
-				props.onValueError(markers);
-			}
-		} else {
-			if (props.onChangeValue && typeof value !== "undefined") {
-				props.onChangeValue(value);
-			}
-		}
-
 		if (typeof this.#autoSaveTimeout !== "undefined") {
 			clearTimeout(this.#autoSaveTimeout);
 		}
