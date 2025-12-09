@@ -1,13 +1,11 @@
-import { loader, default as MonacoEditor } from "@monaco-editor/react";
-import * as monaco from "monaco-editor";
+import { default as MonacoEditor } from "@monaco-editor/react";
+import type * as monaco from "monaco-editor";
 import { Component } from "react";
 
 import { saveLastSource } from "../config.js";
 import * as ls from "../dot-monaco/index.js";
 
 type Monaco = typeof monaco;
-
-loader.config({ monaco });
 
 type EditorPaneProps = {
 	defaultValue?: string;
