@@ -22,7 +22,7 @@ import {
 	type ExportableFormat,
 	sourceFormatExtension,
 	supportedEngines,
-} from "./viz/index.js";
+} from "./viz.js";
 
 const defaultEngine = supportedEngines[1];
 
