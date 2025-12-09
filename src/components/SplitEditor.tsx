@@ -76,8 +76,7 @@ export default class SplitEditor extends Component<Props, State> {
 
 	#getDotSrcToRender() {
 		const s = this.state;
-
-		return s.dotSrc ? s.dotSrc : s.lastKnownGoodSrc ? s.lastKnownGoodSrc : "";
+		return s.dotSrc || s.lastKnownGoodSrc || "";
 	}
 
 	render() {
