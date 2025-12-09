@@ -24,7 +24,7 @@ self.MonacoEnvironment = {
 
 export type EditorProps = {
 	initialValue?: string | undefined;
-	onChangeValue: (value: string) => editor.IMarkerData[];
+	onChangeValue: (value: string) => void;
 	onValueError: (errorCount: number) => void;
 	ref?: React.Ref<editor.IStandaloneCodeEditor | null>;
 };
@@ -83,10 +83,8 @@ export default function Editor({
 				}
 
 				model.onDidChangeContent(() => {
-					const newMarkers = onChangeValue?.(model.getValue());
-					if (!newMarkers) {
-						return;
-					}
+					onChangeValue?.(model.getValue());
+					const newMarkers = service.processor.processAndValidate(model);
 					editor.setModelMarkers(model, "dot", newMarkers);
 
 					if (newMarkers.length > 0) {
