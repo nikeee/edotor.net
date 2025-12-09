@@ -74,16 +74,9 @@ export default class SplitEditor extends Component<Props, State> {
 		});
 	};
 
-	#getDotSrcToRender() {
-		const s = this.state;
-		return s.dotSrc || s.lastKnownGoodSrc || "";
-	}
-
 	render() {
 		const s = this.state;
 		const p = this.props;
-
-		const dotSrc = this.#getDotSrcToRender();
 
 		return (
 			<SplitPane
@@ -105,7 +98,7 @@ export default class SplitEditor extends Component<Props, State> {
 				<ErrorBoundary fallback="Could not load graph preview">
 					<GraphPane
 						hasErrors={!!(s.errors && s.errors.length > 0)}
-						dotSrc={dotSrc}
+						dotSrc={s.dotSrc || s.lastKnownGoodSrc || ""}
 						engine={p.engine}
 						format={p.format}
 					/>
