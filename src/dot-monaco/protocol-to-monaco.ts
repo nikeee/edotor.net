@@ -23,10 +23,10 @@ export function asRange(
 ): monaco.Range | undefined {
 	return value
 		? new monaco.Range(
-				value.start.line,
-				value.start.character,
-				value.end.line,
-				value.end.character,
+				value.start.line + 1,
+				value.start.character + 1,
+				value.end.line + 1,
+				value.end.character + 1,
 			)
 		: undefined;
 }
@@ -158,7 +158,6 @@ export function asWorkspaceEdit(
 	if (!edit) {
 		return undefined;
 	}
-
 	const edits: monaco.languages.IWorkspaceTextEdit[] = [];
 
 	if (edit.changes) {
