@@ -1,4 +1,6 @@
+// @ts-expect-error
 import { default as MonacoEditor } from "@monaco-editor/react";
+
 import type * as monaco from "monaco-editor";
 import { Component } from "react";
 
