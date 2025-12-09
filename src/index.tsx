@@ -34,6 +34,9 @@ interface AppProps {
 const defaultSource = tutorial;
 
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
+type Timeout = ReturnType<typeof setTimeout>;
+
+const saver = new FileSaver();
 
 function App({ initialText, initialEngine }: AppProps) {
 	const [engine, setEngine] = useState<SupportedEngine>(
@@ -41,13 +44,9 @@ function App({ initialText, initialEngine }: AppProps) {
 	);
 
 	const currentSourceRef = useRef<string | undefined>(undefined);
-	const saverRef = useRef<FileSaver>(new FileSaver());
-	const editorRef: RefObject<
-		import("./components/SplitEditor").default | null
-	> = useRef(null);
-	const autoSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-		undefined,
-	);
+	const editorRef: RefObject<SplitEditor | null> = useRef(null);
+	const autoSaveTimeoutRef = useRef<Timeout | undefined>(undefined);
+	const initialSource = initialText ? initialText : defaultSource;
 
 	useEffect(() => {
 		return () => {
@@ -57,7 +56,6 @@ function App({ initialText, initialEngine }: AppProps) {
 		};
 	}, []);
 
-	const initialSource = initialText ? initialText : defaultSource;
 	return (
 		<div className="main-container">
 			<Navigation
@@ -70,9 +68,9 @@ function App({ initialText, initialEngine }: AppProps) {
 					const dotSrc = currentSourceRef.current;
 					if (dotSrc) {
 						if (format === sourceFormatExtension) {
-							saveSource(dotSrc, saverRef.current);
+							saveSource(dotSrc, saver);
 						} else {
-							exportAs(dotSrc, format, { engine }, saverRef.current);
+							exportAs(dotSrc, format, { engine }, saver);
 						}
 					}
 				}}
