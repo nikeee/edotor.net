@@ -66,8 +66,6 @@ export function asCompletionList(
 	};
 }
 
-export type RangeReplace = { insert: monaco.IRange; replace: monaco.IRange };
-
 export function asCompletionResult(
 	result: lst.CompletionItem[] | null | undefined,
 ): monaco.languages.CompletionList {
@@ -85,9 +83,10 @@ export function asCompletionResult(
 		suggestions,
 	};
 }
+
 export function asCompletionItem(
 	item: lst.CompletionItem,
-	defaultRange?: monaco.IRange,
+	defaultRange: monaco.IRange | undefined,
 	insertTextReplaceRange?: monaco.IRange,
 ): monaco.languages.CompletionItem {
 	const textEdit = item.textEdit;
@@ -96,7 +95,7 @@ export function asCompletionItem(
 			? asRange(textEdit.range)
 			: textEdit && "insert" in textEdit
 				? asRange(textEdit.insert)
-				: // biome-ignore lint/style/noNonNullAssertion: :shrug:
+				: // biome-ignore lint/style/noNonNullAssertion: :shrug: #119
 					insertTextReplaceRange || defaultRange!;
 
 	const documentation = asDocumentation(item.documentation);

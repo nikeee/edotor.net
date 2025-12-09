@@ -4,7 +4,7 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 
 import * as m2p from "./monaco-to-protocol.js";
 import * as p2m from "./protocol-to-monaco.js";
-import tokenConfig from "./xdot.js";
+import tokenConfig from "./xdot";
 
 const LANGUAGE_ID = "dot";
 
@@ -183,7 +183,9 @@ export const service = {
 
 // biome-ignore lint/suspicious/noExplicitAny: :todo:
 export function registerService(context: any, service: MonacoService): void {
-	if (!service.language) return;
+	if (!service.language) {
+		return;
+	}
 
 	const langs = context.languages;
 	const id = service.language.id;
