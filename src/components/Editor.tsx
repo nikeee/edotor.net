@@ -42,12 +42,16 @@ export default function Editor({
 				height: "100%",
 			}}
 			ref={div => {
-				if (!div) {
+				const setExternalRef = (value: editor.IStandaloneCodeEditor | null) => {
 					if (typeof ref === "function") {
-						ref(null);
+						ref(value);
 					} else if (ref && "current" in ref) {
-						ref.current = null;
+						ref.current = value;
 					}
+				};
+
+				if (!div) {
+					setExternalRef(null);
 					return;
 				}
 
@@ -62,11 +66,7 @@ export default function Editor({
 					automaticLayout: true,
 				});
 
-				if (typeof ref === "function") {
-					ref(e);
-				} else if (ref && "current" in ref) {
-					ref.current = e;
-				}
+				setExternalRef(e);
 
 				registerCommands(e);
 
@@ -77,11 +77,7 @@ export default function Editor({
 					import.meta.env.DEV && console.log("Model is null");
 
 					return () => {
-						if (typeof ref === "function") {
-							ref(null);
-						} else if (ref && "current" in ref) {
-							ref.current = null;
-						}
+						setExternalRef(null);
 						e?.dispose();
 					};
 				}
@@ -100,11 +96,7 @@ export default function Editor({
 
 				return () => {
 					model.dispose();
-					if (typeof ref === "function") {
-						ref(null);
-					} else if (ref && "current" in ref) {
-						ref.current = null;
-					}
+					setExternalRef(null);
 					e?.dispose();
 				};
 			}}
