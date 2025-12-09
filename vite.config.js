@@ -1,3 +1,5 @@
+import * as path from "node:path";
+
 import { defineConfig, loadEnv } from "vite"
 import { ViteEjsPlugin } from "vite-plugin-ejs";
 import { viteStaticCopy } from "vite-plugin-static-copy"
@@ -6,6 +8,11 @@ import react from "@vitejs/plugin-react"
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
 	return {
+		resolve: {
+			alias: {
+				"vscode": path.resolve(__dirname, "./node_modules/monaco-languageclient/lib/vscode-compatibility"),
+			},
+		},
 		plugins: [
 			viteStaticCopy({
 				targets: [

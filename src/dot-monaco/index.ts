@@ -1,10 +1,16 @@
 import { createService, type SourceFile } from "dot-language-support";
-import { editor, type languages, type Position } from "monaco-editor";
+import * as monaco from "monaco-editor";
+import { editor, type languages } from "monaco-editor";
+import {
+	MonacoToProtocolConverter,
+	ProtocolToMonacoConverter,
+} from "monaco-languageclient";
 import { TextDocument } from "vscode-languageserver-textdocument";
-
-import * as m2p from "./monaco-to-protocol.js";
-import * as p2m from "./protocol-to-monaco.js";
 import tokenConfig from "./xdot.js";
+
+// TODO: Move away from this dependency on monaco-languageclient (we don't need an instance of monaco to convert to and from protocol)
+const m2p = new MonacoToProtocolConverter(monaco);
+const p2m = new ProtocolToMonacoConverter(monaco);
 
 const LANGUAGE_ID = "dot";
 
@@ -84,16 +90,30 @@ export const service = {
 	},
 	completionItemProvider: {
 		triggerCharacters: ["=", ",", "["],
-		provideCompletionItems(model: editor.ITextModel, position: Position) {
+		provideCompletionItems(
+			model: monaco.editor.ITextModel,
+			position: monaco.Position,
+		) {
 			const data = processor.process(model);
-
 			const completions = ls.getCompletions(
 				data.document,
 				data.sourceFile,
 				m2p.asPosition(position.lineNumber, position.column),
 			);
 
-			return p2m.asCompletionList(completions, position);
+			// p2m.asCompletionResult has a bug
+			const defaultMonacoRange = monaco.Range.fromPositions(position);
+			return {
+				incomplete: false,
+				suggestions: completions.map(
+					item =>
+						p2m.asCompletionItem(
+							item,
+							defaultMonacoRange,
+							undefined,
+						) as languages.CompletionItem,
+				),
+			};
 		},
 	},
 	hoverProvider: {
@@ -154,9 +174,9 @@ export const service = {
 				data.document,
 				data.sourceFile,
 				m2p.asRange(range),
-				m2p.asCodeActionContext(context),
+				m2p.asCodeActionContext(context, []),
 			);
-			return p2m.asCodeActionList(commands);
+			return commands ? p2m.asCodeActionList(commands) : undefined;
 		},
 	},
 	colorProvider: {
@@ -164,7 +184,7 @@ export const service = {
 			const data = processor.process(model);
 			const res = ls.getDocumentColors(data.document, data.sourceFile);
 
-			return p2m.asColorInformation(res);
+			return res ? p2m.asColorInformations(res) : undefined;
 		},
 		provideColorPresentations(model, colorInfo) {
 			const data = processor.process(model);
@@ -175,7 +195,7 @@ export const service = {
 				colorInfo.color,
 				m2p.asRange(colorInfo.range),
 			);
-			return p2m.asColorPresentations(res);
+			return res ? p2m.asColorPresentations(res) : undefined;
 		},
 	},
 	processor,
