@@ -105,7 +105,13 @@ class App extends Component<AppProps, AppState> {
 		const s = this.state;
 		const p = this.props;
 		const initialSource = p.initialText ? p.initialText : defaultSource;
-		return <Editor initialValue={initialSource} onChangeValue={() => []} />;
+		return (
+			<Editor
+				initialValue={initialSource}
+				onChangeValue={() => []}
+				onValueError={n => void n}
+			/>
+		);
 		/*
 		return (
 			<div className="main-container">

@@ -24,10 +24,14 @@ self.MonacoEnvironment = {
 export type EditorProps = {
 	initialValue?: string | undefined;
 	onChangeValue: (value: string) => editor.IMarkerData[];
-	// onValueError?(err: editor.IMarkerData[]): void;
+	onValueError: (errorCount: number) => void;
 };
 
-export default function Editor({ initialValue, onChangeValue }: EditorProps) {
+export default function Editor({
+	initialValue,
+	onChangeValue,
+	onValueError,
+}: EditorProps) {
 	return (
 		<div
 			style={{
@@ -66,6 +70,10 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 						return;
 					}
 					editor.setModelMarkers(model, "dot", newMarkers);
+
+					if (newMarkers.length > 0) {
+						onValueError(newMarkers.length);
+					}
 				});
 
 				return () => {
