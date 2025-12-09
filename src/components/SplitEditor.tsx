@@ -54,10 +54,8 @@ export default class SplitEditor extends Component<
 	}
 
 	loadDotSource(dotSrc: string) {
-		// Change the value of the underlying monaco instance
-		// Monaco will call onChange and
-		// the rest is going to be handled as if the user changed the value by hand
 		this.#editorRef.current?.setValue(dotSrc);
+		this.dotSourceChanged(dotSrc);
 	}
 
 	dotSourceChanged = (dotSrc: string): void => {
@@ -96,7 +94,7 @@ export default class SplitEditor extends Component<
 						<EditorLazy
 							ref={this.#editorRef}
 							initialValue={s.dotSrc}
-							onChangeValue={() => []}
+							onChangeValue={() => void 0}
 							onValueError={n => void n}
 						/>
 					</Suspense>
