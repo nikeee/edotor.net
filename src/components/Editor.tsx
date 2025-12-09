@@ -1,5 +1,6 @@
 import { editor, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import type React from "react";
 
 import { registerCommands, service } from "../dot-monaco/index.js";
 
@@ -25,12 +26,14 @@ export type EditorProps = {
 	initialValue?: string | undefined;
 	onChangeValue: (value: string) => editor.IMarkerData[];
 	onValueError: (errorCount: number) => void;
+	ref?: React.Ref<editor.IStandaloneCodeEditor | null>;
 };
 
 export default function Editor({
 	initialValue,
 	onChangeValue,
 	onValueError,
+	ref,
 }: EditorProps) {
 	return (
 		<div
@@ -40,6 +43,11 @@ export default function Editor({
 			}}
 			ref={div => {
 				if (!div) {
+					if (typeof ref === "function") {
+						ref(null);
+					} else if (ref && "current" in ref) {
+						ref.current = null;
+					}
 					return;
 				}
 
@@ -54,6 +62,12 @@ export default function Editor({
 					automaticLayout: true,
 				});
 
+				if (typeof ref === "function") {
+					ref(e);
+				} else if (ref && "current" in ref) {
+					ref.current = e;
+				}
+
 				registerCommands(e);
 
 				e.focus();
@@ -61,7 +75,15 @@ export default function Editor({
 				const model = e.getModel();
 				if (model === null) {
 					import.meta.env.DEV && console.log("Model is null");
-					return () => e?.dispose();
+
+					return () => {
+						if (typeof ref === "function") {
+							ref(null);
+						} else if (ref && "current" in ref) {
+							ref.current = null;
+						}
+						e?.dispose();
+					};
 				}
 
 				model.onDidChangeContent(() => {
@@ -78,6 +100,11 @@ export default function Editor({
 
 				return () => {
 					model.dispose();
+					if (typeof ref === "function") {
+						ref(null);
+					} else if (ref && "current" in ref) {
+						ref.current = null;
+					}
 					e?.dispose();
 				};
 			}}
