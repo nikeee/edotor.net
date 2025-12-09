@@ -67,31 +67,17 @@ export default class SplitEditor extends Component<
 	};
 
 	dotSourceErrored = (errors: ErrorList): void => {
-		this.setState(prevState => {
-			const lastKnownGoodSrc = prevState.dotSrc || prevState.lastKnownGoodSrc;
-			return { errors, lastKnownGoodSrc };
-		});
+		this.setState(prev => ({
+			errors,
+			lastKnownGoodSrc: prev.dotSrc || prev.lastKnownGoodSrc,
+		}));
 	};
-
-	#getDotSrcToRender() {
-		const s = this.state;
-		return s.dotSrc || s.lastKnownGoodSrc || "";
-	}
 
 	render() {
 		const s = this.state;
 		const p = this.props;
 
-		const dotSrc = this.#getDotSrcToRender();
-
-		/*
-		<EditorPane
-			ref={this.#editorPaneRef}
-			defaultValue={s.dotSrc}
-			onChangeValue={this.dotSourceChanged}
-			onValueError={this.dotSourceErrored}
-		/>
-		*/
+		// <EditorPane ref={this.#editorPaneRef} />
 
 		return (
 			<SplitPane
@@ -127,7 +113,7 @@ export default class SplitEditor extends Component<
 					>
 						<GraphPaneLazy
 							hasErrors={!!(s.errors && s.errors.length > 0)}
-							dotSrc={dotSrc}
+							dotSrc={s.dotSrc || s.lastKnownGoodSrc || ""}
 							engine={p.engine}
 							format={p.format}
 						/>
