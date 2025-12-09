@@ -5,7 +5,8 @@ import SplitPane from "react-split-pane";
 
 import { getSplitConfig, saveSplitConfig } from "../config.js";
 import type { SupportedEngine, SupportedFormat } from "../rendering.js";
-import EditorPane from "./EditorPane.js";
+import Editor from "./Editor.js";
+import type EditorPane from "./EditorPane.js";
 import GraphPane from "./GraphPane.js";
 
 type ErrorList = monaco.editor.IMarkerData[];
@@ -74,6 +75,15 @@ export default class SplitEditor extends Component<
 
 		const dotSrc = this.#getDotSrcToRender();
 
+		/*
+		<EditorPane
+			ref={this.#editorPaneRef}
+			defaultValue={s.dotSrc}
+			onChangeValue={this.dotSourceChanged}
+			onValueError={this.dotSourceErrored}
+		/>
+		*/
+
 		return (
 			<SplitPane
 				split="vertical"
@@ -84,11 +94,10 @@ export default class SplitEditor extends Component<
 				{...({} as any)}
 			>
 				<ErrorBoundary fallback="Could not load editor">
-					<EditorPane
-						ref={this.#editorPaneRef}
-						defaultValue={s.dotSrc}
-						onChangeValue={this.dotSourceChanged}
-						onValueError={this.dotSourceErrored}
+					<Editor
+						initialValue={s.dotSrc}
+						onChangeValue={() => []}
+						onValueError={n => void n}
 					/>
 				</ErrorBoundary>
 				<ErrorBoundary fallback="Could not load graph preview">
