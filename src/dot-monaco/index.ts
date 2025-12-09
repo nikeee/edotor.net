@@ -101,19 +101,7 @@ export const service = {
 				m2p.asPosition(position.lineNumber, position.column),
 			);
 
-			// p2m.asCompletionResult has a bug
-			const defaultMonacoRange = monaco.Range.fromPositions(position);
-			return {
-				incomplete: false,
-				suggestions: completions.map(
-					item =>
-						p2m.asCompletionItem(
-							item,
-							defaultMonacoRange,
-							undefined,
-						) as languages.CompletionItem,
-				),
-			};
+			return p2m.asCompletionResult(completions, undefined);
 		},
 	},
 	hoverProvider: {
