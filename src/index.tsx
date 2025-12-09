@@ -8,7 +8,12 @@ import "./index.scss";
 
 import Navigation from "./components/Navigation.js";
 import SplitEditor from "./components/SplitEditor.js";
-import { getLastState, mergeStates, saveLastEngine } from "./config.js";
+import {
+	getLastState,
+	mergeStates,
+	saveLastEngine,
+	saveLastSource,
+} from "./config.js";
 import { FileSaver } from "./FileSaver.js";
 import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
 import { tutorial } from "./samples/index.js";
@@ -17,7 +22,7 @@ import {
 	type ExportableFormat,
 	sourceFormatExtension,
 	supportedEngines,
-} from "./viz";
+} from "./viz/index.js";
 
 const defaultEngine = supportedEngines[1];
 
@@ -31,11 +36,15 @@ interface AppProps {
 
 const defaultSource = tutorial;
 
+const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
+
 class App extends Component<AppProps, AppState> {
 	#currentSource: string | undefined = undefined;
 	#saver: FileSaver = new FileSaver();
 	#editorRef: RefObject<import("./components/SplitEditor").default | null> =
 		createRef();
+
+	#autoSaveTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	state: AppState;
 
@@ -77,6 +86,15 @@ class App extends Component<AppProps, AppState> {
 
 	#sourceChanged = (source: string): void => {
 		this.#currentSource = source;
+
+		if (typeof this.#autoSaveTimeout !== "undefined") {
+			clearTimeout(this.#autoSaveTimeout);
+		}
+
+		this.#autoSaveTimeout = setTimeout(
+			() => saveLastSource(source),
+			SOURCE_SAVE_TIMEOUT,
+		);
 	};
 
 	#share = (): boolean => {
