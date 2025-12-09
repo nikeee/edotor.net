@@ -1,4 +1,4 @@
-import { Component, createRef, lazy, type RefObject, Suspense } from "react";
+import { Component, createRef, type RefObject } from "react";
 import { createRoot } from "react-dom/client";
 
 import "bootstrap";
@@ -6,8 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./index.scss";
 
-import { BarLoader } from "react-spinners";
 import Navigation from "./components/Navigation.js";
+import SplitEditor from "./components/SplitEditor.js";
 import { getLastState, mergeStates, saveLastEngine } from "./config.js";
 import { FileSaver } from "./FileSaver.js";
 import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
@@ -18,8 +18,6 @@ import {
 	sourceFormatExtension,
 	supportedEngines,
 } from "./viz";
-
-const LazySplitEditor = lazy(() => import("./components/SplitEditor"));
 
 const defaultEngine = supportedEngines[1];
 
@@ -32,12 +30,6 @@ interface AppProps {
 }
 
 const defaultSource = tutorial;
-const loadingStyle = {
-	position: "fixed",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-} as const;
 
 class App extends Component<AppProps, AppState> {
 	#currentSource: string | undefined = undefined;
@@ -113,21 +105,13 @@ class App extends Component<AppProps, AppState> {
 					loadSample={this.#loadSample}
 					share={this.#share}
 				/>
-				<Suspense
-					fallback={
-						<div style={loadingStyle}>
-							<BarLoader />
-						</div>
-					}
-				>
-					<LazySplitEditor
-						ref={this.#editorRef}
-						initialSource={initialSource}
-						format="svg"
-						engine={s.engine}
-						onSourceChange={this.#sourceChanged}
-					/>
-				</Suspense>
+				<SplitEditor
+					ref={this.#editorRef}
+					initialSource={initialSource}
+					format="svg"
+					engine={s.engine}
+					onSourceChange={this.#sourceChanged}
+				/>
 			</div>
 		);
 	}

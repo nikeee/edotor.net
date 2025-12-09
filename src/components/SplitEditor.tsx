@@ -1,13 +1,15 @@
 import type * as monaco from "monaco-editor";
-import { Component, createRef } from "react";
+import { Component, createRef, lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { BarLoader } from "react-spinners";
 import SplitPane from "react-split-pane";
 
 import { getSplitConfig, saveSplitConfig } from "../config.js";
 import type { SupportedEngine, SupportedFormat } from "../rendering.js";
-import Editor from "./Editor.js";
 import type EditorPane from "./EditorPane.js";
-import GraphPane from "./GraphPane.js";
+
+const EditorLazy = lazy(() => import("./Editor.js"));
+const GraphPaneLazy = lazy(() => import("./GraphPane.js"));
 
 type ErrorList = monaco.editor.IMarkerData[];
 
@@ -29,6 +31,14 @@ type ErroredState = {
 	errors: ErrorList;
 	lastKnownGoodSrc?: string;
 };
+
+const loadingStyle = {
+	position: "absolute",
+	display: "flex",
+	inset: "0",
+	justifyContent: "center",
+	alignItems: "center",
+} as const;
 
 export default class SplitEditor extends Component<
 	SplitEditorProps,
@@ -94,19 +104,35 @@ export default class SplitEditor extends Component<
 				{...({} as any)}
 			>
 				<ErrorBoundary fallback="Could not load editor">
-					<Editor
-						initialValue={s.dotSrc}
-						onChangeValue={() => []}
-						onValueError={n => void n}
-					/>
+					<Suspense
+						fallback={
+							<div style={loadingStyle}>
+								<BarLoader />
+							</div>
+						}
+					>
+						<EditorLazy
+							initialValue={s.dotSrc}
+							onChangeValue={() => []}
+							onValueError={n => void n}
+						/>
+					</Suspense>
 				</ErrorBoundary>
 				<ErrorBoundary fallback="Could not load graph preview">
-					<GraphPane
-						hasErrors={!!(s.errors && s.errors.length > 0)}
-						dotSrc={dotSrc}
-						engine={p.engine}
-						format={p.format}
-					/>
+					<Suspense
+						fallback={
+							<div style={loadingStyle}>
+								<BarLoader />
+							</div>
+						}
+					>
+						<GraphPaneLazy
+							hasErrors={!!(s.errors && s.errors.length > 0)}
+							dotSrc={dotSrc}
+							engine={p.engine}
+							format={p.format}
+						/>
+					</Suspense>
 				</ErrorBoundary>
 			</SplitPane>
 		);
