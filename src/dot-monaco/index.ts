@@ -94,7 +94,7 @@ export const service = {
 				m2p.asPosition(position.lineNumber, position.column),
 			);
 
-			return p2m.asCompletionList(completions, position);
+			return p2m.asCompletionResult(completions);
 		},
 	},
 	hoverProvider: {

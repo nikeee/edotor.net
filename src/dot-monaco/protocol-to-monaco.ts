@@ -49,9 +49,27 @@ export function asCompletionList(
 	};
 }
 
+export function asCompletionResult(
+	result: lst.CompletionItem[] | null | undefined,
+): monaco.languages.CompletionList {
+	if (!result) {
+		return {
+			incomplete: false,
+			suggestions: [],
+		};
+	}
+	const suggestions = result.map(item =>
+		asCompletionItem(item, undefined, undefined),
+	);
+	return {
+		incomplete: false,
+		suggestions,
+	};
+}
+
 export function asCompletionItem(
 	item: lst.CompletionItem,
-	defaultRange: monaco.IRange,
+	defaultRange: monaco.IRange | undefined,
 	insertTextReplaceRange?: monaco.IRange,
 ): monaco.languages.CompletionItem {
 	const textEdit = item.textEdit;
@@ -60,7 +78,8 @@ export function asCompletionItem(
 			? asRange(textEdit.range)
 			: textEdit && "insert" in textEdit
 				? asRange(textEdit.insert)
-				: insertTextReplaceRange || defaultRange;
+				: // biome-ignore lint/style/noNonNullAssertion: :shrug: #119
+					insertTextReplaceRange || defaultRange!;
 
 	const documentation = asDocumentation(item.documentation);
 
