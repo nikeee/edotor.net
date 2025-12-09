@@ -20,7 +20,6 @@
     "dot-language-support": "^4.0.2",
     "js-base64": "^3.7.8",
     "monaco-editor": "0.55.1",
-    "monaco-languageclient": "^1.1.0",
     "pako": "^2.1.0",
     "react": "19.2.1",
     "react-dom": "19.2.1",
