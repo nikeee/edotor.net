@@ -6,8 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./index.scss";
 
-import BarLoader from "react-spinners/BarLoader.js";
-import Editor from "./components/Editor.js";
+import { BarLoader } from "react-spinners";
 import Navigation from "./components/Navigation.js";
 import { getLastState, mergeStates, saveLastEngine } from "./config.js";
 import { FileSaver } from "./FileSaver.js";
@@ -106,14 +105,6 @@ class App extends Component<AppProps, AppState> {
 		const p = this.props;
 		const initialSource = p.initialText ? p.initialText : defaultSource;
 		return (
-			<Editor
-				initialValue={initialSource}
-				onChangeValue={() => []}
-				onValueError={n => void n}
-			/>
-		);
-		/*
-		return (
 			<div className="main-container">
 				<Navigation
 					changeEngine={this.#onChangeEngine}
@@ -139,7 +130,6 @@ class App extends Component<AppProps, AppState> {
 				</Suspense>
 			</div>
 		);
-		*/
 	}
 }
 
