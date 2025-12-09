@@ -43,15 +43,11 @@ export default function Editor({ initialValue, onChangeValue }: EditorProps) {
 					value: initialValue,
 					language: "dot",
 					lineNumbers: "on",
-					selectOnLineNumbers: true,
 					wordWrap: "on",
 					roundedSelection: false,
 					scrollBeyondLastLine: false,
 					minimap: { enabled: false },
 					automaticLayout: true,
-					folding: true,
-					glyphMargin: true,
-					lightbulb: { enabled: editor.ShowLightbulbIconMode.On },
 				});
 
 				registerCommands(e);
