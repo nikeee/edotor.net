@@ -1,48 +1,45 @@
-import { Component, createRef, type RefObject } from "react";
+import { Component, createRef } from "react";
 import svgPanZoom from "svg-pan-zoom";
+
 import {
 	type Rendering,
 	renderElement,
 	type SupportedEngine,
 	type SupportedFormat,
-} from "../rendering";
-import { removeChildren } from "../utils";
+} from "../rendering.js";
+import { removeChildren } from "../utils.js";
 
 import "./Graph.css";
 
 // Thanks to mdaines for providing a react sample
 type GraphState = ErrorState | RenderingState | EmptyState;
 
-interface ErrorState {
-	element: undefined;
+type ErrorState = {
+	element?: undefined;
 	error: string;
-}
-interface RenderingState {
+};
+type RenderingState = {
 	element: Rendering;
-	error: undefined;
-}
-interface EmptyState {
-	element: undefined;
-	error: undefined;
-}
+	error?: undefined;
+};
+type EmptyState = {
+	element?: undefined;
+	error?: undefined;
+};
 
-const createEmptyState = (): EmptyState => ({
+const emptyState = {
 	element: undefined,
 	error: undefined,
-});
-const createElementState = (element: Rendering): RenderingState => ({
-	element,
-	error: undefined,
-});
-const createErrorState = (error: string): ErrorState => ({
-	element: undefined,
-	error,
-});
+} satisfies EmptyState;
 
 function isRenderingState(s: GraphState): s is RenderingState {
-	if (s.error !== undefined) return false;
+	if (s.error !== undefined) {
+		return false;
+	}
 	const e = s.element;
-	if (e === undefined) return false;
+	if (e === undefined) {
+		return false;
+	}
 	// Dirty hack to catch erroneous XML/SVGs by Viz.js (Chrome and Firefox output behave differently)
 	return (
 		!e.innerHTML.includes("<parsererror") && // Chrome
@@ -57,17 +54,17 @@ export interface GraphProps {
 }
 
 export default class Graph extends Component<GraphProps, GraphState> {
-	#containerRef: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
+	#containerRef = createRef<HTMLDivElement>();
 	#panZoomContainer: SvgPanZoom.Instance | undefined;
 
-	state: GraphState = createEmptyState();
+	state: GraphState = emptyState;
 
 	async #updateGraph(): Promise<void> {
 		const { dotSrc, format, engine } = this.props;
 
 		// If the input is empty (or only whitespace), render nothing.
 		if (!dotSrc.match(/\S+/)) {
-			this.setState(createEmptyState());
+			this.setState(emptyState);
 			return;
 		}
 
@@ -76,13 +73,13 @@ export default class Graph extends Component<GraphProps, GraphState> {
 			element = await renderElement(dotSrc, format, engine);
 			// biome-ignore lint/suspicious/noExplicitAny: todo
 		} catch (e: any) {
-			this.setState(createErrorState(e.message));
+			this.setState({ error: e.message });
 			return;
 		}
 		if (element) {
-			this.setState(createElementState(element));
+			this.setState({ element });
 		} else {
-			this.setState(createErrorState("Graph could not be rendered"));
+			this.setState({ error: "Graph could not be rendered" });
 		}
 	}
 
