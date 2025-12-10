@@ -1,4 +1,4 @@
-import { Graph, type Props as GraphProps } from "./Graph";
+import Graph, { type GraphProps } from "./Graph.js";
 
 export interface GraphPaneProps extends GraphProps {
 	className?: string;
