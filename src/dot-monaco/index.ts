@@ -52,7 +52,7 @@ const processor: LanguageProcessor = {
 	},
 };
 
-interface ParsedDocument {
+export interface ParsedDocument {
 	document: TextDocument;
 	sourceFile: SourceFile;
 }
