@@ -1,12 +1,12 @@
 import { Tooltip } from "bootstrap";
 import { useCallback, useEffect, useRef } from "react";
 
-interface TooltipButtonProps {
+export type TooltipButtonProps = {
 	onClick: () => boolean;
 	title?: string;
 	className?: string;
 	children?: React.ReactNode;
-}
+};
 
 export default function TooltipButton({
 	onClick,
