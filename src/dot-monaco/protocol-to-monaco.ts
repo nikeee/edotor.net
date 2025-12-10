@@ -1,6 +1,5 @@
 import * as monaco from "monaco-editor";
 import type * as ls from "vscode-languageserver-types";
-import type * as lst from "vscode-languageserver-types";
 
 export function asPosition(value: undefined | null): undefined;
 export function asPosition(value: ls.Position): monaco.Position;
@@ -32,7 +31,7 @@ export function asRange(
 }
 
 export function asDiagnostics(
-	diagnostics: lst.Diagnostic[],
+	diagnostics: ls.Diagnostic[],
 ): monaco.editor.IMarkerData[] {
 	return diagnostics.map(diagnostic => {
 		const range = asRange(diagnostic.range);
@@ -54,7 +53,7 @@ export function asDiagnostics(
 }
 
 export function asCompletionList(
-	completions: lst.CompletionItem[] | null | undefined,
+	completions: ls.CompletionItem[] | null | undefined,
 	position: monaco.Position,
 ): monaco.languages.CompletionList {
 	const defaultMonacoRange = monaco.Range.fromPositions(position);
@@ -67,7 +66,7 @@ export function asCompletionList(
 }
 
 export function asCompletionResult(
-	result: lst.CompletionItem[] | null | undefined,
+	result: ls.CompletionItem[] | null | undefined,
 ): monaco.languages.CompletionList {
 	if (!result) {
 		return {
@@ -85,7 +84,7 @@ export function asCompletionResult(
 }
 
 export function asCompletionItem(
-	item: lst.CompletionItem,
+	item: ls.CompletionItem,
 	defaultRange: monaco.IRange | undefined,
 	insertTextReplaceRange?: monaco.IRange,
 ): monaco.languages.CompletionItem {
@@ -132,12 +131,12 @@ export function asCompletionItem(
 }
 
 export function asHover(hover: null | undefined): null;
-export function asHover(hover: lst.Hover): monaco.languages.Hover;
+export function asHover(hover: ls.Hover): monaco.languages.Hover;
 export function asHover(
-	hover: lst.Hover | null | undefined,
+	hover: ls.Hover | null | undefined,
 ): monaco.languages.Hover | null;
 export function asHover(
-	hover: lst.Hover | null | undefined,
+	hover: ls.Hover | null | undefined,
 ): monaco.languages.Hover | null {
 	return hover
 		? {
@@ -148,7 +147,7 @@ export function asHover(
 }
 
 export function asDefinitionResult(
-	definition: lst.Location | lst.Location[] | null | undefined,
+	definition: ls.Location | ls.Location[] | null | undefined,
 ): monaco.languages.Definition | null {
 	if (!definition) {
 		return null;
@@ -162,12 +161,12 @@ export function asDefinitionResult(
 }
 
 export function asReferences(
-	references: lst.Location[] | null | undefined,
+	references: ls.Location[] | null | undefined,
 ): monaco.languages.Location[] {
 	return references?.map(ref => asLocation(ref)) ?? [];
 }
 
-function asLocation(location: lst.Location): monaco.languages.Location {
+function asLocation(location: ls.Location): monaco.languages.Location {
 	return {
 		uri: monaco.Uri.parse(location.uri),
 		range: asRange(location.range),
@@ -175,7 +174,7 @@ function asLocation(location: lst.Location): monaco.languages.Location {
 }
 
 export function asWorkspaceEdit(
-	edit: lst.WorkspaceEdit | null | undefined,
+	edit: ls.WorkspaceEdit | null | undefined,
 ): monaco.languages.WorkspaceEdit | undefined {
 	if (!edit) {
 		return undefined;
@@ -203,7 +202,7 @@ export function asWorkspaceEdit(
 }
 
 export function asCodeActionList(
-	commands: (lst.CodeAction | lst.Command)[] | null | undefined,
+	commands: (ls.CodeAction | ls.Command)[] | null | undefined,
 ): monaco.languages.CodeActionList | null {
 	if (!commands) {
 		return null;
@@ -215,7 +214,7 @@ export function asCodeActionList(
 			typeof command.command === "string" &&
 			"arguments" in command
 		) {
-			const cmd = command as lst.Command;
+			const cmd = command as ls.Command;
 			return {
 				title: cmd.title,
 				command: {
@@ -226,7 +225,7 @@ export function asCodeActionList(
 			};
 		}
 
-		const codeAction = command as lst.CodeAction;
+		const codeAction = command as ls.CodeAction;
 		const action: monaco.languages.CodeAction = {
 			title: codeAction.title,
 			kind: codeAction.kind,
@@ -261,7 +260,7 @@ export function asCodeActionList(
 }
 
 export function asColorInformation(
-	colorInfo: lst.ColorInformation[] | null | undefined,
+	colorInfo: ls.ColorInformation[] | null | undefined,
 ): monaco.languages.IColorInformation[] {
 	if (!colorInfo) {
 		return [];
@@ -274,7 +273,7 @@ export function asColorInformation(
 }
 
 export function asColorPresentations(
-	presentations: lst.ColorPresentation[] | null | undefined,
+	presentations: ls.ColorPresentation[] | null | undefined,
 ): monaco.languages.IColorPresentation[] {
 	if (!presentations) {
 		return [];
