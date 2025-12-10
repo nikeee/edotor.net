@@ -4,9 +4,9 @@ import {
 	type languages,
 	MarkerSeverity,
 } from "monaco-editor";
-import type * as lst from "vscode-languageserver-types";
+import type * as ls from "vscode-languageserver-types";
 
-export function asPosition(lineNumber: number, column: number): lst.Position {
+export function asPosition(lineNumber: number, column: number): ls.Position {
 	// Monaco uses 1-based line numbers, LSP uses 0-based
 	// Monaco uses 1-based column numbers, LSP uses 0-based character offsets
 	return {
@@ -15,7 +15,7 @@ export function asPosition(lineNumber: number, column: number): lst.Position {
 	};
 }
 
-export function asRange(range: IRange): lst.Range {
+export function asRange(range: IRange): ls.Range {
 	return {
 		start: asPosition(range.startLineNumber, range.startColumn),
 		end: asPosition(range.endLineNumber, range.endColumn),
@@ -24,7 +24,7 @@ export function asRange(range: IRange): lst.Range {
 
 export function asDiagnosticSeverity(
 	severity: MarkerSeverity,
-): lst.DiagnosticSeverity {
+): ls.DiagnosticSeverity {
 	// Monaco MarkerSeverity: Error=8, Warning=4, Info=2, Hint=1
 	// LSP DiagnosticSeverity: Error=1, Warning=2, Information=3, Hint=4
 	switch (severity) {
@@ -41,7 +41,7 @@ export function asDiagnosticSeverity(
 	}
 }
 
-export function asDiagnostics(markers: editor.IMarkerData[]): lst.Diagnostic[] {
+export function asDiagnostics(markers: editor.IMarkerData[]): ls.Diagnostic[] {
 	return markers.map(marker => ({
 		range: asRange({
 			startLineNumber: marker.startLineNumber,
@@ -61,8 +61,8 @@ export function asDiagnostics(markers: editor.IMarkerData[]): lst.Diagnostic[] {
 
 export function asCodeActionContext(
 	context: languages.CodeActionContext,
-	diagnostics?: lst.Diagnostic[],
-): lst.CodeActionContext {
+	diagnostics?: ls.Diagnostic[],
+): ls.CodeActionContext {
 	return {
 		diagnostics:
 			diagnostics && diagnostics.length > 0
