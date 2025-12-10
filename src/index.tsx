@@ -8,16 +8,16 @@ import "./index.scss";
 
 import Navigation from "./components/Navigation";
 import SplitEditor from "./components/SplitEditor";
-import { getLastState, mergeStates, saveLastEngine } from "./config";
-import { FileSaver } from "./FileSaver";
-import { exportAs, type SupportedEngine, saveSource } from "./rendering";
-import { tutorial } from "./samples";
-import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils";
+import { getLastState, mergeStates, saveLastEngine } from "./config.js";
+import { FileSaver } from "./FileSaver.js";
+import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
+import { tutorial } from "./samples/index.js";
+import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils.js";
 import {
 	type ExportableFormat,
 	sourceFormatExtension,
 	supportedEngines,
-} from "./viz";
+} from "./viz.js";
 
 const defaultEngine = supportedEngines[1];
 
@@ -31,9 +31,10 @@ interface Props {
 
 const defaultSource = tutorial;
 
+const saver = new FileSaver();
+
 class App extends Component<Props, State> {
 	#currentSource: string | undefined = undefined;
-	#saver: FileSaver = new FileSaver();
 	#editorRef: RefObject<import("./components/SplitEditor").default | null> =
 		createRef();
 
@@ -68,9 +69,9 @@ class App extends Component<Props, State> {
 		const dotSrc = this.#currentSource;
 		if (dotSrc) {
 			if (format === sourceFormatExtension) {
-				saveSource(dotSrc, this.#saver);
+				saveSource(dotSrc, saver);
 			} else {
-				exportAs(dotSrc, format, this.state, this.#saver);
+				exportAs(dotSrc, format, this.state, saver);
 			}
 		}
 	};
