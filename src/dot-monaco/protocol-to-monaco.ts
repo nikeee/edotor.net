@@ -179,15 +179,15 @@ export function asWorkspaceEdit(
 	if (!edit) {
 		return undefined;
 	}
-
-	const edits: monaco.languages.WorkspaceTextEdit[] = [];
+	const edits: monaco.languages.IWorkspaceTextEdit[] = [];
 
 	if (edit.changes) {
 		for (const [uri, textEdits] of Object.entries(edit.changes)) {
 			for (const textEdit of textEdits) {
 				edits.push({
 					resource: monaco.Uri.parse(uri),
-					edit: {
+					versionId: undefined, // Version ID is not available from LSP, Monaco will handle it
+					textEdit: {
 						range: asRange(textEdit.range),
 						text: textEdit.newText,
 					},

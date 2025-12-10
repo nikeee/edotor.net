@@ -36,6 +36,7 @@ function isRenderingState(s: GraphState): s is RenderingState {
 	if (s.error !== undefined) {
 		return false;
 	}
+
 	const e = s.element;
 	if (e === undefined) {
 		return false;
@@ -47,11 +48,11 @@ function isRenderingState(s: GraphState): s is RenderingState {
 	); // Firefox
 }
 
-export interface GraphProps {
+export type GraphProps = {
 	dotSrc: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
-}
+};
 
 export default class Graph extends Component<GraphProps, GraphState> {
 	#containerRef = createRef<HTMLDivElement>();
@@ -91,8 +92,7 @@ export default class Graph extends Component<GraphProps, GraphState> {
 	}
 
 	#destroyCurrentZoomContainer() {
-		const container = this.#panZoomContainer;
-		if (container) container.destroy();
+		this.#panZoomContainer?.destroy();
 	}
 
 	componentDidUpdate(prevProps: GraphProps, prevState: GraphState) {

@@ -1,4 +1,4 @@
-import { Component, createRef, type RefObject } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import "bootstrap";
@@ -6,9 +6,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./index.scss";
 
-import Navigation from "./components/Navigation";
-import SplitEditor from "./components/SplitEditor";
-import { getLastState, mergeStates, saveLastEngine } from "./config.js";
+import Navigation from "./components/Navigation.js";
+import SplitEditor from "./components/SplitEditor.js";
+import {
+	getLastState,
+	mergeStates,
+	saveLastEngine,
+	saveLastSource,
+} from "./config.js";
 import { FileSaver } from "./FileSaver.js";
 import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
 import { tutorial } from "./samples/index.js";
@@ -21,102 +26,95 @@ import {
 
 const defaultEngine = supportedEngines[1];
 
-interface State {
-	engine: SupportedEngine;
-}
-interface Props {
+interface AppProps {
 	initialText?: string;
 	initialEngine?: SupportedEngine;
 }
 
 const defaultSource = tutorial;
 
+const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
+type Timeout = ReturnType<typeof setTimeout>;
+
 const saver = new FileSaver();
 
-class App extends Component<Props, State> {
-	#currentSource: string | undefined = undefined;
-	#editorRef: RefObject<import("./components/SplitEditor").default | null> =
-		createRef();
+function App({ initialText, initialEngine }: AppProps) {
+	const [engine, setEngine] = useState<SupportedEngine>(
+		initialEngine ?? defaultEngine,
+	);
 
-	state: State;
+	const currentSourceRef = useRef<string | undefined>(undefined);
+	const editorRef: RefObject<SplitEditor | null> = useRef(null);
+	const autoSaveTimeoutRef = useRef<Timeout | undefined>(undefined);
+	const initialSource = initialText ? initialText : defaultSource;
 
-	constructor(p: Props) {
-		super(p);
-		this.state = {
-			engine: p.initialEngine ?? defaultEngine,
-		};
-	}
-
-	#onChangeEngine = (engine: SupportedEngine): void => {
-		this.setState(
-			{
-				engine,
-			},
-			() => saveLastEngine(this.state.engine),
-		);
-	};
-
-	#loadSample = (sampleDotSrc: string): void => {
-		if (!sampleDotSrc) return;
-
-		const editor = this.#editorRef.current;
-		if (sampleDotSrc && editor) {
-			editor.loadDotSource(sampleDotSrc);
-		}
-	};
-
-	#exportAs = (format: ExportableFormat): void => {
-		const dotSrc = this.#currentSource;
-		if (dotSrc) {
-			if (format === sourceFormatExtension) {
-				saveSource(dotSrc, saver);
-			} else {
-				exportAs(dotSrc, format, this.state, saver);
+	useEffect(() => {
+		return () => {
+			if (typeof autoSaveTimeoutRef.current !== "undefined") {
+				clearTimeout(autoSaveTimeoutRef.current);
 			}
-		}
-	};
+		};
+	}, []);
 
-	#sourceChanged = (source: string): void => {
-		this.#currentSource = source;
-	};
+	return (
+		<div className="main-container">
+			<Navigation
+				changeEngine={newEngine => {
+					setEngine(newEngine);
+					saveLastEngine(engine);
+				}}
+				currentEngine={engine}
+				exportAs={(format: ExportableFormat): void => {
+					const dotSrc = currentSourceRef.current;
+					if (dotSrc) {
+						if (format === sourceFormatExtension) {
+							saveSource(dotSrc, saver);
+						} else {
+							exportAs(dotSrc, format, { engine }, saver);
+						}
+					}
+				}}
+				loadSample={(sampleDotSrc: string): void => {
+					if (!sampleDotSrc) return;
 
-	#share = (): boolean => {
-		const sourceToShare = this.#currentSource;
-		if (!sourceToShare) return false;
+					const editor = editorRef.current;
+					if (sampleDotSrc && editor) {
+						editor.loadDotSource(sampleDotSrc);
+					}
+				}}
+				share={() => {
+					const sourceToShare = currentSourceRef.current;
+					if (!sourceToShare) return false;
 
-		const link = getShareUrl({
-			source: sourceToShare,
-			engine: this.state.engine,
-		});
+					const link = getShareUrl({
+						source: sourceToShare,
+						engine,
+					});
 
-		copyToClipboard(link);
-		return true;
-	};
+					copyToClipboard(link);
+					return true;
+				}}
+			/>
+			<SplitEditor
+				ref={editorRef}
+				initialSource={initialSource}
+				format="svg"
+				engine={engine}
+				onSourceChange={source => {
+					currentSourceRef.current = source;
 
-	render() {
-		const s = this.state;
-		const p = this.props;
-		const initialSource = p.initialText ? p.initialText : defaultSource;
+					if (typeof autoSaveTimeoutRef.current !== "undefined") {
+						clearTimeout(autoSaveTimeoutRef.current);
+					}
 
-		return (
-			<div className="main-container">
-				<Navigation
-					changeEngine={this.#onChangeEngine}
-					currentEngine={s.engine}
-					exportAs={this.#exportAs}
-					loadSample={this.#loadSample}
-					share={this.#share}
-				/>
-				<SplitEditor
-					ref={this.#editorRef}
-					initialSource={initialSource}
-					format="svg"
-					engine={s.engine}
-					onSourceChange={this.#sourceChanged}
-				/>
-			</div>
-		);
-	}
+					autoSaveTimeoutRef.current = setTimeout(
+						() => saveLastSource(source),
+						SOURCE_SAVE_TIMEOUT,
+					);
+				}}
+			/>
+		</div>
+	);
 }
 
 const initialState = mergeStates(

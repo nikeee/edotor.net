@@ -6,9 +6,8 @@ import SplitPane from "react-split-pane";
 
 import { getSplitConfig, saveSplitConfig } from "../config.js";
 import type { SupportedEngine, SupportedFormat } from "../rendering.js";
-import type EditorPane from "./EditorPane.js";
 
-const EditorLazy = lazy(() => import("./EditorPane.js"));
+const EditorLazy = lazy(() => import("./Editor.js"));
 const GraphPaneLazy = lazy(() => import("./GraphPane.js"));
 
 type ErrorList = monaco.editor.IMarkerData[];
@@ -44,30 +43,23 @@ export default class SplitEditor extends Component<
 	SplitEditorProps,
 	SplitEditorState
 > {
-	#editorPaneRef = createRef<EditorPane>();
+	#editorRef = createRef<monaco.editor.IStandaloneCodeEditor>();
 
 	constructor(props: SplitEditorProps) {
 		super(props);
 		const p = this.props;
 
 		this.state = { dotSrc: p.initialSource };
-		if (p.onSourceChange) p.onSourceChange(this.state.dotSrc);
+		p.onSourceChange?.(this.state.dotSrc);
 	}
 
 	loadDotSource(dotSrc: string) {
-		// Change the value of the underlying monaco instance
-		// Monaco will call onChange and
-		// the rest is going to be handled as if the user changed the value by hand
-		const editor = this.#editorPaneRef.current;
-		if (editor) {
-			editor.loadValue(dotSrc);
-		}
+		this.#editorRef.current?.setValue(dotSrc);
+		this.dotSourceChanged(dotSrc);
 	}
 
 	dotSourceChanged = (dotSrc: string): void => {
-		const p = this.props;
-		if (p.onSourceChange) p.onSourceChange(dotSrc);
-
+		this.props.onSourceChange?.(dotSrc);
 		this.setState({ dotSrc });
 	};
 
@@ -100,10 +92,10 @@ export default class SplitEditor extends Component<
 						}
 					>
 						<EditorLazy
-							ref={this.#editorPaneRef}
-							defaultValue={s.dotSrc}
-							onChangeValue={this.dotSourceChanged}
-							onValueError={this.dotSourceErrored}
+							ref={this.#editorRef}
+							initialValue={s.dotSrc}
+							onChangeValue={() => void 0}
+							onValueError={n => void n}
 						/>
 					</Suspense>
 				</ErrorBoundary>

@@ -52,7 +52,7 @@ const processor: LanguageProcessor = {
 	},
 };
 
-interface ParsedDocument {
+export interface ParsedDocument {
 	document: TextDocument;
 	sourceFile: SourceFile;
 }
@@ -180,27 +180,6 @@ export const service = {
 	},
 	processor,
 } satisfies MonacoService;
-
-// biome-ignore lint/suspicious/noExplicitAny: :todo:
-export function registerService(context: any, service: MonacoService): void {
-	if (!service.language) {
-		return;
-	}
-
-	const langs = context.languages;
-	const id = service.language.id;
-
-	langs.register(service.language);
-	langs.registerCompletionItemProvider(id, service.completionItemProvider);
-	langs.registerHoverProvider(id, service.hoverProvider);
-	langs.registerDefinitionProvider(id, service.definitionProvider);
-	langs.registerReferenceProvider(id, service.referenceProvider);
-	langs.registerRenameProvider(id, service.renameProvider);
-	langs.registerCodeActionProvider(id, service.codeActionProvider);
-	langs.registerColorProvider(id, service.colorProvider);
-	langs.setMonarchTokensProvider(id, service.monarchTokens);
-	langs.setLanguageConfiguration(id, service.languageConfig);
-}
 
 export function registerCommands(instance: editor.IStandaloneCodeEditor) {
 	for (const command of ls.getAvailableCommands()) {
