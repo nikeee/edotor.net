@@ -3,7 +3,7 @@ import workerURL from "viz.js/full.render.js?url";
 
 import type { FileSaver } from "./FileSaver.js";
 import { assertNever } from "./utils.js";
-import { sourceFormatExtension } from "./viz/index.js";
+import { sourceFormatExtension } from "./viz.js";
 
 const createViz = () => new Viz({ workerURL });
 

@@ -1,6 +1,6 @@
 import type { SupportedEngine } from "./rendering.js";
 import type { ShareData } from "./utils.js";
-import { isSupportedEngine } from "./viz/index.js";
+import { isSupportedEngine } from "./viz.js";
 
 const SPLIT_POS_NAME = "splitPos";
 const LAST_SOURCE = "lastSource";
