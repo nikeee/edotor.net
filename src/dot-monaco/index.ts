@@ -1,4 +1,4 @@
-import * as languageService from "dot-language-support";
+import { createService, type SourceFile } from "dot-language-support";
 import { editor, type languages, type Position } from "monaco-editor";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
@@ -8,20 +8,20 @@ import tokenConfig from "./xdot";
 
 const LANGUAGE_ID = "dot";
 
-const ls = languageService.createService();
+const ls = createService();
 
 export interface MonacoService {
 	processor: LanguageProcessor;
 	language: languages.ILanguageExtensionPoint;
-	monarchTokens?: languages.IMonarchLanguage;
-	languageConfig?: languages.LanguageConfiguration;
-	completionItemProvider?: languages.CompletionItemProvider;
-	hoverProvider?: languages.HoverProvider;
-	definitionProvider?: languages.DefinitionProvider;
-	referenceProvider?: languages.ReferenceProvider;
-	renameProvider?: languages.RenameProvider;
-	codeActionProvider?: languages.CodeActionProvider;
-	colorProvider?: languages.DocumentColorProvider;
+	monarchTokens: languages.IMonarchLanguage;
+	languageConfig: languages.LanguageConfiguration;
+	completionItemProvider: languages.CompletionItemProvider;
+	hoverProvider: languages.HoverProvider;
+	definitionProvider: languages.DefinitionProvider;
+	referenceProvider: languages.ReferenceProvider;
+	renameProvider: languages.RenameProvider;
+	codeActionProvider: languages.CodeActionProvider;
+	colorProvider: languages.DocumentColorProvider;
 }
 
 export interface LanguageProcessor {
@@ -44,8 +44,7 @@ const processor: LanguageProcessor = {
 		};
 	},
 	validate(doc: ParsedDocument) {
-		const diagnostics = ls.validateDocument(doc.document, doc.sourceFile);
-		return p2m.asDiagnostics(diagnostics);
+		return p2m.asDiagnostics(ls.validateDocument(doc.document, doc.sourceFile));
 	},
 	processAndValidate(model) {
 		const doc = this.process(model);
@@ -55,7 +54,7 @@ const processor: LanguageProcessor = {
 
 interface ParsedDocument {
 	document: TextDocument;
-	sourceFile: languageService.SourceFile;
+	sourceFile: SourceFile;
 }
 
 export const service = {
