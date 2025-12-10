@@ -3,9 +3,9 @@
     "outDir": "dist",
     "noEmit": true,
 
-    "target": "ES2020",
+    "target": "es2023",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["es2023", "DOM", "DOM.Iterable"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
