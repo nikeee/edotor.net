@@ -191,25 +191,15 @@ export function registerService(context: any, service: MonacoService): void {
 	const id = service.language.id;
 
 	langs.register(service.language);
-
-	if (service.completionItemProvider)
-		langs.registerCompletionItemProvider(id, service.completionItemProvider);
-	if (service.hoverProvider)
-		langs.registerHoverProvider(id, service.hoverProvider);
-	if (service.definitionProvider)
-		langs.registerDefinitionProvider(id, service.definitionProvider);
-	if (service.referenceProvider)
-		langs.registerReferenceProvider(id, service.referenceProvider);
-	if (service.renameProvider)
-		langs.registerRenameProvider(id, service.renameProvider);
-	if (service.codeActionProvider)
-		langs.registerCodeActionProvider(id, service.codeActionProvider);
-	if (service.colorProvider)
-		langs.registerColorProvider(id, service.colorProvider);
-	if (service.monarchTokens)
-		langs.setMonarchTokensProvider(id, service.monarchTokens);
-	if (service.languageConfig)
-		langs.setLanguageConfiguration(id, service.languageConfig);
+	langs.registerCompletionItemProvider(id, service.completionItemProvider);
+	langs.registerHoverProvider(id, service.hoverProvider);
+	langs.registerDefinitionProvider(id, service.definitionProvider);
+	langs.registerReferenceProvider(id, service.referenceProvider);
+	langs.registerRenameProvider(id, service.renameProvider);
+	langs.registerCodeActionProvider(id, service.codeActionProvider);
+	langs.registerColorProvider(id, service.colorProvider);
+	langs.setMonarchTokensProvider(id, service.monarchTokens);
+	langs.setLanguageConfiguration(id, service.languageConfig);
 }
 
 export function registerCommands(instance: editor.IStandaloneCodeEditor) {
