@@ -1,52 +1,56 @@
 import type * as monaco from "monaco-editor";
-import { Component, createRef, type RefObject } from "react";
+import { Component, createRef, lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { BarLoader } from "react-spinners";
 import SplitPane from "react-split-pane";
 
 import { getSplitConfig, saveSplitConfig } from "../config.js";
 import type { SupportedEngine, SupportedFormat } from "../rendering.js";
-import EditorPane from "./EditorPane.js";
-import GraphPane from "./GraphPane.js";
+import type EditorPane from "./EditorPane.js";
+
+const EditorLazy = lazy(() => import("./EditorPane.js"));
+const GraphPaneLazy = lazy(() => import("./GraphPane.js"));
 
 type ErrorList = monaco.editor.IMarkerData[];
 
-interface Props {
+export type SplitEditorProps = {
 	initialSource: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
 	onSourceChange?(source: string): void;
-}
+};
 
-type State = SourceState | ErroredState;
-interface SourceState {
+type SplitEditorState = SourceState | ErroredState;
+type SourceState = {
 	dotSrc: string;
-	errors: undefined;
-	lastKnownGoodSrc: undefined;
-}
-interface ErroredState {
-	dotSrc: undefined;
+	errors?: undefined;
+	lastKnownGoodSrc?: undefined;
+};
+type ErroredState = {
+	dotSrc?: undefined;
 	errors: ErrorList;
 	lastKnownGoodSrc?: string;
-}
+};
 
-const createSourceState = (dotSrc: string): SourceState => ({
-	dotSrc,
-	errors: undefined,
-	lastKnownGoodSrc: undefined,
-});
-const createErroredState = (
-	errors: ErrorList,
-	lastKnownGoodSrc?: string,
-): ErroredState => ({ dotSrc: undefined, errors, lastKnownGoodSrc });
+const loadingStyle = {
+	position: "absolute",
+	display: "flex",
+	inset: "0",
+	justifyContent: "center",
+	alignItems: "center",
+} as const;
 
-export default class SplitEditor extends Component<Props, State> {
-	#editorPaneRef: RefObject<EditorPane | null> = createRef<EditorPane>();
+export default class SplitEditor extends Component<
+	SplitEditorProps,
+	SplitEditorState
+> {
+	#editorPaneRef = createRef<EditorPane>();
 
-	constructor(props: Props) {
+	constructor(props: SplitEditorProps) {
 		super(props);
 		const p = this.props;
 
-		this.state = createSourceState(p.initialSource);
+		this.state = { dotSrc: p.initialSource };
 		if (p.onSourceChange) p.onSourceChange(this.state.dotSrc);
 	}
 
@@ -64,14 +68,14 @@ export default class SplitEditor extends Component<Props, State> {
 		const p = this.props;
 		if (p.onSourceChange) p.onSourceChange(dotSrc);
 
-		this.setState(createSourceState(dotSrc));
+		this.setState({ dotSrc });
 	};
 
 	dotSourceErrored = (errors: ErrorList): void => {
-		this.setState(prevState => {
-			const lastKnownGoodSrc = prevState.dotSrc || prevState.lastKnownGoodSrc;
-			return createErroredState(errors, lastKnownGoodSrc);
-		});
+		this.setState(prev => ({
+			errors,
+			lastKnownGoodSrc: prev.dotSrc || prev.lastKnownGoodSrc,
+		}));
 	};
 
 	render() {
@@ -88,20 +92,36 @@ export default class SplitEditor extends Component<Props, State> {
 				{...({} as any)}
 			>
 				<ErrorBoundary fallback="Could not load editor">
-					<EditorPane
-						ref={this.#editorPaneRef}
-						defaultValue={s.dotSrc}
-						onChangeValue={this.dotSourceChanged}
-						onValueError={this.dotSourceErrored}
-					/>
+					<Suspense
+						fallback={
+							<div style={loadingStyle}>
+								<BarLoader />
+							</div>
+						}
+					>
+						<EditorLazy
+							ref={this.#editorPaneRef}
+							defaultValue={s.dotSrc}
+							onChangeValue={this.dotSourceChanged}
+							onValueError={this.dotSourceErrored}
+						/>
+					</Suspense>
 				</ErrorBoundary>
 				<ErrorBoundary fallback="Could not load graph preview">
-					<GraphPane
-						hasErrors={!!(s.errors && s.errors.length > 0)}
-						dotSrc={s.dotSrc || s.lastKnownGoodSrc || ""}
-						engine={p.engine}
-						format={p.format}
-					/>
+					<Suspense
+						fallback={
+							<div style={loadingStyle}>
+								<BarLoader />
+							</div>
+						}
+					>
+						<GraphPaneLazy
+							hasErrors={!!(s.errors && s.errors.length > 0)}
+							dotSrc={s.dotSrc || s.lastKnownGoodSrc || ""}
+							engine={p.engine}
+							format={p.format}
+						/>
+					</Suspense>
 				</ErrorBoundary>
 			</SplitPane>
 		);
