@@ -1,8 +1,9 @@
 import { useId } from "react";
-import type { SupportedEngine, SupportedFormat } from "../rendering";
-import { samples } from "../samples";
 
+import type { SupportedEngine, SupportedFormat } from "../rendering";
+import { samples } from "../samples/index.js";
 import { displayFormats, supportedEngines } from "../viz.js";
+
 import ItemMenu from "./ItemMenu.js";
 import ItemSelection from "./ItemSelection.js";
 import SiteLogo from "./SiteLogo.js";
