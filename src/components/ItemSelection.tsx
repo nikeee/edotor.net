@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-type TItem = string;
+export type TItem = string;
 
-interface Props {
+export interface ItemSelectionProps {
 	defaultItem: TItem | undefined;
 	possibleItems: TItem[];
 	onChangeItem(item: TItem): void;
@@ -17,7 +17,7 @@ export default function ItemSelection({
 	onChangeItem,
 	label,
 	selectionClassName,
-}: Props) {
+}: ItemSelectionProps) {
 	const [currentSelection, setCurrentSelection] = useState<TItem | undefined>(
 		defaultItem,
 	);
