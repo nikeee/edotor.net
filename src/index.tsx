@@ -29,12 +29,10 @@ import { sourceFormatExtension, supportedEngines } from "./viz.js";
 
 const defaultEngine = supportedEngines[1];
 
-interface AppProps {
+type AppProps = {
 	initialText?: string;
 	initialEngine?: SupportedEngine;
-}
-
-const defaultSource = tutorial;
+};
 
 const SOURCE_SAVE_TIMEOUT = 5 * 1000; // 5 seconds
 type Timeout = ReturnType<typeof setTimeout>;
@@ -49,7 +47,7 @@ function App({ initialText, initialEngine }: AppProps) {
 	const currentSourceRef = useRef<string | undefined>(undefined);
 	const editorRef: RefObject<SplitEditorHandle | null> = useRef(null);
 	const autoSaveTimeoutRef = useRef<Timeout | undefined>(undefined);
-	const initialSource = initialText ? initialText : defaultSource;
+	const initialSource = initialText ? initialText : tutorial;
 
 	useEffect(() => {
 		return () => {
