@@ -7,7 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
 import Navigation from "./components/Navigation.js";
-import SplitEditor from "./components/SplitEditor.js";
+import SplitEditor, {
+	type SplitEditorHandle,
+} from "./components/SplitEditor.js";
 import {
 	getLastState,
 	mergeStates,
@@ -44,7 +46,7 @@ function App({ initialText, initialEngine }: AppProps) {
 	);
 
 	const currentSourceRef = useRef<string | undefined>(undefined);
-	const editorRef: RefObject<SplitEditor | null> = useRef(null);
+	const editorRef: RefObject<SplitEditorHandle | null> = useRef(null);
 	const autoSaveTimeoutRef = useRef<Timeout | undefined>(undefined);
 	const initialSource = initialText ? initialText : defaultSource;
 
@@ -79,7 +81,7 @@ function App({ initialText, initialEngine }: AppProps) {
 
 					const editor = editorRef.current;
 					if (sampleDotSrc && editor) {
-						editor.loadDotSource(sampleDotSrc);
+						editor.loadSource(sampleDotSrc);
 					}
 				}}
 				share={() => {

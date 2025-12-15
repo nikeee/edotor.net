@@ -1,5 +1,5 @@
 import type * as monaco from "monaco-editor";
-import { lazy, Suspense, useRef, useState } from "react";
+import { lazy, Suspense, useImperativeHandle, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BarLoader } from "react-spinners";
 import SplitPane from "react-split-pane";
@@ -10,11 +10,16 @@ import type { SupportedEngine, SupportedFormat } from "../rendering.js";
 const EditorLazy = lazy(() => import("./Editor.js"));
 const GraphPaneLazy = lazy(() => import("./GraphPane.js"));
 
+export type SplitEditorHandle = {
+	loadSource: (source: string) => void;
+};
+
 export type SplitEditorProps = {
 	initialSource: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
 	onSourceChange?(source: string): void;
+	ref?: React.Ref<SplitEditorHandle>;
 };
 
 type SplitEditorState = SourceState | ErroredState;
@@ -37,14 +42,27 @@ const loadingStyle = {
 	alignItems: "center",
 } as const;
 
-export default function SplitEditor(props: SplitEditorProps) {
+export default function SplitEditor({
+	initialSource,
+	format,
+	engine,
+	// onSourceChange,
+	ref,
+}: SplitEditorProps) {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
-	const [initialValue] = useState(props.initialSource);
+	const [initialValue] = useState(initialSource);
 
 	const [state, setState] = useState<SplitEditorState>({
-		dotSrc: props.initialSource,
+		dotSrc: initialSource,
 	});
+
+	useImperativeHandle(ref, () => ({
+		loadSource: (source: string) => {
+			editorRef.current?.setValue(source);
+			setState({ dotSrc: source });
+		},
+	}));
 
 	const sourceToRender = state.dotSrc || state.lastKnownGoodSrc || "";
 	console.log({ sourceToRender, state });
@@ -95,8 +113,8 @@ export default function SplitEditor(props: SplitEditorProps) {
 					<GraphPaneLazy
 						hasErrors={!!(state.errorCount && state.errorCount > 0)}
 						dotSrc={sourceToRender}
-						engine={props.engine}
-						format={props.format}
+						engine={engine}
+						format={format}
 					/>
 				</Suspense>
 			</ErrorBoundary>
