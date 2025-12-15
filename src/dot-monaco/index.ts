@@ -6,8 +6,6 @@ import * as m2p from "./monaco-to-protocol.js";
 import * as p2m from "./protocol-to-monaco.js";
 import tokenConfig from "./xdot";
 
-const LANGUAGE_ID = "dot";
-
 const ls = createService();
 
 export interface MonacoService {
@@ -59,7 +57,7 @@ export interface ParsedDocument {
 
 export const service = {
 	language: {
-		id: LANGUAGE_ID,
+		id: "dot",
 		extensions: [".dot", ".gv"],
 		aliases: ["DOT", "dot", "Graphviz"],
 		mimetypes: ["text/vnd.graphviz"],
