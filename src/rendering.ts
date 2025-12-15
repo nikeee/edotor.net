@@ -17,7 +17,7 @@ export type SupportedEngine =
 	| "neato"
 	| "osage"
 	| "twopi";
-export type Rendering = SVGSVGElement | HTMLImageElement;
+export type RenderResult = SVGSVGElement | HTMLImageElement;
 
 export function renderElement(
 	dotSrc: string,
@@ -33,12 +33,12 @@ export function renderElement(
 	dotSrc: string,
 	format: SupportedFormat,
 	engine: SupportedEngine,
-): Promise<Rendering>;
+): Promise<RenderResult>;
 export function renderElement(
 	dotSrc: string,
 	format: SupportedFormat,
 	engine: SupportedEngine,
-): Promise<Rendering> {
+): Promise<RenderResult> {
 	const renderOptions = {
 		engine,
 	};
@@ -98,5 +98,5 @@ export function saveSource(
 	saver.save(dotSrc, `${fileName}.${sourceFormatExtension}`);
 }
 
-const isSVGElement = (r: Rendering): r is SVGSVGElement =>
+const isSVGElement = (r: RenderResult): r is SVGSVGElement =>
 	r instanceof SVGSVGElement;

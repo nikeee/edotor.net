@@ -19,8 +19,6 @@ export function isSupportedEngine(v: string | null): v is SupportedEngine {
 	return !!v && supportedEngines.indexOf(v as SupportedEngine) >= 0;
 }
 
-export const supportedFormats: SupportedFormat[] = ["svg", "png"];
-
 export const displayFormats: readonly ItemMenuItem<ExportableFormat>[] = [
 	{ value: "svg", display: "SVG Image" },
 	{ value: "png", display: "PNG Image" },
