@@ -25,15 +25,13 @@ self.MonacoEnvironment = {
 
 export type EditorProps = {
 	initialValue?: string | undefined;
-	onChangeValue: (value: string) => void;
-	onValueError: (errorCount: number) => void;
+	onChangeValue: (value: string, errorCount: number) => void;
 	ref?: React.Ref<editor.IStandaloneCodeEditor | null>;
 };
 
 export default function Editor({
 	initialValue,
 	onChangeValue,
-	onValueError,
 	ref,
 }: EditorProps) {
 	const initialValueRef = useRef(initialValue);
@@ -86,13 +84,9 @@ export default function Editor({
 				}
 
 				model.onDidChangeContent(() => {
-					onChangeValue?.(model.getValue());
 					const newMarkers = service.processor.processAndValidate(model);
+					onChangeValue?.(model.getValue(), newMarkers.length);
 					editor.setModelMarkers(model, "dot", newMarkers);
-
-					if (newMarkers.length > 0) {
-						onValueError(newMarkers.length);
-					}
 				});
 
 				return () => {
