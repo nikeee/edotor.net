@@ -2,7 +2,7 @@ import { Component, createRef } from "react";
 import svgPanZoom from "svg-pan-zoom";
 
 import {
-	type Rendering,
+	type RenderResult,
 	renderElement,
 	type SupportedEngine,
 	type SupportedFormat,
@@ -19,7 +19,7 @@ type ErrorState = {
 	error: string;
 };
 type RenderingState = {
-	element: Rendering;
+	element: RenderResult;
 	error?: undefined;
 };
 type EmptyState = {
@@ -69,7 +69,7 @@ export default class Graph extends Component<GraphProps, GraphState> {
 			return;
 		}
 
-		let element: Rendering;
+		let element: RenderResult;
 		try {
 			element = await renderElement(dotSrc, format, engine);
 			// biome-ignore lint/suspicious/noExplicitAny: todo
@@ -129,7 +129,7 @@ export default class Graph extends Component<GraphProps, GraphState> {
 	}
 }
 
-const createZoomWrapper = (child: Rendering) =>
+const createZoomWrapper = (child: RenderResult) =>
 	svgPanZoom(child, {
 		zoomEnabled: true,
 		controlIconsEnabled: false,
