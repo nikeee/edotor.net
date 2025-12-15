@@ -5,14 +5,14 @@ pre-push:
     lint:
       tags: lint
       glob: "*.{js,ts,tsx,jsx,css,scss}"
-      run: npm run lint
+      run: node --run lint
 
 pre-commit:
   parallel: true
   commands:
     format:
       glob: "*.{js,ts,tsx,jsx,css,scss}"
-      run: npm run format && git add {staged_files}
+      run: node --run format && git add {staged_files}
 
 output:
   - summary

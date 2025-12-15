@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.x, 24.x, 25.x]
+        node-version: [24.x, 25.x]
 
     steps:
     - uses: actions/checkout@v6
@@ -19,6 +19,6 @@ jobs:
         cache: npm
 
     - run: npm ci
-    - run: npm run ci
-    - run: npm test
-    - run: npm run build
+    - run: node --run ci
+    - run: node --run test
+    - run: node --run build
