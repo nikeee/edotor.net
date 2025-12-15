@@ -1,6 +1,7 @@
 import { editor, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import type React from "react";
+import { useRef } from "react";
 
 import { registerCommands, service } from "../dot-monaco/index.js";
 
@@ -35,6 +36,8 @@ export default function Editor({
 	onValueError,
 	ref,
 }: EditorProps) {
+	const initialValueRef = useRef(initialValue);
+
 	return (
 		<div
 			style={{
@@ -56,7 +59,7 @@ export default function Editor({
 				}
 
 				const e = editor.create(div, {
-					value: initialValue,
+					value: initialValueRef.current,
 					language: "dot",
 					lineNumbers: "on",
 					wordWrap: "on",
