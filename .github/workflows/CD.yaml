@@ -23,7 +23,7 @@ jobs:
         cache: npm
 
     - run: npm ci
-    - run: npm run build
+    - run: node --run build
       env:
         VITE_MATOMO_API_BASE: ${{ vars.MATOMO_API_BASE }}
 
