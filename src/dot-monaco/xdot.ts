@@ -167,4 +167,4 @@ export default {
 			[/#.*$/, "comment"],
 		],
 	},
-} as monaco.languages.IMonarchLanguage;
+} as const satisfies monaco.languages.IMonarchLanguage;
