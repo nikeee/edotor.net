@@ -1,8 +1,12 @@
 import { useId } from "react";
 
-import type { SupportedEngine, SupportedFormat } from "../rendering";
+import type { SupportedEngine } from "../rendering";
 import { samples } from "../samples/index.js";
-import { displayFormats, supportedEngines } from "../viz.js";
+import {
+	displayFormats,
+	type ExportableFormat,
+	supportedEngines,
+} from "../viz.js";
 
 import ItemMenu from "./ItemMenu.js";
 import ItemSelection from "./ItemSelection.js";
@@ -12,7 +16,7 @@ import Version from "./Version.js";
 
 export type NavigationProps = {
 	loadSample: (sampleName: string) => void;
-	exportAs: (format: SupportedFormat) => void;
+	exportAs: (format: ExportableFormat) => void;
 
 	currentEngine: SupportedEngine;
 	changeEngine: (engine: SupportedEngine) => void;

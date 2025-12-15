@@ -19,12 +19,13 @@ import {
 import { FileSaver } from "./FileSaver.js";
 import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
 import { tutorial } from "./samples/index.js";
-import { copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils.js";
 import {
-	type ExportableFormat,
-	sourceFormatExtension,
-	supportedEngines,
-} from "./viz.js";
+	assertNever,
+	copyToClipboard,
+	getShareUrl,
+	getSourceFromUrl,
+} from "./utils.js";
+import { sourceFormatExtension, supportedEngines } from "./viz.js";
 
 const defaultEngine = supportedEngines[1];
 
@@ -66,23 +67,29 @@ function App({ initialText, initialEngine }: AppProps) {
 					saveLastEngine(engine);
 				}}
 				currentEngine={engine}
-				exportAs={(format: ExportableFormat): void => {
+				exportAs={format => {
 					const dotSrc = currentSourceRef.current;
-					if (dotSrc) {
-						if (format === sourceFormatExtension) {
+					if (!dotSrc) {
+						return;
+					}
+
+					switch (format) {
+						case sourceFormatExtension:
 							saveSource(dotSrc, saver);
-						} else {
+							return;
+						case "png":
+						case "svg":
 							exportAs(dotSrc, format, { engine }, saver);
-						}
+							return;
+						default:
+							assertNever(format);
 					}
 				}}
 				loadSample={(sampleDotSrc: string): void => {
-					if (!sampleDotSrc) return;
-
-					const editor = editorRef.current;
-					if (sampleDotSrc && editor) {
-						editor.loadSource(sampleDotSrc);
+					if (!sampleDotSrc) {
+						return;
 					}
+					editorRef.current?.loadSource(sampleDotSrc);
 				}}
 				share={() => {
 					const sourceToShare = currentSourceRef.current;
