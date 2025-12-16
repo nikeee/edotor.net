@@ -1,13 +1,10 @@
-import Viz from "viz.js";
-import workerURL from "viz.js/full.render.js?url";
+import * as Viz from "@viz-js/viz";
 
 import type { FileSaver } from "./FileSaver.js";
 import { assertNever } from "./utils.js";
 import { sourceFormatExtension } from "./viz.js";
 
-const createViz = () => new Viz({ workerURL });
-
-let viz = createViz();
+const viz = await Viz.instance();
 
 export type SupportedFormat = "svg" | "png";
 export type SupportedEngine =
@@ -45,25 +42,14 @@ export function renderElement(
 
 	switch (format) {
 		case "svg":
-			return viz.renderSVGElement(dotSrc, renderOptions).catch(catcher);
+			return Promise.resolve(viz.renderSVGElement(dotSrc, renderOptions));
 		case "png":
-			return viz
-				.renderImageElement(dotSrc, { ...renderOptions, mimeType: "image/png" })
-				.catch(catcher);
+			throw new Error("PNG rendering not yet implemented");
 		// TODO: JPG?
 		default:
 			return assertNever(format);
 	}
 }
-
-/**
- * Catches errors, re-creates the viz object and rethrows
- * @param error
- */
-const catcher = (error: Error) => {
-	viz = createViz();
-	throw error;
-};
 
 export interface ExportOptions {
 	engine: SupportedEngine;
