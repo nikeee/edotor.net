@@ -24,7 +24,7 @@
     "react-dom": "^19.2.3",
     "react-error-boundary": "^6.1.0",
     "react-spinners": "^0.17.0",
-    "react-split-pane": "^0.1.92",
+    "react-split-pane": "^3.0.6",
     "svg-pan-zoom": "3.6.2",
     "viz.js": "^2.1.2",
     "vscode-languageserver-textdocument": "^1.0.12"
