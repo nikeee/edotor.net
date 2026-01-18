@@ -66,7 +66,7 @@ function App({ initialText, initialEngine }: AppProps) {
 				}}
 				currentEngine={engine}
 				exportAs={format => {
-					const dotSrc = currentSourceRef.current;
+					const dotSrc = editorRef.current?.getSource();
 					if (!dotSrc) {
 						return;
 					}
@@ -91,7 +91,9 @@ function App({ initialText, initialEngine }: AppProps) {
 				}}
 				share={() => {
 					const sourceToShare = currentSourceRef.current;
-					if (!sourceToShare) return false;
+					if (!sourceToShare) {
+						return false;
+					}
 
 					const link = getShareUrl({
 						source: sourceToShare,

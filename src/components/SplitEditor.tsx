@@ -12,6 +12,7 @@ const GraphPaneLazy = lazy(() => import("./GraphPane.js"));
 
 export type SplitEditorHandle = {
 	loadSource: (source: string) => void;
+	getSource: () => string;
 };
 
 export type SplitEditorProps = {
@@ -62,6 +63,7 @@ export default function SplitEditor({
 			editorRef.current?.setValue(source);
 			setState({ dotSrc: source });
 		},
+		getSource: () => editorRef.current?.getValue() ?? "",
 	}));
 
 	const sourceToRender = state.dotSrc || state.lastKnownGoodSrc || "";
