@@ -19,7 +19,7 @@ export type SplitEditorProps = {
 	initialSource: string;
 	format: SupportedFormat;
 	engine: SupportedEngine;
-	onSourceChange?(source: string): void;
+	onSourceChange: () => void;
 	ref?: React.Ref<SplitEditorHandle>;
 };
 
@@ -47,7 +47,7 @@ export default function SplitEditor({
 	initialSource,
 	format,
 	engine,
-	// onSourceChange,
+	onSourceChange,
 	ref,
 }: SplitEditorProps) {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
@@ -99,7 +99,7 @@ export default function SplitEditor({
 								lastKnownGoodSrc: prev.dotSrc ?? prev.lastKnownGoodSrc,
 							}));
 
-							// props.onSourceChange?.(src);
+							onSourceChange?.();
 						}}
 					/>
 				</Suspense>

@@ -44,7 +44,6 @@ function App({ initialText, initialEngine }: AppProps) {
 		initialEngine ?? defaultEngine,
 	);
 
-	const currentSourceRef = useRef<string | undefined>(undefined);
 	const editorRef: RefObject<SplitEditorHandle | null> = useRef(null);
 	const autoSaveTimeoutRef = useRef<Timeout | undefined>(undefined);
 	const initialSource = initialText ? initialText : tutorial;
@@ -90,7 +89,7 @@ function App({ initialText, initialEngine }: AppProps) {
 					editorRef.current?.loadSource(sampleDotSrc);
 				}}
 				share={() => {
-					const sourceToShare = currentSourceRef.current;
+					const sourceToShare = editorRef.current?.getSource() ?? "";
 					if (!sourceToShare) {
 						return false;
 					}
@@ -109,15 +108,13 @@ function App({ initialText, initialEngine }: AppProps) {
 				initialSource={initialSource}
 				format="svg"
 				engine={engine}
-				onSourceChange={source => {
-					currentSourceRef.current = source;
-
+				onSourceChange={() => {
 					if (typeof autoSaveTimeoutRef.current !== "undefined") {
 						clearTimeout(autoSaveTimeoutRef.current);
 					}
 
 					autoSaveTimeoutRef.current = setTimeout(
-						() => saveLastSource(source),
+						() => saveLastSource(editorRef.current?.getSource() ?? ""),
 						SOURCE_SAVE_TIMEOUT,
 					);
 				}}
