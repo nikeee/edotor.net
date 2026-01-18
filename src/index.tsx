@@ -25,7 +25,7 @@ import {
 	getShareUrl,
 	getSourceFromUrl,
 } from "./utils.js";
-import { sourceFormatExtension, supportedEngines } from "./viz.js";
+import { supportedEngines } from "./viz.js";
 
 const defaultEngine = supportedEngines[1];
 
@@ -71,7 +71,7 @@ function App({ initialText, initialEngine }: AppProps) {
 					}
 
 					switch (format) {
-						case sourceFormatExtension:
+						case "gv":
 							saveSource(dotSrc, saver);
 							return;
 						case "png":

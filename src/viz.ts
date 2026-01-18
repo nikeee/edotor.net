@@ -1,9 +1,6 @@
 import type { ItemMenuItem } from "./components/ItemMenu.js";
 import type { SupportedEngine, SupportedFormat } from "./rendering.js";
 
-export const sourceFormatName = "Source";
-export const sourceFormatExtension = "gv";
-
 // Defined in https://github.com/mdaines/viz.js/wiki/API#render-options
 // TODO: See: https://github.com/mdaines/viz.js/issues/142
 export const supportedEngines: SupportedEngine[] = [
@@ -22,7 +19,7 @@ export function isSupportedEngine(v: string | null): v is SupportedEngine {
 export const displayFormats: readonly ItemMenuItem<ExportableFormat>[] = [
 	{ value: "svg", display: "SVG Image" },
 	{ value: "png", display: "PNG Image" },
-	{ value: sourceFormatExtension, display: sourceFormatName },
+	{ value: "gv", display: "Source" },
 ];
 
-export type ExportableFormat = SupportedFormat | typeof sourceFormatExtension;
+export type ExportableFormat = SupportedFormat | "gv";
