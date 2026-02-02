@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "dot-language-support": "^4.1.0",
+    "dot-language-support": "^4.1.1",
     "js-base64": "^3.7.8",
     "monaco-editor": "^0.55.1",
     "pako": "^2.1.0",
@@ -30,7 +30,7 @@
     "vscode-languageserver-textdocument": "^1.0.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.12",
+    "@biomejs/biome": "^2.3.13",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^25.0.10",
     "@types/pako": "^2.0.4",
@@ -42,7 +42,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.2",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "lefthook": "^2.0.15",
+    "lefthook": "^2.0.16",
     "sass-embedded": "^1.97.3",
     "vite": "^8.0.0-beta.8",
     "vite-plugin-ejs": "^1.7.0",
