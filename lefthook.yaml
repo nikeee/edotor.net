@@ -1,4 +1,5 @@
-# Docs: https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+# Docs: https://lefthook.dev/configuration/
+
 pre-push:
   parallel: true
   commands:
