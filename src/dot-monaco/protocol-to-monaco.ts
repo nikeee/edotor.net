@@ -3,23 +3,15 @@ import type * as ls from "vscode-languageserver-types";
 
 export function asPosition(value: undefined | null): undefined;
 export function asPosition(value: ls.Position): monaco.Position;
-export function asPosition(
-	value: ls.Position | undefined | null,
-): monaco.Position | undefined;
-export function asPosition(
-	value: ls.Position | undefined | null,
-): monaco.Position | undefined {
+export function asPosition(value: ls.Position | undefined | null): monaco.Position | undefined;
+export function asPosition(value: ls.Position | undefined | null): monaco.Position | undefined {
 	return value ? new monaco.Position(value.line, value.character) : undefined;
 }
 
 export function asRange(value: undefined | null): undefined;
 export function asRange(value: ls.Range): monaco.Range;
-export function asRange(
-	value: ls.Range | undefined | null,
-): monaco.Range | undefined;
-export function asRange(
-	value: ls.Range | undefined | null,
-): monaco.Range | undefined {
+export function asRange(value: ls.Range | undefined | null): monaco.Range | undefined;
+export function asRange(value: ls.Range | undefined | null): monaco.Range | undefined {
 	return value
 		? new monaco.Range(
 				value.start.line + 1,
@@ -30,9 +22,7 @@ export function asRange(
 		: undefined;
 }
 
-export function asDiagnostics(
-	diagnostics: ls.Diagnostic[],
-): monaco.editor.IMarkerData[] {
+export function asDiagnostics(diagnostics: ls.Diagnostic[]): monaco.editor.IMarkerData[] {
 	return diagnostics.map(diagnostic => {
 		const range = asRange(diagnostic.range);
 		return {
@@ -74,9 +64,7 @@ export function asCompletionResult(
 			suggestions: [],
 		};
 	}
-	const suggestions = result.map(item =>
-		asCompletionItem(item, undefined, undefined),
-	);
+	const suggestions = result.map(item => asCompletionItem(item, undefined, undefined));
 	return {
 		incomplete: false,
 		suggestions,
@@ -94,8 +82,7 @@ export function asCompletionItem(
 			? asRange(textEdit.range)
 			: textEdit && "insert" in textEdit
 				? asRange(textEdit.insert)
-				: // biome-ignore lint/style/noNonNullAssertion: :shrug: #119
-					insertTextReplaceRange || defaultRange!;
+				: insertTextReplaceRange || defaultRange!;
 
 	const documentation = asDocumentation(item.documentation);
 
@@ -132,12 +119,8 @@ export function asCompletionItem(
 
 export function asHover(hover: null | undefined): null;
 export function asHover(hover: ls.Hover): monaco.languages.Hover;
-export function asHover(
-	hover: ls.Hover | null | undefined,
-): monaco.languages.Hover | null;
-export function asHover(
-	hover: ls.Hover | null | undefined,
-): monaco.languages.Hover | null {
+export function asHover(hover: ls.Hover | null | undefined): monaco.languages.Hover | null;
+export function asHover(hover: ls.Hover | null | undefined): monaco.languages.Hover | null {
 	return hover
 		? {
 				contents: asHoverContents(hover.contents),
@@ -209,11 +192,7 @@ export function asCodeActionList(
 	}
 
 	const actions: monaco.languages.CodeAction[] = commands.map(command => {
-		if (
-			"command" in command &&
-			typeof command.command === "string" &&
-			"arguments" in command
-		) {
+		if ("command" in command && typeof command.command === "string" && "arguments" in command) {
 			const cmd = command as ls.Command;
 			return {
 				title: cmd.title,
@@ -242,9 +221,7 @@ export function asCodeActionList(
 					source: d.source,
 				};
 			}),
-			edit: codeAction.edit
-				? asWorkspaceEdit(codeAction.edit) || undefined
-				: undefined,
+			edit: codeAction.edit ? asWorkspaceEdit(codeAction.edit) || undefined : undefined,
 			command: codeAction.command as monaco.languages.Command | undefined,
 			isPreferred: codeAction.isPreferred,
 			disabled: codeAction.disabled?.reason,
@@ -311,9 +288,7 @@ function asSeverity(severity?: number): monaco.MarkerSeverity {
 	}
 }
 
-function asCompletionItemKind(
-	kind: number,
-): monaco.languages.CompletionItemKind {
+function asCompletionItemKind(kind: number): monaco.languages.CompletionItemKind {
 	// LSP and Monaco use the same numeric values, but we'll map them explicitly
 	return kind as monaco.languages.CompletionItemKind;
 }
@@ -357,7 +332,5 @@ function asHoverContents(
 		});
 	}
 
-	return [
-		{ value: contents.kind === "markdown" ? contents.value : contents.value },
-	];
+	return [{ value: contents.kind === "markdown" ? contents.value : contents.value }];
 }

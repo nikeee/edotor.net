@@ -72,7 +72,6 @@ export default class Graph extends Component<GraphProps, GraphState> {
 		let element: RenderResult;
 		try {
 			element = await renderElement(dotSrc, format, engine);
-			// biome-ignore lint/suspicious/noExplicitAny: todo
 		} catch (e: any) {
 			this.setState({ error: e.message });
 			return;
