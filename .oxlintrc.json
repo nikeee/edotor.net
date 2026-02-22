@@ -1,18 +1,5 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [],
-  "categories": {
-    "correctness": "off"
-  },
-  "env": {
-    "builtin": true
-  },
+  "plugins": ["typescript", "react"],
   "jsPlugins": [{ "name": "react-hooks-js", "specifier": "eslint-plugin-react-hooks" }],
-  "ignorePatterns": ["dist/", "node_modules/"],
-  "overrides": [
-    {
-      "files": ["*/**/*.{js,ts,tsx,jsx}"],
-      "plugins": ["react"]
-    }
-  ]
 }
