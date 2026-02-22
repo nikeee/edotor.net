@@ -51,10 +51,7 @@ export function getLastState(): Partial<ShareData> {
 	};
 }
 
-export function mergeStates(
-	a: Partial<ShareData>,
-	fallback: Partial<ShareData>,
-) {
+export function mergeStates(a: Partial<ShareData>, fallback: Partial<ShareData>) {
 	return {
 		source: a.source ?? fallback.source,
 		engine: a.engine ?? fallback.engine,

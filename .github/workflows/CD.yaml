@@ -3,9 +3,9 @@ name: CD
 on:
   push:
     branches:
-    - "!*"
+      - "!*"
     tags:
-    - "v*"
+      - "v*"
 
 jobs:
   build:
@@ -15,21 +15,21 @@ jobs:
       name: edotor.net
 
     steps:
-    - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
-    - uses: actions/setup-node@v6
-      with:
-        node-version: 25.x
-        cache: npm
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 25.x
+          cache: npm
 
-    - run: npm ci
-    - run: node --run build
-      env:
-        VITE_MATOMO_API_BASE: ${{ vars.MATOMO_API_BASE }}
+      - run: npm ci
+      - run: node --run build
+        env:
+          VITE_MATOMO_API_BASE: ${{ vars.MATOMO_API_BASE }}
 
-    - uses: actions/upload-pages-artifact@v4
-      with:
-        path: ./dist
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
 
   deploy:
     runs-on: ubuntu-slim

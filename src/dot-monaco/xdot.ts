@@ -107,10 +107,7 @@ export default {
 			{ include: "@whitespace" },
 
 			// html identifiers
-			[
-				/<<(?!@symbols)/,
-				{ token: "string.html.quote", bracket: "@open", next: "html" },
-			],
+			[/<<(?!@symbols)/, { token: "string.html.quote", bracket: "@open", next: "html" }],
 
 			// delimiters and operators
 			[/[{}()[\]]/, "@brackets"],

@@ -1,9 +1,4 @@
-import {
-	type editor,
-	type IRange,
-	type languages,
-	MarkerSeverity,
-} from "monaco-editor";
+import { type editor, type IRange, type languages, MarkerSeverity } from "monaco-editor";
 import type * as ls from "vscode-languageserver-types";
 
 export function asPosition(lineNumber: number, column: number): ls.Position {
@@ -22,9 +17,7 @@ export function asRange(range: IRange): ls.Range {
 	};
 }
 
-export function asDiagnosticSeverity(
-	severity: MarkerSeverity,
-): ls.DiagnosticSeverity {
+export function asDiagnosticSeverity(severity: MarkerSeverity): ls.DiagnosticSeverity {
 	// Monaco MarkerSeverity: Error=8, Warning=4, Info=2, Hint=1
 	// LSP DiagnosticSeverity: Error=1, Warning=2, Information=3, Hint=4
 	switch (severity) {
@@ -65,9 +58,7 @@ export function asCodeActionContext(
 ): ls.CodeActionContext {
 	return {
 		diagnostics:
-			diagnostics && diagnostics.length > 0
-				? diagnostics
-				: asDiagnostics(context.markers),
+			diagnostics && diagnostics.length > 0 ? diagnostics : asDiagnostics(context.markers),
 		only: context.only
 			? Array.isArray(context.only)
 				? context.only

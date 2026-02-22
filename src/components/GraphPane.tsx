@@ -14,11 +14,7 @@ export default function GraphPane(props: GraphPaneProps) {
 				opacity: props.hasErrors ? 0.5 : 1,
 			}}
 		>
-			<Graph
-				dotSrc={props.dotSrc}
-				format={props.format}
-				engine={props.engine}
-			/>
+			<Graph dotSrc={props.dotSrc} format={props.format} engine={props.engine} />
 		</div>
 	);
 }
