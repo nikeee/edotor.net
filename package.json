@@ -20,8 +20,8 @@
     "js-base64": "^3.7.8",
     "monaco-editor": "^0.55.1",
     "pako": "^2.1.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-error-boundary": "^6.1.1",
     "react-spinners": "^0.17.0",
     "react-split-pane": "^0.1.92",
@@ -31,11 +31,11 @@
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
-    "@types/node": "^25.2.3",
+    "@types/node": "^25.3.0",
     "@types/pako": "^2.0.4",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@typescript/native-preview": "^7.0.0-dev.20260216.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260222.1",
     "@vitejs/plugin-react": "^5.1.4",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -44,14 +44,14 @@
     "oxlint": "^1.49.0",
     "oxlint-tsgolint": "^0.14.2",
     "sass-embedded": "^1.97.3",
-    "vite": "^8.0.0-beta.8",
+    "vite": "^8.0.0-beta.15",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-static-copy": "^3.2.0",
     "vscode-languageserver-types": "^3.17.5"
   },
   "overrides": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "vite": "^8.0.0-beta.8"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "vite": "^8.0.0-beta.15"
   }
 }
