@@ -7,24 +7,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
 import Navigation from "./components/Navigation.js";
-import SplitEditor, {
-	type SplitEditorHandle,
-} from "./components/SplitEditor.js";
-import {
-	getLastState,
-	mergeStates,
-	saveLastEngine,
-	saveLastSource,
-} from "./config.js";
+import SplitEditor, { type SplitEditorHandle } from "./components/SplitEditor.js";
+import { getLastState, mergeStates, saveLastEngine, saveLastSource } from "./config.js";
 import { FileSaver } from "./FileSaver.js";
 import { exportAs, type SupportedEngine, saveSource } from "./rendering.js";
 import { tutorial } from "./samples/index.js";
-import {
-	assertNever,
-	copyToClipboard,
-	getShareUrl,
-	getSourceFromUrl,
-} from "./utils.js";
+import { assertNever, copyToClipboard, getShareUrl, getSourceFromUrl } from "./utils.js";
 import { supportedEngines } from "./viz.js";
 
 const defaultEngine = supportedEngines[1];
@@ -40,9 +28,7 @@ type Timeout = ReturnType<typeof setTimeout>;
 const saver = new FileSaver();
 
 function App({ initialText, initialEngine }: AppProps) {
-	const [engine, setEngine] = useState<SupportedEngine>(
-		initialEngine ?? defaultEngine,
-	);
+	const [engine, setEngine] = useState<SupportedEngine>(initialEngine ?? defaultEngine);
 
 	const editorRef: RefObject<SplitEditorHandle | null> = useRef(null);
 	const autoSaveTimeoutRef = useRef<Timeout | undefined>(undefined);
@@ -76,7 +62,9 @@ function App({ initialText, initialEngine }: AppProps) {
 							return;
 						case "png":
 						case "svg":
-							exportAs(dotSrc, format, { engine }, saver);
+							void exportAs(dotSrc, format, { engine }, saver).catch(() => {
+								console.log(`Exporting as ${format} failed.`);
+							});
 							return;
 						default:
 							assertNever(format);
@@ -123,13 +111,7 @@ function App({ initialText, initialEngine }: AppProps) {
 	);
 }
 
-const initialState = mergeStates(
-	getSourceFromUrl(new URL(window.location.href)),
-	getLastState(),
-);
+const initialState = mergeStates(getSourceFromUrl(new URL(window.location.href)), getLastState());
 
-// biome-ignore lint/style/noNonNullAssertion: todo
 const root = createRoot(document.getElementById("root")!);
-root.render(
-	<App initialText={initialState.source} initialEngine={initialState.engine} />,
-);
+root.render(<App initialText={initialState.source} initialEngine={initialState.engine} />);

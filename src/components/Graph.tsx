@@ -72,7 +72,6 @@ export default class Graph extends Component<GraphProps, GraphState> {
 		let element: RenderResult;
 		try {
 			element = await renderElement(dotSrc, format, engine);
-			// biome-ignore lint/suspicious/noExplicitAny: todo
 		} catch (e: any) {
 			this.setState({ error: e.message });
 			return;
@@ -85,7 +84,7 @@ export default class Graph extends Component<GraphProps, GraphState> {
 	}
 
 	componentDidMount() {
-		this.#updateGraph();
+		void this.#updateGraph().catch(() => {}); // no awaiting promise here
 	}
 	componentWillUnmount() {
 		this.#destroyCurrentZoomContainer();
@@ -103,7 +102,7 @@ export default class Graph extends Component<GraphProps, GraphState> {
 			format !== prevProps.format ||
 			engine !== prevProps.engine
 		) {
-			this.#updateGraph();
+			void this.#updateGraph().catch(() => {}); // no awaiting promise here
 		}
 
 		const state = this.state;

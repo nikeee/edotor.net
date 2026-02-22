@@ -5,7 +5,7 @@ export type TItem = string;
 export interface ItemSelectionProps {
 	defaultItem: TItem | undefined;
 	possibleItems: TItem[];
-	onChangeItem(item: TItem): void;
+	onChangeItem(this: void, item: TItem): void;
 
 	label: string;
 	selectionClassName?: string;
@@ -18,9 +18,7 @@ export default function ItemSelection({
 	label,
 	selectionClassName,
 }: ItemSelectionProps) {
-	const [currentSelection, setCurrentSelection] = useState<TItem | undefined>(
-		defaultItem,
-	);
+	const [currentSelection, setCurrentSelection] = useState<TItem | undefined>(defaultItem);
 
 	const handleChange = (newItem: TItem) => {
 		if (currentSelection === undefined || newItem !== currentSelection) {
@@ -29,7 +27,7 @@ export default function ItemSelection({
 		}
 	};
 
-	import.meta.env.DEV && console.assert(!!label);
+	void (import.meta.env.DEV && console.assert(!!label));
 
 	return (
 		<li className="nav-item dropdown">
@@ -38,8 +36,7 @@ export default function ItemSelection({
 				data-bs-toggle="dropdown"
 				aria-haspopup="true"
 			>
-				{label}{" "}
-				<span className={selectionClassName}>{currentSelection || ""}</span>
+				{label} <span className={selectionClassName}>{currentSelection || ""}</span>
 			</span>
 			<div className="dropdown-menu">
 				{possibleItems.map(e => (

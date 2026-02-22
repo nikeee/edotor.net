@@ -20,5 +20,5 @@
     "removeComments": true,
     "declaration": false,
     "sourceMap": true
-  },
+  }
 }

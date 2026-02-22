@@ -75,7 +75,7 @@ export default function SplitEditor({
 			minSize={50}
 			defaultSize={getSplitConfig() || "50%"}
 			onChange={size => saveSplitConfig(size)}
-			// biome-ignore lint/suspicious/noExplicitAny: hack for: https://github.com/tomkp/react-split-pane/issues/830#issuecomment-2788356773
+			// Hack for: https://github.com/tomkp/react-split-pane/issues/830#issuecomment-2788356773
 			{...({} as any)}
 		>
 			<ErrorBoundary fallback="Could not load editor">

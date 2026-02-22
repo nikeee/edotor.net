@@ -78,7 +78,7 @@ export const getSourceFromUrl = (url: URL): Partial<ShareData> => {
 function tryInflate(base64Content: string): string | undefined {
 	try {
 		return inflate(toUint8Array(base64Content), { to: "string" });
-	} catch (e) {
+	} catch (e: any) {
 		console.error(`Failed to decode the compressed deflate source: ${e}`);
 		return undefined;
 	}

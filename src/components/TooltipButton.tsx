@@ -8,12 +8,7 @@ export type TooltipButtonProps = {
 	children?: React.ReactNode;
 };
 
-export default function TooltipButton({
-	onClick,
-	title,
-	className,
-	children,
-}: TooltipButtonProps) {
+export default function TooltipButton({ onClick, title, className, children }: TooltipButtonProps) {
 	const buttonRef = useRef<HTMLButtonElement>(null);
 	const tooltipRef = useRef<Tooltip | null>(null);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);

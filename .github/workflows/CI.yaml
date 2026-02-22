@@ -4,21 +4,22 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-slim
+    # ubuntu-latest instead of ubuntu-slim due to: https://github.com/oxc-project/oxc/issues/19395#issuecomment-3920271360
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [24.x, 25.x]
 
     steps:
-    - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
-    - uses: actions/setup-node@v6
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: npm
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
 
-    - run: npm ci
-    - run: node --run ci
-    - run: node --run test
-    - run: node --run build
+      - run: npm ci
+      - run: node --run ci
+      - run: node --run test
+      - run: node --run build

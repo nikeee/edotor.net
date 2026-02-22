@@ -9,13 +9,7 @@ const createViz = () => new Viz({ workerURL });
 let viz = createViz();
 
 export type SupportedFormat = "svg" | "png";
-export type SupportedEngine =
-	| "circo"
-	| "dot"
-	| "fdp"
-	| "neato"
-	| "osage"
-	| "twopi";
+export type SupportedEngine = "circo" | "dot" | "fdp" | "neato" | "osage" | "twopi";
 export type RenderResult = SVGSVGElement | HTMLImageElement;
 
 export function renderElement(
@@ -89,13 +83,8 @@ export async function exportAs(
 	saver.saveImage(element, totalFileName);
 }
 
-export function saveSource(
-	dotSrc: string,
-	saver: FileSaver,
-	fileName = "graph",
-) {
+export function saveSource(dotSrc: string, saver: FileSaver, fileName = "graph") {
 	saver.save(dotSrc, `${fileName}.gv`);
 }
 
-const isSVGElement = (r: RenderResult): r is SVGSVGElement =>
-	r instanceof SVGSVGElement;
+const isSVGElement = (r: RenderResult): r is SVGSVGElement => r instanceof SVGSVGElement;

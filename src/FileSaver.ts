@@ -7,8 +7,7 @@ export class FileSaver {
 	}
 
 	save(data: Blob | BlobPart, fileName: string) {
-		const blob =
-			data instanceof Blob ? data : new Blob([data], { type: "octet/stream" });
+		const blob = data instanceof Blob ? data : new Blob([data], { type: "octet/stream" });
 
 		const url = window.URL.createObjectURL(blob);
 		try {

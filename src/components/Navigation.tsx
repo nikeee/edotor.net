@@ -2,11 +2,7 @@ import { useId } from "react";
 
 import type { SupportedEngine } from "../rendering";
 import { samples } from "../samples/index.js";
-import {
-	displayFormats,
-	type ExportableFormat,
-	supportedEngines,
-} from "../viz.js";
+import { displayFormats, type ExportableFormat, supportedEngines } from "../viz.js";
 
 import ItemMenu from "./ItemMenu.js";
 import ItemSelection from "./ItemSelection.js";
@@ -50,17 +46,9 @@ export default function Navigation({
 
 				<div className="collapse navbar-collapse" id={navbarId}>
 					<ul className="navbar-nav me-auto">
-						<ItemMenu
-							onClickItem={loadSample}
-							items={samples}
-							label="Load Sample"
-						/>
+						<ItemMenu onClickItem={loadSample} items={samples} label="Load Sample" />
 
-						<ItemMenu
-							onClickItem={exportAs}
-							items={displayFormats}
-							label="Download"
-						/>
+						<ItemMenu onClickItem={exportAs} items={displayFormats} label="Download" />
 
 						<ItemSelection
 							onChangeItem={changeEngine}

@@ -1,4 +1,5 @@
-# Docs: https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+# Docs: https://lefthook.dev/configuration/
+
 pre-push:
   parallel: true
   commands:
@@ -12,7 +13,8 @@ pre-commit:
   commands:
     format:
       glob: "*.{js,ts,tsx,jsx,css,scss}"
-      run: node --run format && git add {staged_files}
+      run: node --run format -- {staged_files}
+      stage_fixed: true
 
 output:
   - summary
