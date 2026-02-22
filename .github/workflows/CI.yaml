@@ -4,7 +4,8 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-slim
+    # ubuntu-latest instead of ubuntu-slim due to: https://github.com/oxc-project/oxc/issues/19395#issuecomment-3920271360
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
