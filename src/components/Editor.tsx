@@ -29,11 +29,7 @@ export type EditorProps = {
 	ref?: React.Ref<editor.IStandaloneCodeEditor | null>;
 };
 
-export default function Editor({
-	initialValue,
-	onChangeValue,
-	ref,
-}: EditorProps) {
+export default function Editor({ initialValue, onChangeValue, ref }: EditorProps) {
 	const initialValueRef = useRef(initialValue);
 
 	return (
@@ -75,7 +71,7 @@ export default function Editor({
 
 				const model = e.getModel();
 				if (model === null) {
-					import.meta.env.DEV && console.log("Model is null");
+					void (import.meta.env.DEV && console.log("Model is null"));
 
 					return () => {
 						setExternalRef(null);

@@ -62,7 +62,9 @@ function App({ initialText, initialEngine }: AppProps) {
 							return;
 						case "png":
 						case "svg":
-							exportAs(dotSrc, format, { engine }, saver);
+							void exportAs(dotSrc, format, { engine }, saver).catch(() => {
+								console.log(`Exporting as ${format} failed.`);
+							});
 							return;
 						default:
 							assertNever(format);

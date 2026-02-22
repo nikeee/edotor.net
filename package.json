@@ -1,16 +1,16 @@
 {
   "name": "edotor.net",
-  "author": "Niklas Mollenhauer",
-  "license": "MIT",
   "version": "2.4.4",
-  "description": "Online Graphviz fiddle with language support",
   "private": true,
+  "description": "Online Graphviz fiddle with language support",
+  "license": "MIT",
+  "author": "Niklas Mollenhauer",
   "type": "module",
   "scripts": {
     "test": "tsgo",
     "build": "vite build",
-    "ci": "oxlint --type-aware --deny-warnings -f github",
-    "lint": "oxlint",
+    "ci": "oxlint --type-aware --type-check --deny-warnings -f github",
+    "lint": "oxlint --type-aware",
     "format": "oxfmt",
     "start": "vite"
   },
