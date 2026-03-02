@@ -40,7 +40,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "lefthook": "^2.1.2",
-    "oxfmt": "^0.34.0",
+    "oxfmt": "^0.35.0",
     "oxlint": "^1.49.0",
     "oxlint-tsgolint": "^0.14.2",
     "sass-embedded": "^1.97.3",
