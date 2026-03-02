@@ -42,7 +42,7 @@
     "lefthook": "^2.1.2",
     "oxfmt": "^0.34.0",
     "oxlint": "^1.49.0",
-    "oxlint-tsgolint": "^0.14.2",
+    "oxlint-tsgolint": "^0.15.0",
     "sass-embedded": "^1.97.3",
     "vite": "^8.0.0-beta.15",
     "vite-plugin-ejs": "^1.7.0",
