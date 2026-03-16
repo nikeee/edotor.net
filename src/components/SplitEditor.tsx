@@ -2,7 +2,7 @@ import type * as monaco from "monaco-editor";
 import { lazy, Suspense, useImperativeHandle, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BarLoader } from "react-spinners";
-import SplitPane from "react-split-pane";
+import { Pane, SplitPane } from "react-split-pane";
 
 import { getSplitConfig, saveSplitConfig } from "../config.js";
 import type { SupportedEngine, SupportedFormat } from "../rendering.js";
@@ -70,56 +70,53 @@ export default function SplitEditor({
 	console.log({ sourceToRender, state });
 
 	return (
-		<SplitPane
-			split="vertical"
-			minSize={50}
-			defaultSize={getSplitConfig() || "50%"}
-			onChange={size => saveSplitConfig(size)}
-			// Hack for: https://github.com/tomkp/react-split-pane/issues/830#issuecomment-2788356773
-			{...({} as any)}
-		>
-			<ErrorBoundary fallback="Could not load editor">
-				<Suspense
-					fallback={
-						<div style={loadingStyle}>
-							<BarLoader />
-						</div>
-					}
-				>
-					<EditorLazy
-						ref={editorRef}
-						initialValue={initialValue}
-						onChangeValue={(value, errors) => {
-							if (errors === 0) {
-								setState({ dotSrc: value });
-								return;
-							}
-							setState(prev => ({
-								errorCount: errors,
-								lastKnownGoodSrc: prev.dotSrc ?? prev.lastKnownGoodSrc,
-							}));
+		<SplitPane direction="horizontal" onResize={sizes => saveSplitConfig(sizes[0])}>
+			<Pane minSize="50px" defaultSize={getSplitConfig() || "50%"}>
+				<ErrorBoundary fallback="Could not load editor">
+					<Suspense
+						fallback={
+							<div style={loadingStyle}>
+								<BarLoader />
+							</div>
+						}
+					>
+						<EditorLazy
+							ref={editorRef}
+							initialValue={initialValue}
+							onChangeValue={(value, errors) => {
+								if (errors === 0) {
+									setState({ dotSrc: value });
+									return;
+								}
+								setState(prev => ({
+									errorCount: errors,
+									lastKnownGoodSrc: prev.dotSrc ?? prev.lastKnownGoodSrc,
+								}));
 
-							onSourceChange?.();
-						}}
-					/>
-				</Suspense>
-			</ErrorBoundary>
-			<ErrorBoundary fallback="Could not load graph preview">
-				<Suspense
-					fallback={
-						<div style={loadingStyle}>
-							<BarLoader />
-						</div>
-					}
-				>
-					<GraphPaneLazy
-						hasErrors={!!(state.errorCount && state.errorCount > 0)}
-						dotSrc={sourceToRender}
-						engine={engine}
-						format={format}
-					/>
-				</Suspense>
-			</ErrorBoundary>
+								onSourceChange?.();
+							}}
+						/>
+					</Suspense>
+				</ErrorBoundary>
+			</Pane>
+			<Pane>
+				<ErrorBoundary fallback="Could not load graph preview">
+					<Suspense
+						fallback={
+							<div style={loadingStyle}>
+								<BarLoader />
+							</div>
+						}
+					>
+						<GraphPaneLazy
+							hasErrors={!!(state.errorCount && state.errorCount > 0)}
+							dotSrc={sourceToRender}
+							engine={engine}
+							format={format}
+						/>
+					</Suspense>
+				</ErrorBoundary>
+			</Pane>
 		</SplitPane>
 	);
 }
