@@ -1,4 +1,5 @@
-import react from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
 import { defineConfig, loadEnv } from "vite";
 import { ViteEjsPlugin } from "vite-plugin-ejs";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -27,11 +28,10 @@ export default defineConfig(({ mode }) => {
 					},
 				},
 			),
-			react({
-				babel: {
-					plugins: [["babel-plugin-react-compiler"]],
-				},
-			}),
+			react(),
+			babel({
+				presets: [reactCompilerPreset()],
+			} as any),
 		],
 	};
 });
