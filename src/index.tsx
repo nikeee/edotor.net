@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-split-pane/styles.css";
 
 import "./index.scss";
 
