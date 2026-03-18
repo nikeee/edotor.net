@@ -30,13 +30,13 @@
     "vscode-languageserver-textdocument": "^1.0.12"
   },
   "devDependencies": {
-    "@rolldown/plugin-babel": "^0.2.1",
+    "@rolldown/plugin-babel": "^0.2.2",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^25.5.0",
     "@types/pako": "^2.0.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@typescript/native-preview": "^7.0.0-dev.20260316.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260318.1",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.0.1",
