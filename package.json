@@ -41,7 +41,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "lefthook": "^2.1.4",
-    "oxfmt": "^0.41.0",
+    "oxfmt": "^0.42.0",
     "oxlint": "^1.56.0",
     "oxlint-tsgolint": "^0.17.1",
     "sass-embedded": "^1.98.0",
