@@ -1,6 +1,6 @@
 {
   "name": "edotor.net",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "private": true,
   "description": "Online Graphviz fiddle with language support",
   "license": "MIT",
