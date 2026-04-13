@@ -45,7 +45,7 @@
     "oxlint": "^1.58.0",
     "oxlint-tsgolint": "^0.20.0",
     "sass-embedded": "^1.99.0",
-    "vite": "^8.0.5",
+    "vite": "^8.0.8",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-static-copy": "^4.0.1",
     "vscode-languageserver-types": "^3.17.5"
