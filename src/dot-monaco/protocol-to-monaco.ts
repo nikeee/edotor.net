@@ -143,6 +143,24 @@ export function asDefinitionResult(
 	return asLocation(definition);
 }
 
+export function asSelectionRanges(
+	ranges: ls.SelectionRange[] | null | undefined,
+): monaco.languages.SelectionRange[][] {
+	if (!ranges) {
+		return [];
+	}
+
+	return ranges.map(root => {
+		const chain: monaco.languages.SelectionRange[] = [];
+		let current: ls.SelectionRange | undefined = root;
+		while (current) {
+			chain.push({ range: asRange(current.range) });
+			current = current.parent;
+		}
+		return chain;
+	});
+}
+
 export function asReferences(
 	references: ls.Location[] | null | undefined,
 ): monaco.languages.Location[] {

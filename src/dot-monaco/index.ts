@@ -16,7 +16,9 @@ export interface MonacoService {
 	completionItemProvider: languages.CompletionItemProvider;
 	hoverProvider: languages.HoverProvider;
 	definitionProvider: languages.DefinitionProvider;
+	declarationProvider: languages.DeclarationProvider;
 	referenceProvider: languages.ReferenceProvider;
+	selectionRangeProvider: languages.SelectionRangeProvider;
 	renameProvider: languages.RenameProvider;
 	codeActionProvider: languages.CodeActionProvider;
 	colorProvider: languages.DocumentColorProvider;
@@ -116,6 +118,30 @@ export const service = {
 				m2p.asPosition(position.lineNumber, position.column),
 			);
 			return p2m.asDefinitionResult(definition);
+		},
+	},
+	declarationProvider: {
+		provideDeclaration(model, position) {
+			const data = processor.process(model);
+
+			const declaration = ls.findDeclaration(
+				data.document,
+				data.sourceFile,
+				m2p.asPosition(position.lineNumber, position.column),
+			);
+			return p2m.asDefinitionResult(declaration);
+		},
+	},
+	selectionRangeProvider: {
+		provideSelectionRanges(model, positions) {
+			const data = processor.process(model);
+
+			const ranges = ls.getSelectionRanges(
+				data.document,
+				data.sourceFile,
+				positions.map(p => m2p.asPosition(p.lineNumber, p.column)),
+			);
+			return p2m.asSelectionRanges(ranges);
 		},
 	},
 	referenceProvider: {
