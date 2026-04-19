@@ -1,4 +1,4 @@
-import { editor, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
+import { editor, KeyCode, KeyMod, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import type React from "react";
 import { useRef } from "react";
@@ -18,6 +18,9 @@ languages.registerRenameProvider("dot", service.renameProvider);
 languages.registerCodeActionProvider("dot", service.codeActionProvider);
 languages.registerColorProvider("dot", service.colorProvider);
 // TODO: Check if we have other providers to register (or if we can implement some)
+
+// Release Ctrl+L so the browser address bar shortcut still works (#41).
+editor.addKeybindingRule({ keybinding: KeyMod.CtrlCmd | KeyCode.KeyL, command: null });
 
 self.MonacoEnvironment = {
 	getWorker(_: unknown, _label: string) {
