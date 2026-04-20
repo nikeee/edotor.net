@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "dot-language-support": "^4.3.0",
+    "dot-language-support": "^4.3.1",
     "js-base64": "^3.7.8",
     "monaco-editor": "^0.55.1",
     "pako": "^2.1.0",
@@ -45,7 +45,7 @@
     "oxlint": "^1.60.0",
     "oxlint-tsgolint": "^0.21.1",
     "sass-embedded": "^1.99.0",
-    "vite": "^8.0.8",
+    "vite": "^8.0.9",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-static-copy": "^4.1.0",
     "vscode-languageserver-types": "^3.17.5"
