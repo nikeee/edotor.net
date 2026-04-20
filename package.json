@@ -47,7 +47,7 @@
     "sass-embedded": "^1.99.0",
     "vite": "^8.0.8",
     "vite-plugin-ejs": "^1.7.0",
-    "vite-plugin-static-copy": "^4.0.1",
+    "vite-plugin-static-copy": "^4.1.0",
     "vscode-languageserver-types": "^3.17.5"
   },
   "overrides": {
