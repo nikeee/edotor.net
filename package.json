@@ -37,7 +37,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript/native-preview": "^7.0.0-dev.20260511.1",
-    "@vitejs/plugin-react": "^6.0.1",
+    "@vitejs/plugin-react": "^6.0.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "lefthook": "^2.1.6",
@@ -45,7 +45,7 @@
     "oxlint": "^1.63.0",
     "oxlint-tsgolint": "^0.22.1",
     "sass-embedded": "^1.99.0",
-    "vite": "^8.0.12",
+    "vite": "^8.0.13",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-static-copy": "^4.1.0",
     "vscode-languageserver-types": "^3.17.5"
