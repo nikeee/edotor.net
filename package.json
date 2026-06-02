@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "dot-language-support": "^4.3.1",
+    "dot-language-support": "^4.3.2",
     "js-base64": "^3.7.8",
     "monaco-editor": "^0.55.1",
     "pako": "^2.1.0",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@rolldown/plugin-babel": "^0.2.3",
-    "@types/bootstrap": "^5.2.10",
+    "@types/bootstrap": "^5.2.11",
     "@types/node": "^25.8.0",
     "@types/pako": "^2.0.4",
     "@types/react": "^19.2.14",
@@ -40,12 +40,12 @@
     "@vitejs/plugin-react": "^6.0.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "lefthook": "^2.1.8",
+    "lefthook": "^2.1.9",
     "oxfmt": "^0.53.0",
     "oxlint": "^1.66.0",
     "oxlint-tsgolint": "^0.23.0",
     "sass-embedded": "^1.100.0",
-    "vite": "^8.0.14",
+    "vite": "^8.0.16",
     "vite-plugin-ejs": "^1.7.0",
     "vite-plugin-static-copy": "^4.1.0",
     "vscode-languageserver-types": "^3.17.5"
