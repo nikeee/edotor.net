@@ -48,7 +48,7 @@
     "vite": "^8.1.0",
     "vite-plugin-ejs": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
-    "vscode-languageserver-types": "^3.17.5"
+    "vscode-languageserver-types": "^3.18.0"
   },
   "overrides": {
     "react": "^19.2.5",
