@@ -1,4 +1,3 @@
-import { fromUint8Array, toUint8Array } from "js-base64"; // TODO: Replace this with native Uint8Array <-> Base64 conversion when broadly available in browsers
 import { deflate, inflate } from "pako";
 
 import type { SupportedEngine } from "./rendering.js";
@@ -45,7 +44,9 @@ export const getFullUrl = (): string => {
  * @param sourceToShare The source to encode.
  */
 export const getShareUrl = (data: ShareData): string => {
-	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#deflate:${fromUint8Array(deflate(data.source, { level: 9 }))}`;
+	const compressedBytes = deflate(data.source, { level: 9 });
+	const b64 = compressedBytes.toBase64({ alphabet: "base64url" });
+	return `${getFullUrl()}?engine=${encodeURIComponent(data.engine)}#deflate:${b64}`;
 };
 
 /**
@@ -77,7 +78,9 @@ export const getSourceFromUrl = (url: URL): Partial<ShareData> => {
 
 function tryInflate(base64Content: string): string | undefined {
 	try {
-		return inflate(toUint8Array(base64Content), { to: "string" });
+		const compressedBytes = Uint8Array.fromBase64(base64Content, { alphabet: "base64url" });
+		const decompressedBytes = inflate(compressedBytes);
+		return new TextDecoder().decode(decompressedBytes);
 	} catch (e: any) {
 		console.error(`Failed to decode the compressed deflate source: ${e}`);
 		return undefined;

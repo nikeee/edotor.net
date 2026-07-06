@@ -12,13 +12,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
 
-    "types": [
-      "node",
-      "bootstrap",
-      "pako",
-      "react",
-      "react-dom",
-    ],
+    "types": ["node", "bootstrap", "react", "react-dom"],
 
     "allowSyntheticDefaultImports": true,
 
