@@ -1,4 +1,4 @@
-import { fromUint8Array, toUint8Array } from "js-base64";
+import { fromUint8Array, toUint8Array } from "js-base64"; // TODO: Replace this with native Uint8Array <-> Base64 conversion when broadly available in browsers
 import { deflate, inflate } from "pako";
 
 import type { SupportedEngine } from "./rendering.js";
