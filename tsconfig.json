@@ -12,6 +12,14 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
 
+    "types": [
+      "node",
+      "bootstrap",
+      "pako",
+      "react",
+      "react-dom",
+    ],
+
     "allowSyntheticDefaultImports": true,
 
     "jsx": "react-jsx",
