@@ -1,5 +1,5 @@
 import * as monaco from "monaco-editor";
-import type * as ls from "vscode-languageserver-types";
+import * as ls from "vscode-languageserver-types";
 
 export function asPosition(value: undefined | null): undefined;
 export function asPosition(value: ls.Position): monaco.Position;
@@ -31,7 +31,7 @@ export function asDiagnostics(diagnostics: ls.Diagnostic[]): monaco.editor.IMark
 			startColumn: range.startColumn,
 			endLineNumber: range.endLineNumber,
 			endColumn: range.endColumn,
-			message: diagnostic.message,
+			message: ls.Diagnostic.getMessageString(diagnostic),
 			code:
 				typeof diagnostic.code === "string"
 					? diagnostic.code
@@ -234,7 +234,7 @@ export function asCodeActionList(
 					startColumn: range.startColumn,
 					endLineNumber: range.endLineNumber,
 					endColumn: range.endColumn,
-					message: d.message,
+					message: ls.Diagnostic.getMessageString(d),
 					code: typeof d.code === "string" ? d.code : String(d.code || ""),
 					source: d.source,
 				};
