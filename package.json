@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "dot-language-support": "^4.3.2",
+    "dot-language-support": "^4.3.3",
     "js-base64": "^3.8.0",
     "monaco-editor": "^0.55.1",
     "pako": "^2.1.0",
