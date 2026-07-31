@@ -161,6 +161,18 @@ export function asSelectionRanges(
 	});
 }
 
+export function asFoldingRanges(
+	ranges: ls.FoldingRange[] | null | undefined,
+): monaco.languages.FoldingRange[] {
+	return (
+		ranges?.map(range => ({
+			start: range.startLine + 1,
+			end: range.endLine + 1,
+			kind: range.kind ? new monaco.languages.FoldingRangeKind(range.kind) : undefined,
+		})) ?? []
+	);
+}
+
 export function asReferences(
 	references: ls.Location[] | null | undefined,
 ): monaco.languages.Location[] {

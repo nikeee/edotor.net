@@ -19,6 +19,7 @@ export interface MonacoService {
 	declarationProvider: languages.DeclarationProvider;
 	referenceProvider: languages.ReferenceProvider;
 	selectionRangeProvider: languages.SelectionRangeProvider;
+	foldingRangeProvider: languages.FoldingRangeProvider;
 	renameProvider: languages.RenameProvider;
 	codeActionProvider: languages.CodeActionProvider;
 	colorProvider: languages.DocumentColorProvider;
@@ -142,6 +143,14 @@ export const service = {
 				positions.map(p => m2p.asPosition(p.lineNumber, p.column)),
 			);
 			return p2m.asSelectionRanges(ranges);
+		},
+	},
+	foldingRangeProvider: {
+		provideFoldingRanges(model) {
+			const data = processor.process(model);
+
+			const ranges = ls.getFoldingRanges(data.document, data.sourceFile);
+			return p2m.asFoldingRanges(ranges);
 		},
 	},
 	referenceProvider: {

@@ -14,6 +14,7 @@ languages.registerDefinitionProvider("dot", service.definitionProvider);
 languages.registerDeclarationProvider("dot", service.declarationProvider);
 languages.registerReferenceProvider("dot", service.referenceProvider);
 languages.registerSelectionRangeProvider("dot", service.selectionRangeProvider);
+languages.registerFoldingRangeProvider("dot", service.foldingRangeProvider);
 languages.registerRenameProvider("dot", service.renameProvider);
 languages.registerCodeActionProvider("dot", service.codeActionProvider);
 languages.registerColorProvider("dot", service.colorProvider);
