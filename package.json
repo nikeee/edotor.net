@@ -43,7 +43,7 @@
     "oxlint-tsgolint": "^7.0.2001",
     "sass-embedded": "^1.100.0",
     "typescript": "^7.0.2",
-    "vite": "^8.2.0",
+    "vite": "^8.2.1",
     "vite-plugin-ejs": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
     "vscode-languageserver-types": "^3.18.0"
