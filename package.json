@@ -21,7 +21,7 @@
     "pako": "^3.0.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-error-boundary": "^6.1.2",
+    "react-error-boundary": "^6.1.3",
     "react-spinners": "^0.17.0",
     "react-split-pane": "^3.2.0",
     "svg-pan-zoom": "3.6.2",
@@ -43,7 +43,7 @@
     "oxlint-tsgolint": "^7.0.2001",
     "sass-embedded": "^1.103.1",
     "typescript": "^7.0.2",
-    "vite": "^8.2.1",
+    "vite": "^8.2.2",
     "vite-plugin-ejs": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
     "vscode-languageserver-types": "^3.18.0"
