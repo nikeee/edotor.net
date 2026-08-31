@@ -24,7 +24,7 @@ languages.registerColorProvider("dot", service.colorProvider);
 editor.addKeybindingRule({ keybinding: KeyMod.CtrlCmd | KeyCode.KeyL, command: null });
 
 self.MonacoEnvironment = {
-	getWorker(_: unknown, _label: string) {
+	getWorker(_unused: unknown, _label: string) {
 		return new editorWorker();
 	},
 };

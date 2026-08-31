@@ -3,7 +3,7 @@ import { deflate, inflate } from "pako";
 import type { SupportedEngine } from "./rendering.js";
 import { isSupportedEngine } from "./viz.js";
 
-export const assertNever = (_: never): never => {
+export const assertNever = (_unused: never): never => {
 	throw new Error("This should never happen.");
 };
 
