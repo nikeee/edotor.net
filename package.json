@@ -49,7 +49,7 @@
     "vscode-languageserver-types": "^3.18.3"
   },
   "overrides": {
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }
