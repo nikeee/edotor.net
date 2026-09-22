@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/editor.js";
 import * as ls from "vscode-languageserver-types";
 
 export function asPosition(value: undefined | null): undefined;

@@ -1,4 +1,4 @@
-import type * as monaco from "monaco-editor";
+import type * as monaco from "monaco-editor/editor.js";
 import { lazy, Suspense, useImperativeHandle, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BarLoader } from "react-spinners";

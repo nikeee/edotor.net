@@ -1,5 +1,5 @@
 import { createService, type SourceFile } from "dot-language-support";
-import { editor, type languages, type Position } from "monaco-editor";
+import { editor, type languages, type Position } from "monaco-editor/editor.js";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
 import * as m2p from "./monaco-to-protocol.js";

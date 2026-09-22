@@ -1,5 +1,6 @@
-import { editor, KeyCode, KeyMod, languages } from "monaco-editor/esm/vs/editor/editor.api.js";
-import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import { editor, KeyCode, KeyMod, languages } from "monaco-editor/editor.js";
+import "monaco-editor/features/register.all.js";
+import editorWorker from "monaco-editor/editor/editor.worker.js?worker";
 import type React from "react";
 import { useRef } from "react";
 

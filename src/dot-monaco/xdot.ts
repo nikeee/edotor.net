@@ -1,4 +1,4 @@
-import type * as monaco from "monaco-editor";
+import type * as monaco from "monaco-editor/editor.js";
 
 // Taken from the samples of: https://microsoft.github.io/monaco-editor/monarch.html
 export default {

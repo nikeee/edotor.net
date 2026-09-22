@@ -1,4 +1,4 @@
-import { type editor, type IRange, type languages, MarkerSeverity } from "monaco-editor";
+import { type editor, type IRange, type languages, MarkerSeverity } from "monaco-editor/editor.js";
 import type * as ls from "vscode-languageserver-types";
 
 export function asPosition(lineNumber: number, column: number): ls.Position {
