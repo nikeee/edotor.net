@@ -51,5 +51,8 @@
   "overrides": {
     "react": "$react",
     "react-dom": "$react-dom"
+  },
+  "allowScripts": {
+    "lefthook@2.1.14": true
   }
 }
