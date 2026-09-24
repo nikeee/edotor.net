@@ -17,7 +17,7 @@
   "dependencies": {
     "bootstrap": "^5.3.8",
     "dot-language-support": "^4.4.1",
-    "monaco-editor": "^0.56.0",
+    "monaco-editor": "^0.57.0",
     "pako": "^3.0.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -26,7 +26,7 @@
     "react-split-pane": "^3.2.0",
     "svg-pan-zoom": "3.6.2",
     "viz.js": "^2.1.2",
-    "vscode-languageserver-textdocument": "^1.0.14"
+    "vscode-languageserver-textdocument": "^1.0.15"
   },
   "devDependencies": {
     "@rolldown/plugin-babel": "^0.2.4",
@@ -40,10 +40,10 @@
     "lefthook": "^2.1.14",
     "oxfmt": "^0.70.0",
     "oxlint": "^1.85.0",
-    "oxlint-tsgolint": "^7.0.2002",
+    "oxlint-tsgolint": "^7.0.2003",
     "sass-embedded": "^1.105.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.0",
+    "vite": "^8.3.1",
     "vite-plugin-ejs": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
     "vscode-languageserver-types": "^3.18.3"
