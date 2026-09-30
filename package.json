@@ -38,6 +38,7 @@
     "@vitejs/plugin-react": "^6.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.1.1",
+    "oxc-transform-react": "^0.145.0",
     "sass-embedded": "^1.105.0",
     "typescript": "^7.0.2",
     "vite-plugin-ejs": "^2.0.0",
