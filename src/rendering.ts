@@ -1,62 +1,67 @@
-import Viz from "viz.js";
-import workerURL from "viz.js/full.render.js?url";
+import { instance } from "@viz-js/viz";
 
 import type { FileSaver } from "./FileSaver.js";
 import { assertNever } from "./utils.js";
 
-const createViz = () => new Viz({ workerURL });
-
-let viz = createViz();
+const viz = instance();
 
 export type SupportedFormat = "svg" | "png";
 export type SupportedEngine = "circo" | "dot" | "fdp" | "neato" | "osage" | "twopi";
 export type RenderResult = SVGSVGElement | HTMLImageElement;
 
-export function renderElement(
+export async function renderElement(
 	dotSrc: string,
 	format: "svg",
 	engine: SupportedEngine,
 ): Promise<SVGSVGElement>;
-export function renderElement(
+export async function renderElement(
 	dotSrc: string,
 	format: "png",
 	engine: SupportedEngine,
 ): Promise<HTMLImageElement>;
-export function renderElement(
+export async function renderElement(
 	dotSrc: string,
 	format: SupportedFormat,
 	engine: SupportedEngine,
 ): Promise<RenderResult>;
-export function renderElement(
+export async function renderElement(
 	dotSrc: string,
 	format: SupportedFormat,
 	engine: SupportedEngine,
 ): Promise<RenderResult> {
-	const renderOptions = {
-		engine,
-	};
-
+	const v = await viz;
 	switch (format) {
 		case "svg":
-			return viz.renderSVGElement(dotSrc, renderOptions).catch(catcher);
+			return v.renderSVGElement(dotSrc, { engine });
 		case "png":
-			return viz
-				.renderImageElement(dotSrc, { ...renderOptions, mimeType: "image/png" })
-				.catch(catcher);
+			return await svgToPng(v.renderSVGElement(dotSrc, { engine }));
 		// TODO: JPG?
 		default:
 			return assertNever(format);
 	}
 }
 
-/**
- * Catches errors, re-creates the viz object and rethrows
- * @param error
- */
-const catcher = (error: Error) => {
-	viz = createViz();
-	throw error;
-};
+async function svgToPng(svg: SVGSVGElement): Promise<HTMLImageElement> {
+	const svgImage = new Image();
+	svgImage.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg.outerHTML)}`;
+	await svgImage.decode();
+
+	const scale = 2;
+	const canvas = document.createElement("canvas");
+	canvas.width = svgImage.width * scale;
+	canvas.height = svgImage.height * scale;
+
+	const context = canvas.getContext("2d");
+	if (!context) {
+		throw new Error("Failed to get 2D context from canvas");
+	}
+	context.drawImage(svgImage, 0, 0, canvas.width, canvas.height);
+
+	const png = new Image();
+	png.src = canvas.toDataURL("image/png");
+	await png.decode();
+	return png;
+}
 
 export interface ExportOptions {
 	engine: SupportedEngine;
