@@ -16,6 +16,7 @@
     "prepare": "vp config"
   },
   "dependencies": {
+    "@viz-js/viz": "^3.31.0",
     "bootstrap": "^5.3.8",
     "dot-language-support": "^4.4.1",
     "monaco-editor": "^0.57.0",
@@ -26,7 +27,6 @@
     "react-spinners": "^0.17.1",
     "react-split-pane": "^3.2.0",
     "svg-pan-zoom": "3.6.2",
-    "viz.js": "^2.1.2",
     "vscode-languageserver-textdocument": "^1.0.15"
   },
   "devDependencies": {
