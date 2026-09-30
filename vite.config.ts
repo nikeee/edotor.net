@@ -1,13 +1,40 @@
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, lazyPlugins } from "vite-plus";
 import { ViteEjsPlugin } from "vite-plugin-ejs";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
 	return {
-		plugins: [
+		staged: {
+			"*.{js,ts,tsx,jsx,css,scss}": "vp fmt",
+		},
+		fmt: {
+			ignorePatterns: ["*.md", "index.html"],
+			arrowParens: "avoid",
+		},
+		lint: {
+			plugins: ["typescript", "react"],
+			jsPlugins: [
+				{
+					name: "react-hooks-js",
+					specifier: "eslint-plugin-react-hooks",
+				},
+				{
+					name: "vite-plus",
+					specifier: "vite-plus/oxlint-plugin",
+				},
+			],
+			options: {
+				typeAware: true,
+				typeCheck: true,
+			},
+			rules: {
+				"vite-plus/prefer-vite-plus-imports": "error",
+			},
+		},
+		plugins: lazyPlugins(() => [
 			viteStaticCopy({
 				targets: [
 					{
@@ -32,6 +59,6 @@ export default defineConfig(({ mode }) => {
 			babel({
 				presets: [reactCompilerPreset()],
 			} as any),
-		],
+		]),
 	};
 });

@@ -8,11 +8,12 @@
   "type": "module",
   "scripts": {
     "test": "tsc",
-    "build": "vite build",
-    "ci": "oxlint --type-aware --type-check --deny-warnings -f github",
-    "lint": "oxlint --type-aware",
-    "format": "oxfmt",
-    "start": "vite"
+    "build": "vp build",
+    "ci": "vp lint --type-aware --type-check --deny-warnings -f github",
+    "lint": "vp lint --type-aware",
+    "format": "vp fmt",
+    "start": "vp dev",
+    "prepare": "vp config"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
@@ -37,22 +38,23 @@
     "@vitejs/plugin-react": "^6.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "lefthook": "^2.1.14",
-    "oxfmt": "^0.70.0",
-    "oxlint": "^1.85.0",
-    "oxlint-tsgolint": "^7.0.2003",
     "sass-embedded": "^1.105.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.1",
     "vite-plugin-ejs": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
+    "vite-plus": "1.0.0",
     "vscode-languageserver-types": "^3.18.4"
   },
   "overrides": {
     "react": "$react",
-    "react-dom": "$react-dom"
+    "react-dom": "$react-dom",
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
   },
-  "allowScripts": {
-    "lefthook@2.1.14": true
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "11.19.1",
+      "onFail": "download"
+    }
   }
 }
