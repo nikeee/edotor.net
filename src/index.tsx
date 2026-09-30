@@ -5,7 +5,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-split-pane/styles.css";
 
-import "./index.scss";
+import "./index.css";
 
 import Navigation from "./components/Navigation.js";
 import SplitEditor, { type SplitEditorHandle } from "./components/SplitEditor.js";

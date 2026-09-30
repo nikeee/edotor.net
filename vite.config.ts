@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
 	return {
 		staged: {
-			"*.{js,ts,tsx,jsx,css,scss}": "vp fmt",
+			"*.{js,ts,tsx,jsx,css}": "vp fmt",
 		},
 		fmt: {
 			ignorePatterns: ["*.md", "index.html"],
