@@ -38,7 +38,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "oxc-transform-react": "^0.154.0",
+    "oxc-transform-react": "^0.155.0",
     "typescript": "^7.0.2",
     "vite-plugin-ejs": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
@@ -49,12 +49,5 @@
     "react": "$react",
     "react-dom": "$react-dom",
     "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
-  },
-  "devEngines": {
-    "packageManager": {
-      "name": "npm",
-      "version": "11.19.1",
-      "onFail": "download"
-    }
   }
 }
