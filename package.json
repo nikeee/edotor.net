@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@viz-js/viz": "^3.31.0",
-    "bootstrap": "^5.3.8",
-    "dot-language-support": "^4.4.2",
+    "bootstrap": "^5.3.9",
+    "dot-language-support": "^4.4.3",
     "monaco-editor": "^0.57.0",
     "pako": "^3.0.3",
     "react": "^19.3.1",
@@ -30,7 +30,7 @@
     "vscode-languageserver-textdocument": "^1.0.16"
   },
   "devDependencies": {
-    "@rolldown/plugin-babel": "^0.3.0",
+    "@rolldown/plugin-babel": "^0.3.1",
     "@types/bootstrap": "^5.2.11",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
